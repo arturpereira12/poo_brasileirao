@@ -30,6 +30,14 @@ public class TeamController {
     @GetMapping
     public ModelAndView leiaTeams(ModelAndView modelAndView) {
         List<Team> teams = leiaDoArquivo();
+        // Calcula a maior força dos jogadores de cada time
+        for (Team team : teams) {
+            int maxStrength = team.getPlayers().stream()
+                .mapToInt(player -> player.getStrength())
+                .max()
+                .orElse(0);
+            team.setMaxPlayerStrength(maxStrength);
+        }
         System.out.println("Teams: "+teams);
         System.out.println("Teams size: "+teams.size());
         if (teams.get(0).getPlayers() == null) {
@@ -44,11 +52,19 @@ public class TeamController {
     @GetMapping("/att")
     public ModelAndView leiaTeamsAtt(ModelAndView modelAndView) {
         List<Team> teams = leiaDoArquivo();
+        // Calcula a maior força dos jogadores de cada time
+        for (Team team : teams) {
+            int maxStrength = team.getPlayers().stream()
+                .mapToInt(player -> player.getStrength())
+                .max()
+                .orElse(0);
+            team.setMaxPlayerStrength(maxStrength);
+        }
         System.out.println("Carregando visualização atualizada");
-    modelAndView.setViewName("teams_att");
-    modelAndView.addObject("teams", teams);
-    return modelAndView;
-}
+        modelAndView.setViewName("teams_att");
+        modelAndView.addObject("teams", teams);
+        return modelAndView;
+    }
 
     private List<Team> leiaDoArquivo() {
         List<Team> teams = null;
@@ -114,4 +130,13 @@ public class TeamController {
         return aluno;
     }
 */
+}
+
+// Redirecionamento global para a interface moderna
+@Controller
+class HomeRedirectController {
+    @GetMapping("/")
+    public String redirectToTeamsAtt() {
+        return "redirect:/teams/att";
+    }
 }

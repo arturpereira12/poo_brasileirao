@@ -4,90 +4,157 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brasileirão - Times</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            font-family: 'Inter', Arial, sans-serif;
+            background: #f4f6fa;
+            margin: 0;
+            padding: 40px 0;
         }
         h1 {
-            color: #003366;
+            color: #1e293b;
             text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 36px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
         .team-list {
+            max-width: 1200px;
+            margin: auto;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 32px;
+            justify-content: center;
         }
         .team-card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+            padding: 28px 24px;
+            transition: box-shadow 0.2s, transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .team-card:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            transform: translateY(-4px) scale(1.02);
         }
         .team-header {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #e5e7eb;
             padding-bottom: 10px;
             margin-bottom: 10px;
         }
         .team-name {
-            font-size: 20px;
-            font-weight: bold;
-            color: #003366;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2563eb;
+            letter-spacing: 0.5px;
+        }
+        .team-strength {
+            background: #e0e7ff;
+            color: #3730a3;
+            border-radius: 8px;
+            padding: 4px 12px;
+            font-weight: 600;
+            font-size: 1rem;
         }
         .strength-meters {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
+            gap: 8px;
         }
         .strength-meter {
             flex: 1;
             text-align: center;
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 8px 0 6px 0;
         }
         .strength-label {
-            font-size: 12px;
-            color: #666;
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 500;
         }
         .strength-value {
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .players-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 2px;
         }
         .players-list {
-            list-style-type: none;
+            list-style: none;
             padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
         }
         .player-item {
-            padding: 5px 10px;
-            margin-bottom: 5px;
-            background-color: #fff;
-            border-radius: 4px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            font-size: 0.98rem;
+            background: #f8fafc;
+            border-radius: 6px;
+            padding: 6px 10px;
+            margin-bottom: 2px;
+            border: 1px solid #f1f5f9;
+        }
+        .player-item.best-player {
+            background: #e0e7ff;
+            border: 1.5px solid #2563eb;
+        }
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .player-position {
-            color: #666;
-            font-size: 14px;
+            color: #64748b;
+            font-size: 0.92em;
+            font-weight: 500;
+            margin-left: 8px;
         }
         .player-strength {
-            font-weight: bold;
-            color: #003366;
+            font-weight: 700;
+            color: #2563eb;
+            font-size: 1rem;
+            margin-left: 10px;
+        }
+        @media (max-width: 700px) {
+            .team-list {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+            .team-card {
+                width: 95vw;
+                padding: 18px 6vw;
+            }
         }
     </style>
 </head>
 <body>
     <h1>Campeonato Brasileiro - Times</h1>
-    
     <div class="team-list">
         <div class="team-card" th:each="team : ${teams}">
             <div class="team-header">
                 <span class="team-name" th:text="${team.name}">Nome do Time</span>
                 <span class="team-strength" th:text="'Força: ' + ${team.strength}">Força: 85</span>
             </div>
-            
             <div class="strength-meters">
                 <div class="strength-meter">
                     <div class="strength-label">ATAQUE</div>
@@ -102,12 +169,14 @@
                     <div class="strength-value" th:text="${team.defenseStrength}">90</div>
                 </div>
             </div>
-            
-            <h3>Jogadores</h3>
+            <div class="players-title">Jogadores</div>
             <ul class="players-list">
-                <li class="player-item" th:each="player : ${team.players}">
-                    <span th:text="${player.name}">Nome do Jogador</span>
-                    <span class="player-position" th:text="${player.position}">Posição</span>
+                <li class="player-item" th:each="player,iterStat : ${team.players}"
+                    th:classappend="${player.strength} == ${team.maxPlayerStrength} ? 'best-player'">
+                    <span class="player-info">
+                        <span th:text="${player.name}">Nome do Jogador</span>
+                        <span class="player-position" th:text="${player.position}">Posição</span>
+                    </span>
                     <span class="player-strength" th:text="${player.strength}">85</span>
                 </li>
             </ul>

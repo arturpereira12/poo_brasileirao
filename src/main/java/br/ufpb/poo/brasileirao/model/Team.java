@@ -21,6 +21,7 @@ public class Team {
     private Integer attackStrength;
     private Integer defenseStrength;
     private Integer midfieldStrength;
+    private int maxPlayerStrength;
 
     public Team(String name) {
         Objects.requireNonNull(name, "Team name cannot be null");
@@ -61,5 +62,11 @@ public class Team {
                ", ATK:" + attackStrength + ", MID:" + midfieldStrength + ", DEF:" + defenseStrength + ")";
     }
 
-   
+    public int getMaxPlayerStrength() {
+        return maxPlayerStrength;
+    }
+
+    public void setMaxPlayerStrength(int maxPlayerStrength) {
+        this.maxPlayerStrength = maxPlayerStrength;
+    }
 }
