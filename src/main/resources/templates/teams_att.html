@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brasileirão - Times</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #003366;
+            text-align: center;
+        }
+        .team-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        .team-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .team-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .team-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #003366;
+        }
+        .strength-meters {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .strength-meter {
+            flex: 1;
+            text-align: center;
+        }
+        .strength-label {
+            font-size: 12px;
+            color: #666;
+        }
+        .strength-value {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .players-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .player-item {
+            padding: 5px 10px;
+            margin-bottom: 5px;
+            background-color: #fff;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .player-position {
+            color: #666;
+            font-size: 14px;
+        }
+        .player-strength {
+            font-weight: bold;
+            color: #003366;
+        }
+    </style>
+</head>
+<body>
+    <h1>Campeonato Brasileiro - Times</h1>
+    
+    <div class="team-list">
+        <div class="team-card" th:each="team : ${teams}">
+            <div class="team-header">
+                <span class="team-name" th:text="${team.name}">Nome do Time</span>
+                <span class="team-strength" th:text="'Força: ' + ${team.strength}">Força: 85</span>
+            </div>
+            
+            <div class="strength-meters">
+                <div class="strength-meter">
+                    <div class="strength-label">ATAQUE</div>
+                    <div class="strength-value" th:text="${team.attackStrength}">80</div>
+                </div>
+                <div class="strength-meter">
+                    <div class="strength-label">MEIO</div>
+                    <div class="strength-value" th:text="${team.midfieldStrength}">85</div>
+                </div>
+                <div class="strength-meter">
+                    <div class="strength-label">DEFESA</div>
+                    <div class="strength-value" th:text="${team.defenseStrength}">90</div>
+                </div>
+            </div>
+            
+            <h3>Jogadores</h3>
+            <ul class="players-list">
+                <li class="player-item" th:each="player : ${team.players}">
+                    <span th:text="${player.name}">Nome do Jogador</span>
+                    <span class="player-position" th:text="${player.position}">Posição</span>
+                    <span class="player-strength" th:text="${player.strength}">85</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

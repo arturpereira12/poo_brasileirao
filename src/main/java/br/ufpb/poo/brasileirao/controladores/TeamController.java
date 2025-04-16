@@ -41,6 +41,14 @@ public class TeamController {
         modelAndView.addObject("teams", teams);
         return modelAndView;
     }
+    @GetMapping("/att")
+    public ModelAndView leiaTeamsAtt(ModelAndView modelAndView) {
+        List<Team> teams = leiaDoArquivo();
+        System.out.println("Carregando visualização atualizada");
+    modelAndView.setViewName("teams_att");
+    modelAndView.addObject("teams", teams);
+    return modelAndView;
+}
 
     private List<Team> leiaDoArquivo() {
         List<Team> teams = null;
@@ -51,7 +59,7 @@ public class TeamController {
 
             // Usando ClassPathResource para acessar o arquivo na pasta resources
             org.springframework.core.io.Resource resource = 
-                new org.springframework.core.io.ClassPathResource("data/teams.json");
+                new org.springframework.core.io.ClassPathResource("data/teams_and_players.json");
             teams = mapper.readValue(resource.getInputStream(), new TypeReference<List<Team>>() {});
         } catch (IOException e) {
             e.printStackTrace();
