@@ -1,8 +1,11 @@
-package br.ufpb.poo.brasileirao.tournament;
+package br.ufpb.poo.brasileirao.controladores;
 
 import br.ufpb.poo.brasileirao.match.Match;
 import br.ufpb.poo.brasileirao.match.MatchSimulator;
 import br.ufpb.poo.brasileirao.model.Team;
+import br.ufpb.poo.brasileirao.tournament.LeagueStandings;
+import br.ufpb.poo.brasileirao.tournament.TopScorersTable;
+
 import java.util.*;
 /**
  * Controls the tournament simulation including schedule generation,
