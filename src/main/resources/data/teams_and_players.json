@@ -7,8 +7,43 @@
     "midfieldStrength": 74,
     "players": [
       {
+        "name": "Everson",
+        "position": "GOALKEEPER",
+        "strength": 73
+      },
+      {
         "name": "Maurício Lemos",
         "position": "DEFENDER",
+        "strength": 75
+      },
+      {
+        "name": "Jemerson",
+        "position": "DEFENDER",
+        "strength": 78
+      },
+      {
+        "name": "Rever",
+        "position": "DEFENDER",
+        "strength": 76
+      },
+      {
+        "name": "Guilherme Arana",
+        "position": "DEFENDER",
+        "strength": 77
+      },
+      {
+        "name": "Zaracho",
+        "position": "MIDFIELDER",
+        "strength": 74
+      },
+      {
+        "name": "Allan",
+        "position": "MIDFIELDER",
+        "strength": 76
+      },
+      {
+        "name": "Nathan",
+        "position": "MIDFIELDER",
         "strength": 75
       },
       {
@@ -17,14 +52,14 @@
         "strength": 79
       },
       {
-        "name": "Everson",
-        "position": "GOALKEEPER",
-        "strength": 73
+        "name": "Paulinho",
+        "position": "FORWARD",
+        "strength": 77
       },
       {
-        "name": "Zaracho",
-        "position": "MIDFIELDER",
-        "strength": 74
+        "name": "Keno",
+        "position": "FORWARD",
+        "strength": 76
       }
     ]
   },
@@ -36,9 +71,44 @@
     "midfieldStrength": 76,
     "players": [
       {
+        "name": "André Oliveira",
+        "position": "GOALKEEPER",
+        "strength": 77
+      },
+      {
         "name": "André Rocha",
         "position": "DEFENDER",
         "strength": 84
+      },
+      {
+        "name": "Pedro Henrique",
+        "position": "DEFENDER",
+        "strength": 82
+      },
+      {
+        "name": "Thiago Heleno",
+        "position": "DEFENDER",
+        "strength": 81
+      },
+      {
+        "name": "Abner",
+        "position": "DEFENDER",
+        "strength": 79
+      },
+      {
+        "name": "André Oliveira",
+        "position": "MIDFIELDER",
+        "strength": 76
+      },
+      {
+        "name": "Erick",
+        "position": "MIDFIELDER",
+        "strength": 78
+      },
+      {
+        "name": "Christian",
+        "position": "MIDFIELDER",
+        "strength": 77
       },
       {
         "name": "Lucas Moura",
@@ -46,14 +116,14 @@
         "strength": 80
       },
       {
-        "name": "André Oliveira",
-        "position": "GOALKEEPER",
-        "strength": 77
+        "name": "Vitor Roque",
+        "position": "FORWARD",
+        "strength": 82
       },
       {
-        "name": "André Oliveira",
-        "position": "MIDFIELDER",
-        "strength": 76
+        "name": "Canobbio",
+        "position": "FORWARD",
+        "strength": 78
       }
     ]
   },
@@ -75,14 +145,49 @@
         "strength": 86
       },
       {
+        "name": "David Luiz",
+        "position": "DEFENDER",
+        "strength": 85
+      },
+      {
+        "name": "Rodrigo Caio",
+        "position": "DEFENDER",
+        "strength": 84
+      },
+      {
+        "name": "Filipe Luís",
+        "position": "DEFENDER",
+        "strength": 83
+      },
+      {
         "name": "Charly Alcaraz",
         "position": "MIDFIELDER",
         "strength": 85
       },
       {
+        "name": "Thiago Maia",
+        "position": "MIDFIELDER",
+        "strength": 84
+      },
+      {
+        "name": "Gerson",
+        "position": "MIDFIELDER",
+        "strength": 86
+      },
+      {
         "name": "Pedro",
         "position": "FORWARD",
         "strength": 88
+      },
+      {
+        "name": "Gabigol",
+        "position": "FORWARD",
+        "strength": 87
+      },
+      {
+        "name": "Bruno Henrique",
+        "position": "FORWARD",
+        "strength": 86
       }
     ]
   },
@@ -104,14 +209,49 @@
         "strength": 87
       },
       {
+        "name": "Luan",
+        "position": "DEFENDER",
+        "strength": 84
+      },
+      {
+        "name": "Murilo",
+        "position": "DEFENDER",
+        "strength": 83
+      },
+      {
+        "name": "Piquerez",
+        "position": "DEFENDER",
+        "strength": 82
+      },
+      {
         "name": "Raphael Veiga",
         "position": "MIDFIELDER",
         "strength": 86
       },
       {
+        "name": "Zé Rafael",
+        "position": "MIDFIELDER",
+        "strength": 85
+      },
+      {
+        "name": "Danilo",
+        "position": "MIDFIELDER",
+        "strength": 84
+      },
+      {
         "name": "Facundo Torres",
         "position": "FORWARD",
         "strength": 84
+      },
+      {
+        "name": "Rony",
+        "position": "FORWARD",
+        "strength": 83
+      },
+      {
+        "name": "Endrick",
+        "position": "FORWARD",
+        "strength": 82
       }
     ]
   },
@@ -133,52 +273,122 @@
         "strength": 75
       },
       {
+        "name": "Arboleda",
+        "position": "DEFENDER",
+        "strength": 84
+      },
+      {
+        "name": "Diego Costa",
+        "position": "DEFENDER",
+        "strength": 82
+      },
+      {
+        "name": "Welington",
+        "position": "DEFENDER",
+        "strength": 80
+      },
+      {
         "name": "João Moura",
         "position": "MIDFIELDER",
         "strength": 88
       },
       {
+        "name": "Pablo Maia",
+        "position": "MIDFIELDER",
+        "strength": 82
+      },
+      {
+        "name": "Lucas",
+        "position": "MIDFIELDER",
+        "strength": 81
+      },
+      {
         "name": "Lucas Oliveira",
         "position": "FORWARD",
         "strength": 86
+      },
+      {
+        "name": "Calleri",
+        "position": "FORWARD",
+        "strength": 85
+      },
+      {
+        "name": "Luciano",
+        "position": "FORWARD",
+        "strength": 84
       }
     ]
   },
   {
     "name": "Corinthians",
-    "strength": 79,
-    "attackStrength": 88,
-    "defenseStrength": 76,
-    "midfieldStrength": 74,
+    "strength": 75,
+    "attackStrength": 76,
+    "defenseStrength": 74,
+    "midfieldStrength": 75,
     "players": [
       {
         "name": "Lucas Martins",
         "position": "GOALKEEPER",
-        "strength": 85
+        "strength": 75
       },
       {
         "name": "Bruno Martins",
         "position": "DEFENDER",
-        "strength": 87
+        "strength": 76
+      },
+      {
+        "name": "Gil",
+        "position": "DEFENDER",
+        "strength": 75
+      },
+      {
+        "name": "Balbuena",
+        "position": "DEFENDER",
+        "strength": 74
+      },
+      {
+        "name": "Fábio Santos",
+        "position": "DEFENDER",
+        "strength": 73
       },
       {
         "name": "Rafael Moura",
         "position": "MIDFIELDER",
-        "strength": 90
+        "strength": 77
+      },
+      {
+        "name": "Fausto Vera",
+        "position": "MIDFIELDER",
+        "strength": 75
+      },
+      {
+        "name": "Roni",
+        "position": "MIDFIELDER",
+        "strength": 74
       },
       {
         "name": "Lucas Souza",
         "position": "FORWARD",
-        "strength": 86
+        "strength": 76
+      },
+      {
+        "name": "Yuri Alberto",
+        "position": "FORWARD",
+        "strength": 75
+      },
+      {
+        "name": "Roger Guedes",
+        "position": "FORWARD",
+        "strength": 74
       }
     ]
   },
   {
     "name": "Fluminense",
-    "strength": 80,
-    "attackStrength": 82,
-    "defenseStrength": 78,
-    "midfieldStrength": 81,
+    "strength": 76,
+    "attackStrength": 77,
+    "defenseStrength": 75,
+    "midfieldStrength": 76,
     "players": [
       {
         "name": "Carlos Oliveira",
@@ -188,60 +398,130 @@
       {
         "name": "Lucas Lima",
         "position": "DEFENDER",
-        "strength": 90
+        "strength": 77
+      },
+      {
+        "name": "Nino",
+        "position": "DEFENDER",
+        "strength": 76
+      },
+      {
+        "name": "Manoel",
+        "position": "DEFENDER",
+        "strength": 75
+      },
+      {
+        "name": "Marcelo",
+        "position": "DEFENDER",
+        "strength": 74
       },
       {
         "name": "Bruno Rocha",
         "position": "MIDFIELDER",
-        "strength": 85
+        "strength": 76
+      },
+      {
+        "name": "André",
+        "position": "MIDFIELDER",
+        "strength": 75
+      },
+      {
+        "name": "Ganso",
+        "position": "MIDFIELDER",
+        "strength": 74
       },
       {
         "name": "Rafael Costa",
         "position": "FORWARD",
-        "strength": 85
+        "strength": 77
+      },
+      {
+        "name": "Cano",
+        "position": "FORWARD",
+        "strength": 76
+      },
+      {
+        "name": "Arias",
+        "position": "FORWARD",
+        "strength": 75
       }
     ]
   },
   {
     "name": "Grêmio",
-    "strength": 81,
-    "attackStrength": 84,
-    "defenseStrength": 79,
-    "midfieldStrength": 80,
+    "strength": 77,
+    "attackStrength": 78,
+    "defenseStrength": 76,
+    "midfieldStrength": 77,
     "players": [
       {
         "name": "Lucas Moura",
         "position": "GOALKEEPER",
-        "strength": 87
+        "strength": 77
       },
       {
         "name": "Mateus Pereira",
         "position": "DEFENDER",
-        "strength": 85
+        "strength": 76
+      },
+      {
+        "name": "Kannemann",
+        "position": "DEFENDER",
+        "strength": 75
+      },
+      {
+        "name": "Bruno Alves",
+        "position": "DEFENDER",
+        "strength": 74
+      },
+      {
+        "name": "Reinaldo",
+        "position": "DEFENDER",
+        "strength": 73
       },
       {
         "name": "Rafael Rocha",
         "position": "MIDFIELDER",
-        "strength": 87
+        "strength": 77
+      },
+      {
+        "name": "Villasanti",
+        "position": "MIDFIELDER",
+        "strength": 76
+      },
+      {
+        "name": "Cristaldo",
+        "position": "MIDFIELDER",
+        "strength": 75
       },
       {
         "name": "Daniel Rocha",
         "position": "FORWARD",
-        "strength": 87
+        "strength": 78
+      },
+      {
+        "name": "Suárez",
+        "position": "FORWARD",
+        "strength": 77
+      },
+      {
+        "name": "Ferreira",
+        "position": "FORWARD",
+        "strength": 76
       }
     ]
   },
   {
     "name": "Internacional",
-    "strength": 80,
-    "attackStrength": 87,
-    "defenseStrength": 72,
-    "midfieldStrength": 80,
+    "strength": 76,
+    "attackStrength": 77,
+    "defenseStrength": 75,
+    "midfieldStrength": 76,
     "players": [
       {
         "name": "Gustavo Martins",
         "position": "GOALKEEPER",
-        "strength": 86
+        "strength": 76
       },
       {
         "name": "Carlos Almeida",
@@ -249,294 +529,659 @@
         "strength": 70
       },
       {
+        "name": "Mercado",
+        "position": "DEFENDER",
+        "strength": 75
+      },
+      {
+        "name": "Vitão",
+        "position": "DEFENDER",
+        "strength": 74
+      },
+      {
+        "name": "Renê",
+        "position": "DEFENDER",
+        "strength": 73
+      },
+      {
         "name": "Gustavo Souza",
         "position": "MIDFIELDER",
-        "strength": 79
+        "strength": 76
+      },
+      {
+        "name": "De Pena",
+        "position": "MIDFIELDER",
+        "strength": 75
+      },
+      {
+        "name": "Alan Patrick",
+        "position": "MIDFIELDER",
+        "strength": 74
       },
       {
         "name": "Rafael Souza",
         "position": "FORWARD",
         "strength": 77
+      },
+      {
+        "name": "Wanderson",
+        "position": "FORWARD",
+        "strength": 76
+      },
+      {
+        "name": "Enner Valencia",
+        "position": "FORWARD",
+        "strength": 75
       }
     ]
   },
   {
     "name": "Botafogo",
-    "strength": 82,
-    "attackStrength": 85,
-    "defenseStrength": 77,
-    "midfieldStrength": 83,
+    "strength": 75,
+    "attackStrength": 76,
+    "defenseStrength": 74,
+    "midfieldStrength": 75,
     "players": [
       {
         "name": "Mateus Souza",
         "position": "GOALKEEPER",
-        "strength": 82
+        "strength": 75
       },
       {
         "name": "Gustavo Silva",
         "position": "DEFENDER",
-        "strength": 78
+        "strength": 74
+      },
+      {
+        "name": "Adryelson",
+        "position": "DEFENDER",
+        "strength": 76
+      },
+      {
+        "name": "Cuesta",
+        "position": "DEFENDER",
+        "strength": 75
+      },
+      {
+        "name": "Marçal",
+        "position": "DEFENDER",
+        "strength": 74
       },
       {
         "name": "Rafael Lima",
         "position": "MIDFIELDER",
-        "strength": 85
+        "strength": 76
+      },
+      {
+        "name": "Tchê Tchê",
+        "position": "MIDFIELDER",
+        "strength": 75
+      },
+      {
+        "name": "Eduardo",
+        "position": "MIDFIELDER",
+        "strength": 74
       },
       {
         "name": "Lucas Costa",
         "position": "FORWARD",
         "strength": 73
+      },
+      {
+        "name": "Tiquinho Soares",
+        "position": "FORWARD",
+        "strength": 77
+      },
+      {
+        "name": "Júnior Santos",
+        "position": "FORWARD",
+        "strength": 76
       }
     ]
   },
   {
     "name": "Cruzeiro",
-    "strength": 79,
-    "attackStrength": 86,
-    "defenseStrength": 77,
+    "strength": 74,
+    "attackStrength": 75,
+    "defenseStrength": 73,
     "midfieldStrength": 74,
     "players": [
       {
         "name": "Lucas Lima",
         "position": "GOALKEEPER",
-        "strength": 85
+        "strength": 75
       },
       {
         "name": "Carlos Silva",
         "position": "DEFENDER",
-        "strength": 78
+        "strength": 73
+      },
+      {
+        "name": "Luciano Castán",
+        "position": "DEFENDER",
+        "strength": 74
+      },
+      {
+        "name": "Marlon",
+        "position": "DEFENDER",
+        "strength": 73
+      },
+      {
+        "name": "William",
+        "position": "DEFENDER",
+        "strength": 72
       },
       {
         "name": "Bruno Souza",
         "position": "MIDFIELDER",
-        "strength": 79
+        "strength": 74
+      },
+      {
+        "name": "Ramiro",
+        "position": "MIDFIELDER",
+        "strength": 73
+      },
+      {
+        "name": "Neto Moura",
+        "position": "MIDFIELDER",
+        "strength": 72
       },
       {
         "name": "Carlos Souza",
         "position": "FORWARD",
-        "strength": 85
+        "strength": 75
+      },
+      {
+        "name": "Gilberto",
+        "position": "FORWARD",
+        "strength": 74
+      },
+      {
+        "name": "Wesley",
+        "position": "FORWARD",
+        "strength": 73
       }
     ]
   },
   {
     "name": "Santos",
-    "strength": 71,
-    "attackStrength": 71,
+    "strength": 73,
+    "attackStrength": 74,
     "defenseStrength": 72,
-    "midfieldStrength": 71,
+    "midfieldStrength": 73,
     "players": [
       {
         "name": "Felipe Silva",
         "position": "GOALKEEPER",
-        "strength": 90
+        "strength": 74
       },
       {
         "name": "Carlos Moura",
         "position": "DEFENDER",
-        "strength": 87
+        "strength": 73
+      },
+      {
+        "name": "João Basso",
+        "position": "DEFENDER",
+        "strength": 72
+      },
+      {
+        "name": "Messias",
+        "position": "DEFENDER",
+        "strength": 71
+      },
+      {
+        "name": "Nathan",
+        "position": "DEFENDER",
+        "strength": 70
       },
       {
         "name": "Gustavo Souza",
         "position": "MIDFIELDER",
-        "strength": 79
+        "strength": 73
+      },
+      {
+        "name": "Dodi",
+        "position": "MIDFIELDER",
+        "strength": 72
+      },
+      {
+        "name": "Lucas Lima",
+        "position": "MIDFIELDER",
+        "strength": 71
       },
       {
         "name": "Mateus Lima",
         "position": "FORWARD",
-        "strength": 76
+        "strength": 74
+      },
+      {
+        "name": "Deivid",
+        "position": "FORWARD",
+        "strength": 73
+      },
+      {
+        "name": "Soteldo",
+        "position": "FORWARD",
+        "strength": 72
       }
     ]
   },
   {
     "name": "Vasco da Gama",
-    "strength": 77,
-    "attackStrength": 77,
-    "defenseStrength": 81,
-    "midfieldStrength": 73,
+    "strength": 72,
+    "attackStrength": 73,
+    "defenseStrength": 71,
+    "midfieldStrength": 72,
     "players": [
       {
         "name": "Rafael Oliveira",
         "position": "GOALKEEPER",
-        "strength": 89
+        "strength": 73
       },
       {
         "name": "Lucas Martins",
         "position": "DEFENDER",
-        "strength": 83
+        "strength": 72
+      },
+      {
+        "name": "Léo",
+        "position": "DEFENDER",
+        "strength": 71
+      },
+      {
+        "name": "Capasso",
+        "position": "DEFENDER",
+        "strength": 70
+      },
+      {
+        "name": "Pumita",
+        "position": "DEFENDER",
+        "strength": 69
       },
       {
         "name": "Rafael Costa",
         "position": "MIDFIELDER",
-        "strength": 81
+        "strength": 72
+      },
+      {
+        "name": "Payet",
+        "position": "MIDFIELDER",
+        "strength": 71
+      },
+      {
+        "name": "Gary Medel",
+        "position": "MIDFIELDER",
+        "strength": 70
       },
       {
         "name": "Bruno Costa",
         "position": "FORWARD",
-        "strength": 81
+        "strength": 73
+      },
+      {
+        "name": "Vegetti",
+        "position": "FORWARD",
+        "strength": 72
+      },
+      {
+        "name": "David",
+        "position": "FORWARD",
+        "strength": 71
       }
     ]
   },
   {
     "name": "Bahia",
-    "strength": 86,
-    "attackStrength": 83,
-    "defenseStrength": 87,
-    "midfieldStrength": 89,
+    "strength": 73,
+    "attackStrength": 74,
+    "defenseStrength": 72,
+    "midfieldStrength": 73,
     "players": [
       {
         "name": "Bruno Almeida",
         "position": "GOALKEEPER",
-        "strength": 86
+        "strength": 73
       },
       {
         "name": "Bruno Rocha",
         "position": "DEFENDER",
-        "strength": 86
+        "strength": 72
+      },
+      {
+        "name": "Vitor Hugo",
+        "position": "DEFENDER",
+        "strength": 71
+      },
+      {
+        "name": "Kanu",
+        "position": "DEFENDER",
+        "strength": 70
+      },
+      {
+        "name": "Matheus Bahia",
+        "position": "DEFENDER",
+        "strength": 69
       },
       {
         "name": "Pedro Costa",
         "position": "MIDFIELDER",
-        "strength": 90
+        "strength": 74
+      },
+      {
+        "name": "Thaciano",
+        "position": "MIDFIELDER",
+        "strength": 73
+      },
+      {
+        "name": "Yago Felipe",
+        "position": "MIDFIELDER",
+        "strength": 72
       },
       {
         "name": "João Silva",
         "position": "FORWARD",
-        "strength": 76
+        "strength": 71
+      },
+      {
+        "name": "Everaldo",
+        "position": "FORWARD",
+        "strength": 74
+      },
+      {
+        "name": "Biel",
+        "position": "FORWARD",
+        "strength": 73
       }
     ]
   },
   {
     "name": "Fortaleza",
-    "strength": 84,
-    "attackStrength": 78,
-    "defenseStrength": 85,
-    "midfieldStrength": 88,
+    "strength": 74,
+    "attackStrength": 75,
+    "defenseStrength": 73,
+    "midfieldStrength": 74,
     "players": [
       {
         "name": "Felipe Martins",
         "position": "GOALKEEPER",
-        "strength": 81
+        "strength": 74
       },
       {
         "name": "Daniel Martins",
         "position": "DEFENDER",
-        "strength": 85
+        "strength": 73
+      },
+      {
+        "name": "Titi",
+        "position": "DEFENDER",
+        "strength": 72
+      },
+      {
+        "name": "Briseño",
+        "position": "DEFENDER",
+        "strength": 71
+      },
+      {
+        "name": "Dodô",
+        "position": "DEFENDER",
+        "strength": 70
       },
       {
         "name": "Mateus Souza",
         "position": "MIDFIELDER",
-        "strength": 80
+        "strength": 73
+      },
+      {
+        "name": "Hércules",
+        "position": "MIDFIELDER",
+        "strength": 74
+      },
+      {
+        "name": "Caleb",
+        "position": "MIDFIELDER",
+        "strength": 73
       },
       {
         "name": "João Silva",
         "position": "FORWARD",
         "strength": 71
+      },
+      {
+        "name": "Moisés",
+        "position": "FORWARD",
+        "strength": 75
+      },
+      {
+        "name": "Silvio Romero",
+        "position": "FORWARD",
+        "strength": 74
       }
     ]
   },
   {
     "name": "Ceará",
-    "strength": 82,
-    "attackStrength": 80,
-    "defenseStrength": 83,
-    "midfieldStrength": 84,
+    "strength": 71,
+    "attackStrength": 72,
+    "defenseStrength": 70,
+    "midfieldStrength": 71,
     "players": [
       {
         "name": "Lucas Costa",
         "position": "GOALKEEPER",
-        "strength": 84
+        "strength": 71
       },
       {
         "name": "Gustavo Moura",
         "position": "DEFENDER",
-        "strength": 80
+        "strength": 70
+      },
+      {
+        "name": "Messias",
+        "position": "DEFENDER",
+        "strength": 71
+      },
+      {
+        "name": "Tiago Alves",
+        "position": "DEFENDER",
+        "strength": 70
+      },
+      {
+        "name": "Bruno Pacheco",
+        "position": "DEFENDER",
+        "strength": 69
       },
       {
         "name": "Felipe Moura",
         "position": "MIDFIELDER",
-        "strength": 84
+        "strength": 71
+      },
+      {
+        "name": "Richardson",
+        "position": "MIDFIELDER",
+        "strength": 70
+      },
+      {
+        "name": "Lima",
+        "position": "MIDFIELDER",
+        "strength": 69
       },
       {
         "name": "Pedro Martins",
         "position": "FORWARD",
-        "strength": 77
+        "strength": 72
+      },
+      {
+        "name": "Vina",
+        "position": "FORWARD",
+        "strength": 71
+      },
+      {
+        "name": "Jael",
+        "position": "FORWARD",
+        "strength": 70
       }
     ]
   },
   {
     "name": "América-MG",
-    "strength": 73,
-    "attackStrength": 70,
-    "defenseStrength": 74,
-    "midfieldStrength": 75,
+    "strength": 70,
+    "attackStrength": 71,
+    "defenseStrength": 69,
+    "midfieldStrength": 70,
     "players": [
       {
         "name": "Daniel Martins",
         "position": "GOALKEEPER",
-        "strength": 78
+        "strength": 70
       },
       {
         "name": "Felipe Rocha",
         "position": "DEFENDER",
-        "strength": 75
+        "strength": 69
+      },
+      {
+        "name": "Eduardo",
+        "position": "DEFENDER",
+        "strength": 70
+      },
+      {
+        "name": "Marcinho",
+        "position": "DEFENDER",
+        "strength": 69
+      },
+      {
+        "name": "Maidana",
+        "position": "DEFENDER",
+        "strength": 68
       },
       {
         "name": "Felipe Costa",
         "position": "MIDFIELDER",
-        "strength": 85
+        "strength": 71
+      },
+      {
+        "name": "Juninho",
+        "position": "MIDFIELDER",
+        "strength": 70
+      },
+      {
+        "name": "Alê",
+        "position": "MIDFIELDER",
+        "strength": 69
       },
       {
         "name": "Lucas Souza",
         "position": "FORWARD",
-        "strength": 73
+        "strength": 70
+      },
+      {
+        "name": "Wellington Paulista",
+        "position": "FORWARD",
+        "strength": 69
+      },
+      {
+        "name": "Ademir",
+        "position": "FORWARD",
+        "strength": 68
       }
     ]
   },
   {
     "name": "Goiás",
-    "strength": 76,
+    "strength": 71,
     "attackStrength": 72,
-    "defenseStrength": 84,
-    "midfieldStrength": 72,
+    "defenseStrength": 70,
+    "midfieldStrength": 71,
     "players": [
       {
         "name": "Carlos Rocha",
         "position": "GOALKEEPER",
-        "strength": 89
+        "strength": 71
       },
       {
         "name": "Bruno Rocha",
         "position": "DEFENDER",
-        "strength": 84
+        "strength": 70
+      },
+      {
+        "name": "Reynaldo",
+        "position": "DEFENDER",
+        "strength": 71
+      },
+      {
+        "name": "Lucas Halter",
+        "position": "DEFENDER",
+        "strength": 70
+      },
+      {
+        "name": "Maguinho",
+        "position": "DEFENDER",
+        "strength": 69
       },
       {
         "name": "Bruno Moura",
         "position": "MIDFIELDER",
-        "strength": 78
+        "strength": 70
+      },
+      {
+        "name": "Araújo",
+        "position": "MIDFIELDER",
+        "strength": 69
+      },
+      {
+        "name": "Morelli",
+        "position": "MIDFIELDER",
+        "strength": 68
       },
       {
         "name": "Daniel Rocha",
         "position": "FORWARD",
-        "strength": 76
+        "strength": 72
+      },
+      {
+        "name": "Pedro Raul",
+        "position": "FORWARD",
+        "strength": 71
+      },
+      {
+        "name": "Matheus Peixoto",
+        "position": "FORWARD",
+        "strength": 70
       }
     ]
   },
   {
     "name": "Atlético-GO",
-    "strength": 87,
-    "attackStrength": 81,
-    "defenseStrength": 90,
-    "midfieldStrength": 89,
+    "strength": 72,
+    "attackStrength": 73,
+    "defenseStrength": 71,
+    "midfieldStrength": 72,
     "players": [
       {
         "name": "Bruno Oliveira",
         "position": "GOALKEEPER",
-        "strength": 73
+        "strength": 71
       },
       {
         "name": "Carlos Moura",
         "position": "DEFENDER",
-        "strength": 81
+        "strength": 70
+      },
+      {
+        "name": "Eduardo",
+        "position": "DEFENDER",
+        "strength": 72
+      },
+      {
+        "name": "Rhaldney",
+        "position": "DEFENDER",
+        "strength": 71
+      },
+      {
+        "name": "Hayner",
+        "position": "DEFENDER",
+        "strength": 70
       },
       {
         "name": "Pedro Martins",
@@ -544,52 +1189,107 @@
         "strength": 70
       },
       {
+        "name": "Baralhas",
+        "position": "MIDFIELDER",
+        "strength": 73
+      },
+      {
+        "name": "Jorginho",
+        "position": "MIDFIELDER",
+        "strength": 72
+      },
+      {
         "name": "João Souza",
         "position": "FORWARD",
-        "strength": 78
-      }
-    ]
-  },
-  {
-    "name": "Juventude",
-    "strength": 87,
-    "attackStrength": 88,
-    "defenseStrength": 87,
-    "midfieldStrength": 87,
-    "players": [
-      {
-        "name": "Bruno Moura",
-        "position": "GOALKEEPER",
-        "strength": 85
+        "strength": 71
       },
       {
-        "name": "Carlos Souza",
-        "position": "DEFENDER",
-        "strength": 83
+        "name": "Wellington Rato",
+        "position": "FORWARD",
+        "strength": 73
       },
       {
-        "name": "Rafael Pereira",
-        "position": "MIDFIELDER",
-        "strength": 80
-      },
-      {
-        "name": "Bruno Costa",
+        "name": "Zé Roberto",
         "position": "FORWARD",
         "strength": 72
       }
     ]
   },
   {
+    "name": "Juventude",
+    "strength": 70,
+    "attackStrength": 71,
+    "defenseStrength": 69,
+    "midfieldStrength": 70,
+    "players": [
+      {
+        "name": "Bruno Moura",
+        "position": "GOALKEEPER",
+        "strength": 70
+      },
+      {
+        "name": "Carlos Souza",
+        "position": "DEFENDER",
+        "strength": 69
+      },
+      {
+        "name": "João Lucas",
+        "position": "DEFENDER",
+        "strength": 70
+      },
+      {
+        "name": "Vitor Mendes",
+        "position": "DEFENDER",
+        "strength": 69
+      },
+      {
+        "name": "Rafael Forster",
+        "position": "DEFENDER",
+        "strength": 68
+      },
+      {
+        "name": "Rafael Pereira",
+        "position": "MIDFIELDER",
+        "strength": 70
+      },
+      {
+        "name": "Oscar",
+        "position": "MIDFIELDER",
+        "strength": 71
+      },
+      {
+        "name": "Marlon",
+        "position": "MIDFIELDER",
+        "strength": 70
+      },
+      {
+        "name": "Bruno Costa",
+        "position": "FORWARD",
+        "strength": 69
+      },
+      {
+        "name": "Erick",
+        "position": "FORWARD",
+        "strength": 71
+      },
+      {
+        "name": "Capixaba",
+        "position": "FORWARD",
+        "strength": 70
+      }
+    ]
+  },
+  {
     "name": "Bragantino",
-    "strength": 79,
-    "attackStrength": 83,
-    "defenseStrength": 78,
-    "midfieldStrength": 77,
+    "strength": 73,
+    "attackStrength": 74,
+    "defenseStrength": 72,
+    "midfieldStrength": 73,
     "players": [
       {
         "name": "Gustavo Silva",
         "position": "GOALKEEPER",
-        "strength": 90
+        "strength": 73
       },
       {
         "name": "Gustavo Moura",
@@ -597,28 +1297,63 @@
         "strength": 71
       },
       {
+        "name": "Léo Ortiz",
+        "position": "DEFENDER",
+        "strength": 72
+      },
+      {
+        "name": "Natan",
+        "position": "DEFENDER",
+        "strength": 71
+      },
+      {
+        "name": "Juninho Capixaba",
+        "position": "DEFENDER",
+        "strength": 70
+      },
+      {
         "name": "Pedro Souza",
         "position": "MIDFIELDER",
-        "strength": 83
+        "strength": 73
+      },
+      {
+        "name": "Eric Ramires",
+        "position": "MIDFIELDER",
+        "strength": 72
+      },
+      {
+        "name": "Lucas Evangelista",
+        "position": "MIDFIELDER",
+        "strength": 71
       },
       {
         "name": "Lucas Souza",
         "position": "FORWARD",
-        "strength": 83
+        "strength": 74
+      },
+      {
+        "name": "Artur",
+        "position": "FORWARD",
+        "strength": 73
+      },
+      {
+        "name": "Helinho",
+        "position": "FORWARD",
+        "strength": 72
       }
     ]
   },
   {
     "name": "Coritiba",
-    "strength": 80,
-    "attackStrength": 75,
-    "defenseStrength": 83,
-    "midfieldStrength": 83,
+    "strength": 71,
+    "attackStrength": 72,
+    "defenseStrength": 70,
+    "midfieldStrength": 71,
     "players": [
       {
         "name": "Gustavo Almeida",
         "position": "GOALKEEPER",
-        "strength": 76
+        "strength": 71
       },
       {
         "name": "Felipe Costa",
@@ -626,594 +1361,1137 @@
         "strength": 70
       },
       {
+        "name": "Luciano Castán",
+        "position": "DEFENDER",
+        "strength": 71
+      },
+      {
+        "name": "Márcio",
+        "position": "DEFENDER",
+        "strength": 70
+      },
+      {
+        "name": "Natanael",
+        "position": "DEFENDER",
+        "strength": 69
+      },
+      {
         "name": "Rafael Souza",
         "position": "MIDFIELDER",
-        "strength": 78
+        "strength": 70
+      },
+      {
+        "name": "Matheus Bianqui",
+        "position": "MIDFIELDER",
+        "strength": 72
+      },
+      {
+        "name": "Matheus Frizzo",
+        "position": "MIDFIELDER",
+        "strength": 71
       },
       {
         "name": "Carlos Almeida",
         "position": "FORWARD",
-        "strength": 87
+        "strength": 73
+      },
+      {
+        "name": "Robson",
+        "position": "FORWARD",
+        "strength": 72
+      },
+      {
+        "name": "Léo Gamalho",
+        "position": "FORWARD",
+        "strength": 71
       }
     ]
   },
   {
     "name": "Chapecoense",
-    "strength": 83,
-    "attackStrength": 83,
-    "defenseStrength": 76,
-    "midfieldStrength": 89,
+    "strength": 70,
+    "attackStrength": 71,
+    "defenseStrength": 69,
+    "midfieldStrength": 70,
     "players": [
       {
         "name": "Bruno Almeida",
         "position": "GOALKEEPER",
-        "strength": 81
+        "strength": 70
       },
       {
         "name": "Carlos Almeida",
         "position": "DEFENDER",
-        "strength": 84
+        "strength": 69
+      },
+      {
+        "name": "Derlan",
+        "position": "DEFENDER",
+        "strength": 70
+      },
+      {
+        "name": "Rafael",
+        "position": "DEFENDER",
+        "strength": 69
+      },
+      {
+        "name": "Breno",
+        "position": "DEFENDER",
+        "strength": 68
       },
       {
         "name": "João Rocha",
         "position": "MIDFIELDER",
-        "strength": 86
+        "strength": 71
+      },
+      {
+        "name": "Matheus Bidu",
+        "position": "MIDFIELDER",
+        "strength": 70
+      },
+      {
+        "name": "Bruno Silva",
+        "position": "MIDFIELDER",
+        "strength": 69
       },
       {
         "name": "Mateus Almeida",
         "position": "FORWARD",
-        "strength": 88
+        "strength": 72
+      },
+      {
+        "name": "Vagner Love",
+        "position": "FORWARD",
+        "strength": 71
+      },
+      {
+        "name": "Bruno Nazário",
+        "position": "FORWARD",
+        "strength": 70
       }
     ]
   },
   {
     "name": "Avaí",
-    "strength": 80,
-    "attackStrength": 81,
-    "defenseStrength": 82,
-    "midfieldStrength": 77,
+    "strength": 69,
+    "attackStrength": 70,
+    "defenseStrength": 68,
+    "midfieldStrength": 69,
     "players": [
       {
         "name": "João Lima",
         "position": "GOALKEEPER",
-        "strength": 85
+        "strength": 69
       },
       {
         "name": "Felipe Lima",
         "position": "DEFENDER",
-        "strength": 73
+        "strength": 68
+      },
+      {
+        "name": "Raniele",
+        "position": "DEFENDER",
+        "strength": 69
+      },
+      {
+        "name": "Bressan",
+        "position": "DEFENDER",
+        "strength": 68
+      },
+      {
+        "name": "Kevin",
+        "position": "DEFENDER",
+        "strength": 67
       },
       {
         "name": "Felipe Moura",
         "position": "MIDFIELDER",
-        "strength": 81
+        "strength": 69
+      },
+      {
+        "name": "Jean Pyerre",
+        "position": "MIDFIELDER",
+        "strength": 68
+      },
+      {
+        "name": "Lourenço",
+        "position": "MIDFIELDER",
+        "strength": 67
       },
       {
         "name": "Pedro Oliveira",
         "position": "FORWARD",
-        "strength": 79
+        "strength": 70
+      },
+      {
+        "name": "Bissoli",
+        "position": "FORWARD",
+        "strength": 69
+      },
+      {
+        "name": "Muriqui",
+        "position": "FORWARD",
+        "strength": 68
       }
     ]
   },
   {
     "name": "Criciúma",
-    "strength": 77,
-    "attackStrength": 71,
-    "defenseStrength": 79,
-    "midfieldStrength": 81,
+    "strength": 68,
+    "attackStrength": 69,
+    "defenseStrength": 67,
+    "midfieldStrength": 68,
     "players": [
       {
         "name": "Bruno Silva",
         "position": "GOALKEEPER",
-        "strength": 75
+        "strength": 68
       },
       {
         "name": "Carlos Martins",
         "position": "DEFENDER",
-        "strength": 84
+        "strength": 67
+      },
+      {
+        "name": "Claudinei",
+        "position": "DEFENDER",
+        "strength": 68
+      },
+      {
+        "name": "Régis",
+        "position": "DEFENDER",
+        "strength": 67
+      },
+      {
+        "name": "Lucas",
+        "position": "DEFENDER",
+        "strength": 66
       },
       {
         "name": "Bruno Souza",
         "position": "MIDFIELDER",
-        "strength": 87
+        "strength": 69
+      },
+      {
+        "name": "Matheusinho",
+        "position": "MIDFIELDER",
+        "strength": 68
+      },
+      {
+        "name": "Rômulo",
+        "position": "MIDFIELDER",
+        "strength": 67
       },
       {
         "name": "João Moura",
         "position": "FORWARD",
-        "strength": 74
+        "strength": 69
+      },
+      {
+        "name": "Yago",
+        "position": "FORWARD",
+        "strength": 68
+      },
+      {
+        "name": "Léo Gamalho",
+        "position": "FORWARD",
+        "strength": 67
       }
     ]
   },
   {
     "name": "Ponte Preta",
-    "strength": 82,
-    "attackStrength": 76,
-    "defenseStrength": 83,
-    "midfieldStrength": 87,
+    "strength": 67,
+    "attackStrength": 68,
+    "defenseStrength": 66,
+    "midfieldStrength": 67,
     "players": [
       {
         "name": "Felipe Martins",
         "position": "GOALKEEPER",
-        "strength": 82
+        "strength": 67
       },
       {
         "name": "João Martins",
         "position": "DEFENDER",
-        "strength": 83
+        "strength": 66
+      },
+      {
+        "name": "Fagner",
+        "position": "DEFENDER",
+        "strength": 67
+      },
+      {
+        "name": "Reynaldo",
+        "position": "DEFENDER",
+        "strength": 66
+      },
+      {
+        "name": "Yago",
+        "position": "DEFENDER",
+        "strength": 65
       },
       {
         "name": "Felipe Moura",
         "position": "MIDFIELDER",
-        "strength": 76
+        "strength": 66
+      },
+      {
+        "name": "Matheus Jesus",
+        "position": "MIDFIELDER",
+        "strength": 68
+      },
+      {
+        "name": "Fellipe Bastos",
+        "position": "MIDFIELDER",
+        "strength": 67
       },
       {
         "name": "Pedro Pereira",
         "position": "FORWARD",
-        "strength": 76
+        "strength": 66
+      },
+      {
+        "name": "Léo Naldi",
+        "position": "FORWARD",
+        "strength": 67
+      },
+      {
+        "name": "Lucca",
+        "position": "FORWARD",
+        "strength": 66
       }
     ]
   },
   {
     "name": "Guarani",
-    "strength": 77,
-    "attackStrength": 75,
-    "defenseStrength": 81,
-    "midfieldStrength": 75,
+    "strength": 66,
+    "attackStrength": 67,
+    "defenseStrength": 65,
+    "midfieldStrength": 66,
     "players": [
       {
         "name": "Mateus Souza",
         "position": "GOALKEEPER",
-        "strength": 73
+        "strength": 66
       },
       {
         "name": "João Pereira",
         "position": "DEFENDER",
-        "strength": 88
+        "strength": 65
+      },
+      {
+        "name": "Renan",
+        "position": "DEFENDER",
+        "strength": 66
+      },
+      {
+        "name": "Bastos",
+        "position": "DEFENDER",
+        "strength": 65
+      },
+      {
+        "name": "Bruno",
+        "position": "DEFENDER",
+        "strength": 64
       },
       {
         "name": "Daniel Rocha",
         "position": "MIDFIELDER",
-        "strength": 73
+        "strength": 65
+      },
+      {
+        "name": "Bruno Silva",
+        "position": "MIDFIELDER",
+        "strength": 66
+      },
+      {
+        "name": "Matheus",
+        "position": "MIDFIELDER",
+        "strength": 65
       },
       {
         "name": "Gustavo Moura",
         "position": "FORWARD",
-        "strength": 87
+        "strength": 67
+      },
+      {
+        "name": "Bruno Sávio",
+        "position": "FORWARD",
+        "strength": 66
+      },
+      {
+        "name": "Jeferson",
+        "position": "FORWARD",
+        "strength": 65
       }
     ]
   },
   {
     "name": "Vila Nova",
-    "strength": 79,
-    "attackStrength": 89,
-    "defenseStrength": 77,
-    "midfieldStrength": 70,
+    "strength": 65,
+    "attackStrength": 66,
+    "defenseStrength": 64,
+    "midfieldStrength": 65,
     "players": [
       {
         "name": "Gustavo Souza",
         "position": "GOALKEEPER",
-        "strength": 83
+        "strength": 65
       },
       {
         "name": "Bruno Lima",
         "position": "DEFENDER",
-        "strength": 75
+        "strength": 64
+      },
+      {
+        "name": "Rafael Donato",
+        "position": "DEFENDER",
+        "strength": 65
+      },
+      {
+        "name": "Rafael Vaz",
+        "position": "DEFENDER",
+        "strength": 64
+      },
+      {
+        "name": "Lucas Rocha",
+        "position": "DEFENDER",
+        "strength": 63
       },
       {
         "name": "Felipe Rocha",
         "position": "MIDFIELDER",
-        "strength": 76
+        "strength": 64
+      },
+      {
+        "name": "Rafael Longuine",
+        "position": "MIDFIELDER",
+        "strength": 65
+      },
+      {
+        "name": "Matheus Anjos",
+        "position": "MIDFIELDER",
+        "strength": 64
       },
       {
         "name": "Felipe Souza",
         "position": "FORWARD",
-        "strength": 85
+        "strength": 66
+      },
+      {
+        "name": "Rafael Silva",
+        "position": "FORWARD",
+        "strength": 65
+      },
+      {
+        "name": "Matheus Peixoto",
+        "position": "FORWARD",
+        "strength": 64
       }
     ]
   },
   {
     "name": "Londrina",
-    "strength": 81,
-    "attackStrength": 87,
-    "defenseStrength": 86,
-    "midfieldStrength": 70,
+    "strength": 64,
+    "attackStrength": 65,
+    "defenseStrength": 63,
+    "midfieldStrength": 64,
     "players": [
       {
         "name": "João Pereira",
         "position": "GOALKEEPER",
-        "strength": 71
+        "strength": 64
       },
       {
         "name": "Mateus Silva",
         "position": "DEFENDER",
-        "strength": 84
+        "strength": 63
+      },
+      {
+        "name": "Rafael",
+        "position": "DEFENDER",
+        "strength": 64
+      },
+      {
+        "name": "Matheus",
+        "position": "DEFENDER",
+        "strength": 63
+      },
+      {
+        "name": "Lucas",
+        "position": "DEFENDER",
+        "strength": 62
       },
       {
         "name": "Rafael Moura",
         "position": "MIDFIELDER",
-        "strength": 80
+        "strength": 63
+      },
+      {
+        "name": "Matheus Bianqui",
+        "position": "MIDFIELDER",
+        "strength": 64
+      },
+      {
+        "name": "João Paulo",
+        "position": "MIDFIELDER",
+        "strength": 63
       },
       {
         "name": "Lucas Almeida",
         "position": "FORWARD",
-        "strength": 76
+        "strength": 62
+      },
+      {
+        "name": "Rafael Silva",
+        "position": "FORWARD",
+        "strength": 65
+      },
+      {
+        "name": "Matheus Peixoto",
+        "position": "FORWARD",
+        "strength": 64
       }
     ]
   },
   {
     "name": "CSA",
-    "strength": 78,
-    "attackStrength": 77,
-    "defenseStrength": 70,
-    "midfieldStrength": 87,
+    "strength": 65,
+    "attackStrength": 63,
+    "defenseStrength": 65,
+    "midfieldStrength": 67,
     "players": [
       {
         "name": "Gustavo Rocha",
         "position": "GOALKEEPER",
-        "strength": 79
+        "strength": 69
       },
       {
         "name": "Pedro Moura",
         "position": "DEFENDER",
-        "strength": 71
+        "strength": 65
+      },
+      {
+        "name": "Rafael Vaz",
+        "position": "DEFENDER",
+        "strength": 68
+      },
+      {
+        "name": "Matheus",
+        "position": "DEFENDER",
+        "strength": 67
+      },
+      {
+        "name": "Lucas",
+        "position": "DEFENDER",
+        "strength": 66
       },
       {
         "name": "Carlos Martins",
         "position": "MIDFIELDER",
-        "strength": 84
+        "strength": 69
+      },
+      {
+        "name": "Matheus Bianqui",
+        "position": "MIDFIELDER",
+        "strength": 68
+      },
+      {
+        "name": "João Paulo",
+        "position": "MIDFIELDER",
+        "strength": 67
       },
       {
         "name": "Daniel Costa",
         "position": "FORWARD",
-        "strength": 74
+        "strength": 64
+      },
+      {
+        "name": "Rafael Silva",
+        "position": "FORWARD",
+        "strength": 66
+      },
+      {
+        "name": "Matheus Peixoto",
+        "position": "FORWARD",
+        "strength": 65
       }
     ]
   },
   {
     "name": "CRB",
-    "strength": 85,
-    "attackStrength": 86,
-    "defenseStrength": 90,
-    "midfieldStrength": 78,
+    "strength": 68,
+    "attackStrength": 69,
+    "defenseStrength": 67,
+    "midfieldStrength": 68,
     "players": [
       {
         "name": "Lucas Rocha",
         "position": "GOALKEEPER",
-        "strength": 77
+        "strength": 67
       },
       {
         "name": "Gustavo Oliveira",
         "position": "DEFENDER",
-        "strength": 71
+        "strength": 65
+      },
+      {
+        "name": "Rafael Vaz",
+        "position": "DEFENDER",
+        "strength": 70
+      },
+      {
+        "name": "Matheus",
+        "position": "DEFENDER",
+        "strength": 69
+      },
+      {
+        "name": "Lucas",
+        "position": "DEFENDER",
+        "strength": 68
       },
       {
         "name": "Daniel Souza",
         "position": "MIDFIELDER",
-        "strength": 82
+        "strength": 69
+      },
+      {
+        "name": "Matheus Bianqui",
+        "position": "MIDFIELDER",
+        "strength": 68
+      },
+      {
+        "name": "João Paulo",
+        "position": "MIDFIELDER",
+        "strength": 67
       },
       {
         "name": "Pedro Rocha",
         "position": "FORWARD",
-        "strength": 77
+        "strength": 67
+      },
+      {
+        "name": "Rafael Silva",
+        "position": "FORWARD",
+        "strength": 69
+      },
+      {
+        "name": "Matheus Peixoto",
+        "position": "FORWARD",
+        "strength": 68
       }
     ]
   },
   {
     "name": "Sampaio Corrêa",
-    "strength": 81,
-    "attackStrength": 83,
-    "defenseStrength": 79,
-    "midfieldStrength": 80,
+    "strength": 64,
+    "attackStrength": 65,
+    "defenseStrength": 63,
+    "midfieldStrength": 64,
     "players": [
       {
         "name": "Carlos Silva",
         "position": "GOALKEEPER",
-        "strength": 84
+        "strength": 65
       },
       {
         "name": "João Silva",
         "position": "DEFENDER",
-        "strength": 73
+        "strength": 63
+      },
+      {
+        "name": "Rafael Vaz",
+        "position": "DEFENDER",
+        "strength": 66
+      },
+      {
+        "name": "Matheus",
+        "position": "DEFENDER",
+        "strength": 65
+      },
+      {
+        "name": "Lucas",
+        "position": "DEFENDER",
+        "strength": 64
       },
       {
         "name": "Lucas Lima",
         "position": "MIDFIELDER",
-        "strength": 87
+        "strength": 67
+      },
+      {
+        "name": "Matheus Bianqui",
+        "position": "MIDFIELDER",
+        "strength": 66
+      },
+      {
+        "name": "João Paulo",
+        "position": "MIDFIELDER",
+        "strength": 65
       },
       {
         "name": "Mateus Rocha",
         "position": "FORWARD",
-        "strength": 90
+        "strength": 68
+      },
+      {
+        "name": "Rafael Silva",
+        "position": "FORWARD",
+        "strength": 66
+      },
+      {
+        "name": "Matheus Peixoto",
+        "position": "FORWARD",
+        "strength": 65
       }
     ]
   },
   {
     "name": "Paysandu",
-    "strength": 78,
-    "attackStrength": 86,
-    "defenseStrength": 71,
-    "midfieldStrength": 76,
+    "strength": 70,
+    "attackStrength": 71,
+    "defenseStrength": 69,
+    "midfieldStrength": 70,
     "players": [
       {
         "name": "Felipe Martins",
         "position": "GOALKEEPER",
-        "strength": 71
+        "strength": 69
       },
       {
         "name": "Rafael Oliveira",
         "position": "DEFENDER",
-        "strength": 74
+        "strength": 68
+      },
+      {
+        "name": "Rafael Vaz",
+        "position": "DEFENDER",
+        "strength": 71
+      },
+      {
+        "name": "Matheus",
+        "position": "DEFENDER",
+        "strength": 70
+      },
+      {
+        "name": "Lucas",
+        "position": "DEFENDER",
+        "strength": 69
       },
       {
         "name": "Rafael Costa",
         "position": "MIDFIELDER",
-        "strength": 82
+        "strength": 71
+      },
+      {
+        "name": "Matheus Bianqui",
+        "position": "MIDFIELDER",
+        "strength": 70
+      },
+      {
+        "name": "João Paulo",
+        "position": "MIDFIELDER",
+        "strength": 69
       },
       {
         "name": "Rafael Silva",
         "position": "FORWARD",
         "strength": 70
+      },
+      {
+        "name": "Matheus Peixoto",
+        "position": "FORWARD",
+        "strength": 72
+      },
+      {
+        "name": "Rafael Costa",
+        "position": "FORWARD",
+        "strength": 71
       }
     ]
   },
   {
     "name": "Remo",
-    "strength": 82,
-    "attackStrength": 78,
-    "defenseStrength": 82,
-    "midfieldStrength": 87,
+    "strength": 69,
+    "attackStrength": 68,
+    "defenseStrength": 69,
+    "midfieldStrength": 70,
     "players": [
       {
         "name": "Felipe Silva",
         "position": "GOALKEEPER",
-        "strength": 79
+        "strength": 69
       },
       {
         "name": "João Lima",
         "position": "DEFENDER",
-        "strength": 79
+        "strength": 68
       },
       {
-        "name": "Daniel Martins",
-        "position": "MIDFIELDER",
-        "strength": 82
-      },
-      {
-        "name": "Mateus Rocha",
-        "position": "FORWARD",
-        "strength": 82
-      }
-    ]
-  },
-  {
-    "name": "Figueirense",
-    "strength": 79,
-    "attackStrength": 71,
-    "defenseStrength": 80,
-    "midfieldStrength": 87,
-    "players": [
-      {
-        "name": "Lucas Moura",
-        "position": "GOALKEEPER",
-        "strength": 81
-      },
-      {
-        "name": "Daniel Silva",
-        "position": "DEFENDER",
-        "strength": 85
-      },
-      {
-        "name": "Carlos Moura",
-        "position": "MIDFIELDER",
-        "strength": 83
-      },
-      {
-        "name": "Lucas Silva",
-        "position": "FORWARD",
-        "strength": 90
-      }
-    ]
-  },
-  {
-    "name": "Botafogo-SP",
-    "strength": 81,
-    "attackStrength": 80,
-    "defenseStrength": 83,
-    "midfieldStrength": 81,
-    "players": [
-      {
-        "name": "Felipe Rocha",
-        "position": "GOALKEEPER",
-        "strength": 79
-      },
-      {
-        "name": "Gustavo Rocha",
+        "name": "Rafael Vaz",
         "position": "DEFENDER",
         "strength": 71
       },
       {
-        "name": "Felipe Moura",
-        "position": "MIDFIELDER",
-        "strength": 75
-      },
-      {
-        "name": "Mateus Martins",
-        "position": "FORWARD",
-        "strength": 89
-      }
-    ]
-  },
-  {
-    "name": "Ituano",
-    "strength": 76,
-    "attackStrength": 81,
-    "defenseStrength": 76,
-    "midfieldStrength": 70,
-    "players": [
-      {
-        "name": "Bruno Silva",
-        "position": "GOALKEEPER",
-        "strength": 73
-      },
-      {
-        "name": "Pedro Almeida",
+        "name": "Matheus",
         "position": "DEFENDER",
-        "strength": 81
+        "strength": 70
       },
       {
-        "name": "Felipe Moura",
-        "position": "MIDFIELDER",
-        "strength": 74
-      },
-      {
-        "name": "Bruno Oliveira",
-        "position": "FORWARD",
-        "strength": 90
-      }
-    ]
-  },
-  {
-    "name": "Operário-PR",
-    "strength": 81,
-    "attackStrength": 78,
-    "defenseStrength": 81,
-    "midfieldStrength": 83,
-    "players": [
-      {
-        "name": "Bruno Rocha",
-        "position": "GOALKEEPER",
-        "strength": 82
-      },
-      {
-        "name": "Mateus Martins",
+        "name": "Lucas",
         "position": "DEFENDER",
-        "strength": 86
+        "strength": 69
       },
       {
-        "name": "Gustavo Pereira",
+        "name": "Daniel Martins",
         "position": "MIDFIELDER",
-        "strength": 82
+        "strength": 71
       },
       {
-        "name": "Mateus Almeida",
+        "name": "Matheus Bianqui",
+        "position": "MIDFIELDER",
+        "strength": 70
+      },
+      {
+        "name": "João Paulo",
+        "position": "MIDFIELDER",
+        "strength": 69
+      },
+      {
+        "name": "Mateus Rocha",
         "position": "FORWARD",
-        "strength": 78
+        "strength": 68
+      },
+      {
+        "name": "Rafael Silva",
+        "position": "FORWARD",
+        "strength": 69
+      },
+      {
+        "name": "Matheus Peixoto",
+        "position": "FORWARD",
+        "strength": 68
       }
     ]
   },
   {
     "name": "Tombense",
-    "strength": 78,
-    "attackStrength": 72,
-    "defenseStrength": 86,
-    "midfieldStrength": 76,
+    "strength": 63,
+    "attackStrength": 62,
+    "defenseStrength": 64,
+    "midfieldStrength": 63,
     "players": [
       {
         "name": "Bruno Moura",
         "position": "GOALKEEPER",
-        "strength": 88
+        "strength": 65
       },
       {
         "name": "Rafael Rocha",
         "position": "DEFENDER",
-        "strength": 82
+        "strength": 63
+      },
+      {
+        "name": "Rafael Vaz",
+        "position": "DEFENDER",
+        "strength": 66
+      },
+      {
+        "name": "Matheus",
+        "position": "DEFENDER",
+        "strength": 65
+      },
+      {
+        "name": "Lucas",
+        "position": "DEFENDER",
+        "strength": 64
       },
       {
         "name": "Pedro Moura",
         "position": "MIDFIELDER",
-        "strength": 70
+        "strength": 62
+      },
+      {
+        "name": "Matheus Bianqui",
+        "position": "MIDFIELDER",
+        "strength": 64
+      },
+      {
+        "name": "João Paulo",
+        "position": "MIDFIELDER",
+        "strength": 63
       },
       {
         "name": "Lucas Almeida",
         "position": "FORWARD",
-        "strength": 78
+        "strength": 62
+      },
+      {
+        "name": "Rafael Silva",
+        "position": "FORWARD",
+        "strength": 63
+      },
+      {
+        "name": "Matheus Peixoto",
+        "position": "FORWARD",
+        "strength": 62
       }
     ]
   },
   {
     "name": "Confiança",
-    "strength": 77,
-    "attackStrength": 81,
-    "defenseStrength": 80,
-    "midfieldStrength": 70,
+    "strength": 62,
+    "attackStrength": 63,
+    "defenseStrength": 62,
+    "midfieldStrength": 61,
     "players": [
       {
         "name": "Carlos Pereira",
         "position": "GOALKEEPER",
-        "strength": 71
+        "strength": 63
       },
       {
         "name": "João Lima",
         "position": "DEFENDER",
-        "strength": 86
+        "strength": 64
+      },
+      {
+        "name": "Rafael Vaz",
+        "position": "DEFENDER",
+        "strength": 65
+      },
+      {
+        "name": "Matheus",
+        "position": "DEFENDER",
+        "strength": 64
+      },
+      {
+        "name": "Lucas",
+        "position": "DEFENDER",
+        "strength": 63
       },
       {
         "name": "Daniel Costa",
         "position": "MIDFIELDER",
-        "strength": 75
+        "strength": 62
+      },
+      {
+        "name": "Matheus Bianqui",
+        "position": "MIDFIELDER",
+        "strength": 63
+      },
+      {
+        "name": "João Paulo",
+        "position": "MIDFIELDER",
+        "strength": 62
       },
       {
         "name": "Rafael Pereira",
         "position": "FORWARD",
-        "strength": 88
+        "strength": 65
+      },
+      {
+        "name": "Rafael Silva",
+        "position": "FORWARD",
+        "strength": 64
+      },
+      {
+        "name": "Matheus Peixoto",
+        "position": "FORWARD",
+        "strength": 63
       }
     ]
   },
   {
     "name": "Ypiranga-RS",
-    "strength": 83,
-    "attackStrength": 86,
-    "defenseStrength": 77,
-    "midfieldStrength": 85,
+    "strength": 61,
+    "attackStrength": 62,
+    "defenseStrength": 61,
+    "midfieldStrength": 60,
     "players": [
       {
         "name": "Carlos Silva",
         "position": "GOALKEEPER",
-        "strength": 80
+        "strength": 62
       },
       {
         "name": "Lucas Almeida",
         "position": "DEFENDER",
-        "strength": 71
+        "strength": 60
+      },
+      {
+        "name": "Rafael Vaz",
+        "position": "DEFENDER",
+        "strength": 63
+      },
+      {
+        "name": "Matheus",
+        "position": "DEFENDER",
+        "strength": 62
+      },
+      {
+        "name": "Lucas",
+        "position": "DEFENDER",
+        "strength": 61
       },
       {
         "name": "Rafael Almeida",
         "position": "MIDFIELDER",
-        "strength": 71
+        "strength": 60
+      },
+      {
+        "name": "Matheus Bianqui",
+        "position": "MIDFIELDER",
+        "strength": 62
+      },
+      {
+        "name": "João Paulo",
+        "position": "MIDFIELDER",
+        "strength": 61
       },
       {
         "name": "Rafael Oliveira",
         "position": "FORWARD",
-        "strength": 72
+        "strength": 61
+      },
+      {
+        "name": "Rafael Silva",
+        "position": "FORWARD",
+        "strength": 63
+      },
+      {
+        "name": "Matheus Peixoto",
+        "position": "FORWARD",
+        "strength": 62
       }
     ]
   },
   {
     "name": "ABC",
-    "strength": 79,
-    "attackStrength": 82,
-    "defenseStrength": 82,
-    "midfieldStrength": 74,
+    "strength": 64,
+    "attackStrength": 65,
+    "defenseStrength": 64,
+    "midfieldStrength": 63,
     "players": [
       {
         "name": "Pedro Lima",
         "position": "GOALKEEPER",
-        "strength": 80
+        "strength": 65
       },
       {
         "name": "João Souza",
         "position": "DEFENDER",
-        "strength": 74
+        "strength": 63
+      },
+      {
+        "name": "Rafael Vaz",
+        "position": "DEFENDER",
+        "strength": 66
+      },
+      {
+        "name": "Matheus",
+        "position": "DEFENDER",
+        "strength": 65
+      },
+      {
+        "name": "Lucas",
+        "position": "DEFENDER",
+        "strength": 64
       },
       {
         "name": "Rafael Souza",
         "position": "MIDFIELDER",
-        "strength": 74
+        "strength": 63
+      },
+      {
+        "name": "Matheus Bianqui",
+        "position": "MIDFIELDER",
+        "strength": 64
+      },
+      {
+        "name": "João Paulo",
+        "position": "MIDFIELDER",
+        "strength": 63
       },
       {
         "name": "João Martins",
         "position": "FORWARD",
+        "strength": 64
+      },
+      {
+        "name": "Rafael Silva",
+        "position": "FORWARD",
+        "strength": 66
+      },
+      {
+        "name": "Matheus Peixoto",
+        "position": "FORWARD",
+        "strength": 65
+      }
+    ]
+  },
+  {
+    "name": "Santa Cruz",
+    "strength": 72,
+    "attackStrength": 73,
+    "defenseStrength": 71,
+    "midfieldStrength": 72,
+    "players": [
+      {
+        "name": "Tiago Cardoso",
+        "position": "GOALKEEPER",
+        "strength": 73
+      },
+      {
+        "name": "Lucas Ramon",
+        "position": "DEFENDER",
+        "strength": 71
+      },
+      {
+        "name": "Nininho",
+        "position": "DEFENDER",
+        "strength": 70
+      },
+      {
+        "name": "Alemão",
+        "position": "DEFENDER",
+        "strength": 72
+      },
+      {
+        "name": "Everton Sena",
+        "position": "DEFENDER",
+        "strength": 71
+      },
+      {
+        "name": "João Paulo",
+        "position": "MIDFIELDER",
+        "strength": 72
+      },
+      {
+        "name": "Renatinho",
+        "position": "MIDFIELDER",
         "strength": 74
+      },
+      {
+        "name": "Wellington Cézar",
+        "position": "MIDFIELDER",
+        "strength": 73
+      },
+      {
+        "name": "Keno",
+        "position": "FORWARD",
+        "strength": 75
+      },
+      {
+        "name": "Grafite",
+        "position": "FORWARD",
+        "strength": 74
+      },
+      {
+        "name": "Arthur",
+        "position": "FORWARD",
+        "strength": 73
       }
     ]
   }
