@@ -329,6 +329,31 @@
             color: var(--primary-color);
         }
 
+        .team-crest {
+            width: 30px;
+            height: 30px;
+            overflow: visible;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        .team-crest img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            position: relative;
+        }
+
+        .team-column {
+            min-width: 200px;
+        }
+
         .score {
             font-size: 1.5rem;
             font-weight: 700;
@@ -706,11 +731,49 @@
                             <tr th:each="team, stat : ${standings}" 
                                 th:class="'position-' + ${stat.count}">
                                 <td th:text="${stat.count}">1</td>
-                                <td>
-                                    <a th:href="@{/teams/att/{name}(name=${team.team.name})}" 
-                                       class="text-decoration-none text-dark team-name">
-                                        <span th:text="${team.team.name}">Time</span>
-                                    </a>
+                                <td class="team-column">
+                                    <div class="d-flex align-items-center">
+                                        <div class="team-crest">
+                                            <img th:if="${team.team.name == 'Flamengo'}" 
+                                                 th:src="@{/images/crests/Flamengo1.png}"
+                                                 th:alt="${team.team.name}">
+                                            <img th:if="${team.team.name == 'Grêmio'}" 
+                                                 th:src="@{/images/crests/Gremio (1).png}"
+                                                 th:alt="${team.team.name}">
+                                            <img th:if="${team.team.name == 'Corinthians'}" 
+                                                 th:src="@{/images/crests/Corinthians (1).png}"
+                                                 th:alt="${team.team.name}">
+                                            <img th:if="${team.team.name == 'São Paulo'}" 
+                                                 th:src="@{/images/crests/Sao Paulo.png}"
+                                                 th:alt="${team.team.name}">
+                                            <img th:if="${team.team.name == 'Fluminense'}" 
+                                                 th:src="@{/images/crests/Fluminense (1).png}"
+                                                 th:alt="${team.team.name}">
+                                            <img th:if="${team.team.name == 'Palmeiras'}" 
+                                                 th:src="@{/images/crests/Palmeiras (1).png}"
+                                                 th:alt="${team.team.name}">
+                                            <img th:if="${team.team.name == 'Internacional'}" 
+                                                 th:src="@{/images/crests/Internacional (1).png}"
+                                                 th:alt="${team.team.name}">
+                                            <img th:if="${team.team.name == 'Atlético-MG'}" 
+                                                 th:src="@{/images/crests/Atletico MG.png}"
+                                                 th:alt="${team.team.name}">
+                                            <img th:unless="${team.team.name == 'Flamengo' || 
+                                                            team.team.name == 'Grêmio' || 
+                                                            team.team.name == 'Corinthians' || 
+                                                            team.team.name == 'São Paulo' || 
+                                                            team.team.name == 'Fluminense' ||
+                                                            team.team.name == 'Palmeiras' ||
+                                                            team.team.name == 'Internacional' ||
+                                                            team.team.name == 'Atlético-MG'}"
+                                                 th:src="@{/images/crests/{teamName}.svg(teamName=${#strings.replace(team.team.name, ' ', '_').toLowerCase()})}" 
+                                                 th:alt="${team.team.name}">
+                                        </div>
+                                        <a th:href="@{/teams/att/{name}(name=${team.team.name})}" 
+                                           class="text-decoration-none text-dark team-name ms-2">
+                                            <span th:text="${team.team.name}">Time</span>
+                                        </a>
+                                    </div>
                                 </td>
                                 <td th:text="${team.points}">0</td>
                                 <td th:text="${team.played}">0</td>
