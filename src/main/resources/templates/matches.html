@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brasileirão - Jogos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FFE100;
+            --primary-light: #FFF047;
+            --primary-dark: #E6CB00;
+            --background-color: #111111;
+            --card-bg: #1A1A1A;
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --text-primary: #FFFFFF;
+            --text-secondary: #999999;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+            --glow: 0 0 20px rgba(255, 225, 0, 0.2);
+        }
+
+        body {
+            background-color: #111111;
+            font-family: 'Inter', sans-serif;
+            color: #FFFFFF;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            color: var(--primary-color) !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-link {
+            color: #CCCCCC;
+            transition: var(--transition);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color);
+            background-color: rgba(255, 225, 0, 0.1);
+        }
+
+        .card {
+            background-color: #1A1A1A;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--glow);
+            border-color: var(--primary-color);
+        }
+
+        .card-header {
+            background-color: #111111;
+            border-bottom: none;
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #FFFFFF;
+        }
+
+        .card-header i {
+            color: var(--primary-color);
+            margin-right: 0.75rem;
+        }
+
+        .match-card {
+            background-color: #1A1A1A;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .match-card:hover {
+            background-color: #222222;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .match-team {
+            flex: 1;
+            text-align: center;
+            font-weight: 500;
+            color: #FFFFFF;
+        }
+
+        .match-home {
+            text-align: right;
+            padding-right: 1rem;
+        }
+
+        .match-away {
+            text-align: left;
+            padding-left: 1rem;
+        }
+
+        .match-score {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            margin: 0 1rem;
+            border-radius: 8px;
+            background-color: #111111;
+            font-weight: 700;
+            color: var(--primary-color);
+            min-width: 80px;
+        }
+
+        .match-date {
+            color: #999999;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .match-round-title {
+            color: var(--primary-color);
+            position: relative;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+
+        .match-round-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        .badge-played {
+            background-color: #28a745;
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+        }
+
+        .badge-upcoming {
+            background-color: #ffc107;
+            color: #212529;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+        }
+
+        .round-filter {
+            margin-bottom: 2rem;
+        }
+
+        .round-filter .form-select {
+            background-color: #1A1A1A;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+        }
+
+        .round-filter .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(255, 225, 0, 0.25);
+        }
+
+        .round-filter .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #111111;
+            font-weight: 500;
+            border-radius: 8px;
+            padding: 0.5rem 1.5rem;
+        }
+
+        .round-filter .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .current-round-indicator {
+            background-color: rgba(255, 225, 0, 0.1);
+            border-radius: 8px;
+            padding: 0.25rem 0.75rem;
+            color: var(--primary-color);
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .current-round-indicator i {
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">Brasileirão</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/championship">Classificação</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/matches">Jogos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Estatísticas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Times</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="mb-4">Jogos do Campeonato</h1>
+                <div class="current-round-indicator">
+                    <i class="bi bi-calendar-check"></i> Rodada atual: <span th:text="${currentRound}">0</span> de <span th:text="${totalRounds}">38</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="round-filter">
+                    <form th:action="@{/matches}" method="get" class="d-flex gap-2">
+                        <select name="round" class="form-select">
+                            <option value="">Todas as rodadas</option>
+                            <option th:each="r : ${allRounds}" 
+                                    th:value="${r}" 
+                                    th:text="'Rodada ' + ${r}"
+                                    th:selected="${selectedRound != null && selectedRound == r}"></option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exibição de uma rodada específica -->
+        <div class="row" th:if="${selectedRound != null && roundMatches != null}">
+            <div class="col-12">
+                <h2 class="match-round-title">Rodada <span th:text="${selectedRound}">1</span></h2>
+                
+                <div class="match-list">
+                    <div class="match-card" th:each="match : ${roundMatches}">
+                        <div class="match-team match-home" th:text="${match.homeTeamName}">Time da Casa</div>
+                        <div class="match-score" th:if="${match.played}">
+                            <span th:text="${match.homeScore}">0</span> x <span th:text="${match.awayScore}">0</span>
+                        </div>
+                        <div class="match-score" th:unless="${match.played}">
+                            x
+                        </div>
+                        <div class="match-team match-away" th:text="${match.awayTeamName}">Time Visitante</div>
+                        
+                        <div class="match-info ms-3">
+                            <span class="badge-played" th:if="${match.played}">Realizado</span>
+                            <span class="badge-upcoming" th:unless="${match.played}">Agendado</span>
+                            <div class="match-date" th:text="${match.formattedDate}">01/01/2023</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exibição de todas as rodadas -->
+        <div class="row" th:if="${selectedRound == null && matchesByRound != null}">
+            <div class="col-12" th:each="entry : ${matchesByRound}">
+                <h2 class="match-round-title">Rodada <span th:text="${entry.key}">1</span></h2>
+                
+                <div class="match-list">
+                    <div class="match-card" th:each="match : ${entry.value}">
+                        <div class="match-team match-home" th:text="${match.homeTeamName}">Time da Casa</div>
+                        <div class="match-score" th:if="${match.played}">
+                            <span th:text="${match.homeScore}">0</span> x <span th:text="${match.awayScore}">0</span>
+                        </div>
+                        <div class="match-score" th:unless="${match.played}">
+                            x
+                        </div>
+                        <div class="match-team match-away" th:text="${match.awayTeamName}">Time Visitante</div>
+                        
+                        <div class="match-info ms-3">
+                            <span class="badge-played" th:if="${match.played}">Realizado</span>
+                            <span class="badge-upcoming" th:unless="${match.played}">Agendado</span>
+                            <div class="match-date" th:text="${match.formattedDate}">01/01/2023</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensagem para quando não há jogos -->
+        <div class="row" th:if="${(selectedRound != null && roundMatches.isEmpty()) || (selectedRound == null && matchesByRound.isEmpty())}">
+            <div class="col-12">
+                <div class="alert alert-warning">
+                    Não há jogos disponíveis para exibição.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
