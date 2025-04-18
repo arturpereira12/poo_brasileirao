@@ -758,6 +758,12 @@
                                             <img th:if="${team.team.name == 'Atlético-MG'}" 
                                                  th:src="@{/images/crests/Atletico MG.png}"
                                                  th:alt="${team.team.name}">
+                                            <img th:if="${team.team.name == 'Cruzeiro'}" 
+                                                 th:src="@{/images/crests/Cruzeiro.png}"
+                                                 th:alt="${team.team.name}">
+                                            <img th:if="${team.team.name == 'Athletico-PR'}" 
+                                                 th:src="@{/images/crests/Athletico PR.png}"
+                                                 th:alt="${team.team.name}">
                                             <img th:unless="${team.team.name == 'Flamengo' || 
                                                             team.team.name == 'Grêmio' || 
                                                             team.team.name == 'Corinthians' || 
@@ -765,7 +771,9 @@
                                                             team.team.name == 'Fluminense' ||
                                                             team.team.name == 'Palmeiras' ||
                                                             team.team.name == 'Internacional' ||
-                                                            team.team.name == 'Atlético-MG'}"
+                                                            team.team.name == 'Atlético-MG' ||
+                                                            team.team.name == 'Cruzeiro' ||
+                                                            team.team.name == 'Athletico-PR'}"
                                                  th:src="@{/images/crests/{teamName}.svg(teamName=${#strings.replace(team.team.name, ' ', '_').toLowerCase()})}" 
                                                  th:alt="${team.team.name}">
                                         </div>
