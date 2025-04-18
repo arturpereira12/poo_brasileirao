@@ -52,7 +52,7 @@
             color: #CCCCCC;
             transition: var(--transition);
             font-weight: 500;
-            padding: 0.5rem 1rem;
+            padding: 0.7rem 1rem;
             border-radius: 8px;
         }
 
@@ -232,33 +232,35 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
         <div class="container">
-            <a class="navbar-brand" href="/">Brasileirão</a>
+            <a class="navbar-brand" href="/championship">
+                <i class="bi bi-trophy-fill me-2"></i>Brasileirão ADR
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/championship">Classificação</a>
+                        <a class="nav-link" href="/championship"><i class="bi bi-table me-1"></i>Classificação</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/matches">Jogos</a>
+                        <a class="nav-link active" href="/matches"><i class="bi bi-calendar-event me-1"></i>Jogos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Estatísticas</a>
+                        <a class="nav-link" href="/stats"><i class="bi bi-graph-up me-1"></i>Estatísticas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Times</a>
+                        <a class="nav-link" href="/teams/att"><i class="bi bi-people me-1"></i>Times</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container py-5">
-        <div class="row mb-4">
+    <div class="container">
+        <div class="row mb-4 pt-2">
             <div class="col-12">
                 <h1 class="mb-4">Jogos do Campeonato</h1>
                 <div class="current-round-indicator">
