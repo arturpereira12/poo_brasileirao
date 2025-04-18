@@ -1,4 +1,4 @@
-package br.ufpb.poo.brasileirao.controladores;
+package br.ufpb.poo.brasileirao.service;
 
 import br.ufpb.poo.brasileirao.match.Match;
 import br.ufpb.poo.brasileirao.model.Team;
@@ -6,15 +6,18 @@ import br.ufpb.poo.brasileirao.tournament.LeagueStandings;
 import br.ufpb.poo.brasileirao.tournament.TopScorersTable;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import org.springframework.stereotype.Service;
 
 /**
- * Controlador para gerenciar um torneio de futebol.
- * Responsável por adicionar times, gerar o calendário de jogos e simular partidas.
+ * Classe principal para gerenciamento de torneios.
+ * Unifica a lógica existente em diferentes implementações.
  */
-public class TournamentController {
+@Service
+public class TournamentManager {
     private String tournamentName;
     private List<Team> teams;
     private List<Match> scheduledMatches;
@@ -24,13 +27,21 @@ public class TournamentController {
     private int currentRound;
     private int totalRounds;
     private Random random;
+    private boolean isActive;
 
     /**
-     * Cria um novo controlador de torneio.
+     * Cria um novo gerenciador de torneio.
+     */
+    public TournamentManager() {
+        this("Campeonato Brasileiro");
+    }
+
+    /**
+     * Cria um novo gerenciador de torneio com o nome especificado.
      * 
      * @param tournamentName o nome do torneio
      */
-    public TournamentController(String tournamentName) {
+    public TournamentManager(String tournamentName) {
         this.tournamentName = tournamentName;
         this.teams = new ArrayList<>();
         this.scheduledMatches = new ArrayList<>();
@@ -38,7 +49,9 @@ public class TournamentController {
         this.leagueStandings = new LeagueStandings();
         this.topScorers = new TopScorersTable();
         this.currentRound = 0;
+        this.totalRounds = 0;
         this.random = new Random();
+        this.isActive = false;
     }
 
     /**
@@ -47,19 +60,41 @@ public class TournamentController {
      * @param teams a lista de times a serem adicionados
      */
     public void addTeams(List<Team> teams) {
+        this.teams.clear();
         this.teams.addAll(teams);
+        
+        // Limpa e reinicializa a tabela de classificação
+        this.leagueStandings = new LeagueStandings();
         for (Team team : teams) {
             this.leagueStandings.addTeam(team.getName());
         }
     }
 
     /**
-     * Inicia o torneio gerando o calendário de jogos.
+     * Inicia um novo torneio, gerando o calendário de jogos.
      */
     public void startTournament() {
+        reset();
         generateSchedule();
-        this.currentRound = 0;
         this.totalRounds = calculateTotalRounds();
+        this.isActive = true;
+    }
+
+    /**
+     * Reseta o estado do torneio.
+     */
+    public void reset() {
+        this.scheduledMatches.clear();
+        this.simulatedMatches.clear();
+        this.currentRound = 0;
+        this.isActive = false;
+        this.topScorers = new TopScorersTable();
+        
+        // Reinicializa a tabela de classificação
+        this.leagueStandings = new LeagueStandings();
+        for (Team team : teams) {
+            this.leagueStandings.addTeam(team.getName());
+        }
     }
 
     /**
@@ -69,15 +104,14 @@ public class TournamentController {
         int numberOfTeams = teams.size();
         
         // Se o número de times for ímpar, adiciona um time de folga
-        if (numberOfTeams % 2 != 0) {
-            numberOfTeams++;
-        }
+        boolean needDummy = numberOfTeams % 2 != 0;
+        int totalTeams = needDummy ? numberOfTeams + 1 : numberOfTeams;
         
-        int totalRounds = numberOfTeams - 1;
-        int matchesPerRound = numberOfTeams / 2;
+        int totalRounds = totalTeams - 1;
+        int matchesPerRound = totalTeams / 2;
         
         List<Integer> teamIndices = new ArrayList<>();
-        for (int i = 0; i < numberOfTeams; i++) {
+        for (int i = 0; i < totalTeams; i++) {
             teamIndices.add(i);
         }
         
@@ -88,7 +122,7 @@ public class TournamentController {
             
             for (int match = 0; match < matchesPerRound; match++) {
                 int homeIndex = teamIndices.get(match);
-                int awayIndex = teamIndices.get(numberOfTeams - 1 - match);
+                int awayIndex = teamIndices.get(totalTeams - 1 - match);
                 
                 // Evitar partidas contra o time fictício (caso ímpar)
                 if (homeIndex < teams.size() && awayIndex < teams.size()) {
@@ -137,12 +171,6 @@ public class TournamentController {
         for (Match match : roundMatches) {
             simulateMatch(match);
             simulatedMatches.add(match);
-            
-            // Atualizar tabela de classificação
-            updateStandings(match);
-            
-            // Atualizar tabela de artilheiros
-            updateScorers(match);
         }
         
         return true;
@@ -163,7 +191,7 @@ public class TournamentController {
      * @param round a rodada desejada
      * @return lista de partidas da rodada
      */
-    private List<Match> getMatchesForRound(int round) {
+    public List<Match> getMatchesForRound(int round) {
         List<Match> roundMatches = new ArrayList<>();
         for (Match match : scheduledMatches) {
             if (match.getRound() == round) {
@@ -186,11 +214,34 @@ public class TournamentController {
         int homeStrength = homeTeam.getStrength() + 10; // Vantagem de jogar em casa
         int awayStrength = awayTeam.getStrength();
         
-        // Simular gols do time da casa
-        int homeGoals = simulateGoals(homeStrength);
+        // Fator de aleatoriedade
+        double homeLuckFactor = 0.8 + (random.nextDouble() * 0.4);
+        double awayLuckFactor = 0.8 + (random.nextDouble() * 0.4);
         
-        // Simular gols do time visitante
-        int awayGoals = simulateGoals(awayStrength);
+        // Ajustar forças finais
+        double finalHomeStrength = homeStrength * homeLuckFactor;
+        double finalAwayStrength = awayStrength * awayLuckFactor;
+        
+        // Calcular probabilidades de gol
+        double homeGoalChance = finalHomeStrength / 400.0;
+        double awayGoalChance = finalAwayStrength / 400.0;
+        
+        int homeGoals = 0;
+        int awayGoals = 0;
+        
+        // Simular 6 chances de gol por time
+        for (int i = 0; i < 6; i++) {
+            if (random.nextDouble() < homeGoalChance) {
+                homeGoals++;
+            }
+            if (random.nextDouble() < awayGoalChance) {
+                awayGoals++;
+            }
+        }
+        
+        // Limitando o número máximo de gols para tornar mais realista
+        homeGoals = Math.min(homeGoals, 5);
+        awayGoals = Math.min(awayGoals, 4);
         
         // Definir resultado da partida
         match.setResult(homeGoals, awayGoals);
@@ -198,26 +249,9 @@ public class TournamentController {
         // Simular os artilheiros dos gols
         simulateGoalScorers(match, homeTeam, homeGoals, true);
         simulateGoalScorers(match, awayTeam, awayGoals, false);
-    }
-
-    /**
-     * Simula os gols de um time com base em sua força.
-     * 
-     * @param strength a força do time
-     * @return o número de gols marcados
-     */
-    private int simulateGoals(int strength) {
-        // Base de gols média (pode ser ajustada)
-        double baseGoals = strength / 20.0;
         
-        // Adicionar aleatoriedade
-        double randomFactor = 0.5 + random.nextDouble();
-        
-        // Calcular gols
-        int goals = (int) Math.round(baseGoals * randomFactor);
-        
-        // Limitar número de gols a um valor máximo razoável
-        return Math.min(goals, 7);
+        // Atualizar a tabela de classificação
+        updateStandings(match);
     }
 
     /**
@@ -294,20 +328,6 @@ public class TournamentController {
     }
 
     /**
-     * Atualiza a tabela de artilheiros com os gols de uma partida.
-     * Este método é chamado automaticamente após a simulação de uma partida.
-     * 
-     * @param match a partida cujos gols serão considerados
-     */
-    private void updateScorers(Match match) {
-        // Os gols já foram registrados durante a simulação da partida,
-        // na chamada de simulateGoalScorers() que adiciona os gols à 
-        // tabela de artilheiros (topScorers) diretamente.
-        // Este método está aqui para manter a consistência da API e
-        // permitir futuras extensões se necessário.
-    }
-
-    /**
      * Obtém a tabela de classificação do torneio.
      * 
      * @return a tabela de classificação
@@ -332,6 +352,15 @@ public class TournamentController {
      */
     public List<Match> getAllSimulatedMatches() {
         return new ArrayList<>(simulatedMatches);
+    }
+
+    /**
+     * Obtém todas as partidas agendadas.
+     * 
+     * @return lista de partidas agendadas
+     */
+    public List<Match> getAllScheduledMatches() {
+        return new ArrayList<>(scheduledMatches);
     }
 
     /**
@@ -362,11 +391,60 @@ public class TournamentController {
     }
 
     /**
+     * Verifica se o torneio está ativo.
+     * 
+     * @return true se o torneio está ativo, false caso contrário
+     */
+    public boolean isActive() {
+        return isActive;
+    }
+
+    /**
      * Obtém o nome do torneio.
      * 
      * @return o nome do torneio
      */
     public String getTournamentName() {
         return tournamentName;
+    }
+
+    /**
+     * Define o nome do torneio.
+     * 
+     * @param tournamentName o nome do torneio
+     */
+    public void setTournamentName(String tournamentName) {
+        this.tournamentName = tournamentName;
+    }
+    
+    /**
+     * Obtém os times participantes do torneio.
+     * 
+     * @return lista de times
+     */
+    public List<Team> getTeams() {
+        return new ArrayList<>(teams);
+    }
+    
+    /**
+     * Calcula estatísticas do torneio.
+     * 
+     * @return mapa com estatísticas
+     */
+    public java.util.Map<String, Object> getTournamentStats() {
+        java.util.Map<String, Object> stats = new java.util.HashMap<>();
+        
+        int totalMatches = simulatedMatches.size();
+        int totalGoals = simulatedMatches.stream()
+                .mapToInt(m -> m.getHomeScore() + m.getAwayScore())
+                .sum();
+        
+        stats.put("totalMatches", totalMatches);
+        stats.put("totalGoals", totalGoals);
+        
+        double averageGoals = totalMatches > 0 ? (double) totalGoals / totalMatches : 0;
+        stats.put("averageGoals", Math.round(averageGoals * 10) / 10.0);
+        
+        return stats;
     }
 } 

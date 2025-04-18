@@ -1,149 +1,141 @@
 package br.ufpb.poo.brasileirao.tournament;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Tracks the top goal scorers in the tournament
+ * Classe que representa a tabela de artilheiros de um campeonato.
  */
 public class TopScorersTable {
+    private Map<String, PlayerStats> playerStatsMap;
 
-    private Map<String, ScorerStats> scorersMap;
-    
     /**
-     * Creates a new top scorers table
+     * Cria uma nova tabela de artilheiros vazia.
      */
     public TopScorersTable() {
-        this.scorersMap = new HashMap<>();
+        this.playerStatsMap = new HashMap<>();
     }
-    
+
     /**
-     * Records a goal for a player
-     * @param playerName Name of the player who scored
-     * @param teamName Name of the player's team
+     * Adiciona um gol para um jogador. Se o jogador ainda não estiver na tabela,
+     * ele será adicionado automaticamente.
+     * 
+     * @param playerName o nome do jogador
+     * @param teamName o nome do time do jogador
      */
-    public void recordGoal(String playerName, String teamName) {
-        if (playerName == null || teamName == null) {
-            throw new IllegalArgumentException("Player name and team name cannot be null");
-        }
-        
-        String key = playerName + " (" + teamName + ")";
-        ScorerStats stats = scorersMap.getOrDefault(key, new ScorerStats(playerName, teamName));
+    public void addGoal(String playerName, String teamName) {
+        PlayerStats stats = playerStatsMap.getOrDefault(playerName, new PlayerStats(playerName, teamName));
         stats.addGoal();
-        scorersMap.put(key, stats);
+        playerStatsMap.put(playerName, stats);
     }
-    
+
     /**
-     * Gets the top goal scorers sorted by goals (descending)
-     * @param limit Maximum number of scorers to return (0 for all)
-     * @return List of top scorers
+     * Obtém a lista de artilheiros ordenada pelo número de gols.
+     * 
+     * @return a lista ordenada de estatísticas dos jogadores
      */
-    public List<ScorerStats> getTopScorers(int limit) {
-        List<ScorerStats> sortedScorers = scorersMap.values().stream()
-            .sorted(Comparator.comparingInt(ScorerStats::getGoals).reversed())
-            .collect(Collectors.toList());
+    public List<PlayerStats> getTopScorers() {
+        List<PlayerStats> topScorers = new ArrayList<>(playerStatsMap.values());
         
-        if (limit > 0 && limit < sortedScorers.size()) {
-            return sortedScorers.subList(0, limit);
+        Collections.sort(topScorers, Comparator
+                .comparingInt(PlayerStats::getGoals).reversed()
+                .thenComparing(PlayerStats::getPlayerName));
+        
+        return topScorers;
+    }
+
+    /**
+     * Obtém a lista de artilheiros ordenada pelo número de gols, limitada a um número máximo de jogadores.
+     * 
+     * @param limit o número máximo de jogadores a retornar
+     * @return a lista ordenada e limitada de estatísticas dos jogadores
+     */
+    public List<PlayerStats> getTopScorers(int limit) {
+        List<PlayerStats> topScorers = getTopScorers();
+        
+        if (topScorers.size() <= limit) {
+            return topScorers;
         }
         
-        return sortedScorers;
+        return topScorers.subList(0, limit);
     }
-    
+
     /**
-     * Gets all scorers
-     * @return List of all scorer stats
+     * Obtém o número total de jogadores na tabela.
+     * 
+     * @return o número de jogadores
      */
-    public List<ScorerStats> getAllScorers() {
-        return getTopScorers(0);
+    public int getNumberOfPlayers() {
+        return playerStatsMap.size();
     }
-    
+
     /**
-     * Gets total number of goals scored in the tournament
-     * @return Total goals
+     * Classe interna que representa as estatísticas de um jogador na tabela de artilheiros.
      */
-    public int getTotalGoals() {
-        return scorersMap.values().stream()
-            .mapToInt(ScorerStats::getGoals)
-            .sum();
-    }
-    
-    /**
-     * Gets total number of players who scored at least one goal
-     * @return Number of scorers
-     */
-    public int getTotalScorers() {
-        return scorersMap.size();
-    }
-    
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("Top Scorers:\n");
-        sb.append(String.format("%-25s %-20s %s\n", "Player", "Team", "Goals"));
-        sb.append("-".repeat(50)).append("\n");
-        
-        int rank = 1;
-        for (ScorerStats scorer : getTopScorers(10)) {
-            sb.append(String.format("%2d. %-22s %-20s %d\n", 
-                    rank++, scorer.getPlayerName(), scorer.getTeamName(), scorer.getGoals()));
-        }
-        
-        return sb.toString();
-    }
-    
-    /**
-     * Class to track a player's scoring statistics
-     */
-    public static class ScorerStats {
+    public static class PlayerStats {
         private String playerName;
         private String teamName;
         private int goals;
-        
+
         /**
-         * Creates new scorer stats
-         * @param playerName Player name
-         * @param teamName Team name
+         * Cria um objeto de estatísticas para um jogador.
+         * 
+         * @param playerName o nome do jogador
+         * @param teamName o nome do time
          */
-        public ScorerStats(String playerName, String teamName) {
+        public PlayerStats(String playerName, String teamName) {
             this.playerName = playerName;
             this.teamName = teamName;
             this.goals = 0;
         }
-        
+
         /**
-         * Adds a goal to this player's tally
+         * Adiciona um gol às estatísticas do jogador.
          */
         public void addGoal() {
-            goals++;
+            this.goals++;
         }
-        
+
         /**
-         * Gets player name
-         * @return Player name
+         * Obtém o nome do jogador.
+         * 
+         * @return o nome do jogador
          */
         public String getPlayerName() {
             return playerName;
         }
-        
+
         /**
-         * Gets team name
-         * @return Team name
+         * Obtém o nome do time do jogador.
+         * 
+         * @return o nome do time
          */
         public String getTeamName() {
             return teamName;
         }
-        
+
         /**
-         * Gets total goals scored
-         * @return Goals scored
+         * Obtém o número de gols do jogador.
+         * 
+         * @return o número de gols
          */
         public int getGoals() {
             return goals;
         }
-        
+
+        /**
+         * Retorna uma representação em string das estatísticas do jogador.
+         * 
+         * @return a string que representa as estatísticas
+         */
         @Override
         public String toString() {
-            return String.format("%s (%s): %d goals", playerName, teamName, goals);
+            return String.format("%s (%s) - %d gol%s", 
+                    playerName, teamName, goals, (goals == 1 ? "" : "s"));
         }
     }
-}
+} 

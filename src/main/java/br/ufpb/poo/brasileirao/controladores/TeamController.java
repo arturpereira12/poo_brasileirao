@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -65,6 +66,19 @@ public class TeamController {
         return modelAndView;
     }
 
+    @GetMapping("/att/{name}")
+    public ModelAndView leiaTeamAtt(@PathVariable String name, ModelAndView modelAndView) {
+        List<Team> teams = leiaDoArquivo();
+        Team team = teams.stream()
+                .filter(t -> t.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Time não encontrado"));
+        
+        modelAndView.setViewName("team_att");
+        modelAndView.addObject("team", team);
+        return modelAndView;
+    }
+
     public List<Team> leiaDoArquivo() {
         List<Team> teams = null;
         try {
@@ -82,11 +96,4 @@ public class TeamController {
         return teams;
     }
 
-}
-@Controller
-class HomeRedirectController {
-    @GetMapping("/")
-    public String redirectToTeamsAtt() {
-        return "redirect:/teams/att";
-    }
 }

@@ -1,131 +1,305 @@
 package br.ufpb.poo.brasileirao.match;
 
 import br.ufpb.poo.brasileirao.model.Team;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Class responsible for storing the results of a football match
+ * Classe que representa uma partida de futebol.
+ * Versão unificada com suporte a ambos os usos no projeto.
  */
 public class Match {
     private Team homeTeam;
     private Team awayTeam;
-    private int homeTeamGoals;
-    private int awayTeamGoals;
-    private Date matchDate;
-    private List<String> goalScorers;
-    
+    private int homeScore;
+    private int awayScore;
+    private LocalDate date;
+    private LocalDateTime dateTime;
+    private int round;
+    private boolean played;
+    private Map<String, List<String>> goalScorers; // time -> lista de jogadores que marcaram gols
+
     /**
-     * Match class constructor
-     * @param homeTeam Team playing at home
-     * @param awayTeam Visiting team
+     * Cria uma nova partida usando LocalDate.
+     * 
+     * @param homeTeam o time da casa
+     * @param awayTeam o time visitante
+     * @param date a data da partida
+     * @param round a rodada à qual a partida pertence
      */
-    public Match(Team homeTeam, Team awayTeam) {
+    public Match(Team homeTeam, Team awayTeam, LocalDate date, int round) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
-        this.homeTeamGoals = 0;
-        this.awayTeamGoals = 0;
-        this.matchDate = new Date(); // Current date
-        this.goalScorers = new ArrayList<>();
+        this.date = date;
+        this.dateTime = date != null ? date.atStartOfDay() : null;
+        this.round = round;
+        this.homeScore = 0;
+        this.awayScore = 0;
+        this.played = false;
+        this.goalScorers = new HashMap<>();
+        this.goalScorers.put(homeTeam.getName(), new ArrayList<>());
+        this.goalScorers.put(awayTeam.getName(), new ArrayList<>());
     }
-    
+
     /**
-     * Adds a goal for the home team and registers the player who scored
-     * @param playerName Name of the player who scored the goal
+     * Cria uma nova partida usando LocalDateTime (para compatibilidade com o código existente).
+     * 
+     * @param homeTeam o time da casa
+     * @param awayTeam o time visitante
+     * @param dateTime a data e hora da partida
      */
-    public void addHomeTeamGoal(String playerName) {
-        this.homeTeamGoals++;
-        this.goalScorers.add(playerName + " (" + homeTeam.getName() + ")");
+    public Match(Team homeTeam, Team awayTeam, LocalDateTime dateTime) {
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.dateTime = dateTime;
+        this.date = dateTime != null ? dateTime.toLocalDate() : null;
+        this.round = 0; // Rodada não especificada
+        this.homeScore = 0;
+        this.awayScore = 0;
+        this.played = false;
+        this.goalScorers = new HashMap<>();
+        this.goalScorers.put(homeTeam.getName(), new ArrayList<>());
+        this.goalScorers.put(awayTeam.getName(), new ArrayList<>());
     }
-    
+
     /**
-     * Adds a goal for the away team and registers the player who scored
-     * @param playerName Name of the player who scored the goal
+     * Define o resultado da partida.
+     * 
+     * @param homeScore gols do time da casa
+     * @param awayScore gols do time visitante
      */
-    public void addAwayTeamGoal(String playerName) {
-        this.awayTeamGoals++;
-        this.goalScorers.add(playerName + " (" + awayTeam.getName() + ")");
+    public void setResult(int homeScore, int awayScore) {
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
+        this.played = true;
     }
-    
+
     /**
-     * Returns a string with the match score
-     * @return Formatted string with the score
+     * Adiciona um gol para um jogador de um time.
+     * 
+     * @param teamName o nome do time
+     * @param playerName o nome do jogador
      */
-    public String getScore() {
-        return homeTeam.getName() + " " + homeTeamGoals + " x " + 
-               awayTeamGoals + " " + awayTeam.getName();
+    public void addGoal(String teamName, String playerName) {
+        if (goalScorers.containsKey(teamName)) {
+            goalScorers.get(teamName).add(playerName);
+        }
     }
-    
+
     /**
-     * @return List with the names of players who scored goals
-     */
-    public List<String> getGoalScorers() {
-        return goalScorers;
-    }
-    
-    /**
-     * @return Home team
+     * Obtém o time da casa.
+     * 
+     * @return o time da casa
      */
     public Team getHomeTeam() {
         return homeTeam;
     }
-    
+
     /**
-     * @return Away team
+     * Define o time da casa.
+     * 
+     * @param homeTeam o time da casa
+     */
+    public void setHomeTeam(Team homeTeam) {
+        this.homeTeam = homeTeam;
+    }
+
+    /**
+     * Obtém o time visitante.
+     * 
+     * @return o time visitante
      */
     public Team getAwayTeam() {
         return awayTeam;
     }
-    
+
     /**
-     * @return Number of goals scored by home team
+     * Define o time visitante.
+     * 
+     * @param awayTeam o time visitante
      */
-    public int getHomeTeamGoals() {
-        return homeTeamGoals;
+    public void setAwayTeam(Team awayTeam) {
+        this.awayTeam = awayTeam;
     }
-    
+
     /**
-     * @return Number of goals scored by away team
+     * Obtém os gols do time da casa.
+     * 
+     * @return os gols do time da casa
      */
-    public int getAwayTeamGoals() {
-        return awayTeamGoals;
+    public int getHomeScore() {
+        return homeScore;
     }
-    
+
     /**
-     * @return Date when the match was played
+     * Define os gols do time da casa.
+     * 
+     * @param homeScore os gols do time da casa
      */
-    public Date getMatchDate() {
-        return matchDate;
+    public void setHomeScore(int homeScore) {
+        this.homeScore = homeScore;
     }
-    
+
     /**
-     * Sets the match date
-     * @param matchDate New match date
+     * Obtém os gols do time visitante.
+     * 
+     * @return os gols do time visitante
      */
-    public void setMatchDate(Date matchDate) {
-        this.matchDate = matchDate;
+    public int getAwayScore() {
+        return awayScore;
     }
-    
+
     /**
-     * Checks if the match ended in a draw
-     * @return true if it was a draw, false otherwise
+     * Define os gols do time visitante.
+     * 
+     * @param awayScore os gols do time visitante
      */
-    public boolean isDraw() {
-        return homeTeamGoals == awayTeamGoals;
+    public void setAwayScore(int awayScore) {
+        this.awayScore = awayScore;
     }
-    
+
     /**
-     * Returns the winning team
-     * @return Winner team or null in case of a draw
+     * Obtém a data da partida.
+     * 
+     * @return a data da partida
      */
-    public Team getWinner() {
-        if (homeTeamGoals > awayTeamGoals) {
-            return homeTeam;
-        } else if (awayTeamGoals > homeTeamGoals) {
-            return awayTeam;
-        } else {
-            return null; // Draw
+    public LocalDate getDate() {
+        return date;
+    }
+
+    /**
+     * Define a data da partida.
+     * 
+     * @param date a data da partida
+     */
+    public void setDate(LocalDate date) {
+        this.date = date;
+        this.dateTime = date != null ? date.atStartOfDay() : null;
+    }
+
+    /**
+     * Obtém a data e hora da partida.
+     * 
+     * @return a data e hora da partida
+     */
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    /**
+     * Define a data e hora da partida.
+     * 
+     * @param dateTime a data e hora da partida
+     */
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+        this.date = dateTime != null ? dateTime.toLocalDate() : null;
+    }
+
+    /**
+     * Para compatibilidade com o código existente que usa LocalDateTime.
+     */
+    public LocalDateTime getDate(boolean asDateTime) {
+        return this.dateTime;
+    }
+
+    /**
+     * Para compatibilidade com o código existente que usa LocalDateTime.
+     */
+    public void setDate(LocalDateTime dateTime) {
+        setDateTime(dateTime);
+    }
+
+    /**
+     * Obtém a data da partida formatada como string (dd/MM/yyyy).
+     * 
+     * @return a data formatada como string
+     */
+    public String getFormattedDate() {
+        return date != null ? date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
+    }
+
+    /**
+     * Obtém a rodada à qual a partida pertence.
+     * 
+     * @return a rodada
+     */
+    public int getRound() {
+        return round;
+    }
+
+    /**
+     * Define a rodada à qual a partida pertence.
+     * 
+     * @param round a rodada
+     */
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    /**
+     * Verifica se a partida já foi jogada.
+     * 
+     * @return true se a partida já foi jogada, false caso contrário
+     */
+    public boolean isPlayed() {
+        return played;
+    }
+
+    /**
+     * Define se a partida já foi jogada.
+     * 
+     * @param played true se a partida já foi jogada, false caso contrário
+     */
+    public void setPlayed(boolean played) {
+        this.played = played;
+    }
+
+    /**
+     * Obtém os artilheiros de um time nesta partida.
+     * 
+     * @param teamName o nome do time
+     * @return lista de jogadores que marcaram gols
+     */
+    public List<String> getGoalScorers(String teamName) {
+        return goalScorers.getOrDefault(teamName, new ArrayList<>());
+    }
+
+    /**
+     * Obtém o nome do time da casa.
+     * 
+     * @return o nome do time da casa
+     */
+    public String getHomeTeamName() {
+        return homeTeam.getName();
+    }
+
+    /**
+     * Obtém o nome do time visitante.
+     * 
+     * @return o nome do time visitante
+     */
+    public String getAwayTeamName() {
+        return awayTeam.getName();
+    }
+
+    /**
+     * Retorna uma representação em string da partida.
+     * 
+     * @return a string que representa a partida
+     */
+    @Override
+    public String toString() {
+        String result = homeTeam.getName() + " vs " + awayTeam.getName() + " - " + getFormattedDate();
+        if (played) {
+            result += " - " + homeScore + "x" + awayScore;
         }
+        return result;
     }
-}
+} 

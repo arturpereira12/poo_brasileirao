@@ -4,183 +4,362 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brasileirão - Times</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', Arial, sans-serif;
-            background: #f4f6fa;
-            margin: 0;
-            padding: 40px 0;
+        :root {
+            --primary-color: #FFE100;
+            --primary-light: #FFF047;
+            --primary-dark: #E6CB00;
+            --background-color: #111111;
+            --card-bg: #1A1A1A;
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --text-primary: #FFFFFF;
+            --text-secondary: #999999;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+            --glow: 0 0 20px rgba(255, 225, 0, 0.2);
         }
-        h1 {
-            color: #1e293b;
+
+        body {
+            background-color: #111111;
+            font-family: 'Inter', sans-serif;
+            color: #FFFFFF;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            color: var(--primary-color) !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-link {
+            color: #CCCCCC;
+            transition: var(--transition);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color);
+            background-color: rgba(255, 225, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            padding: 2rem 1.5rem;
+        }
+
+        .page-title {
+            color: var(--text-primary);
             text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 36px;
+            font-size: 2rem;
+            margin-bottom: 2rem;
             font-weight: 700;
             letter-spacing: 0.5px;
         }
-        .team-list {
-            max-width: 1200px;
-            margin: auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 32px;
-            justify-content: center;
-        }
+
         .team-card {
-            background: #fff;
-            border-radius: 18px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
-            padding: 28px 24px;
-            transition: box-shadow 0.2s, transform 0.2s;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
         }
+
         .team-card:hover {
-            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-            transform: translateY(-4px) scale(1.02);
+            transform: translateY(-5px);
+            box-shadow: var(--glow);
+            border-color: var(--primary-color);
         }
+
         .team-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #e5e7eb;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
+            padding: 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
+
         .team-name {
             font-size: 1.4rem;
             font-weight: 700;
-            color: #2563eb;
+            color: var(--text-primary);
             letter-spacing: 0.5px;
         }
+
         .team-strength {
-            background: #e0e7ff;
-            color: #3730a3;
-            border-radius: 8px;
-            padding: 4px 12px;
+            background-color: var(--primary-color);
+            color: #111111;
+            border-radius: 6px;
+            padding: 0.3rem 0.8rem;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
+
+        .team-body {
+            padding: 1.25rem;
+        }
+
         .strength-meters {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            gap: 8px;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
         }
+
         .strength-meter {
             flex: 1;
             text-align: center;
-            background: #f1f5f9;
+            background-color: rgba(0, 0, 0, 0.2);
             border-radius: 8px;
-            padding: 8px 0 6px 0;
+            padding: 0.8rem 0.5rem;
+            position: relative;
+            overflow: hidden;
         }
+
+        .strength-meter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            opacity: 0.5;
+        }
+
         .strength-label {
-            font-size: 0.85rem;
-            color: #64748b;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
             font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
         }
+
         .strength-value {
-            font-size: 1.1rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: #0f172a;
+            color: var(--primary-color);
+            text-shadow: 0 0 20px rgba(255, 225, 0, 0.3);
         }
+
         .players-title {
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            color: #334155;
-            margin-bottom: 6px;
-            border-bottom: 1px solid #e5e7eb;
-            padding-bottom: 2px;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
         }
+
+        .players-title i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+
         .players-list {
             list-style: none;
             padding: 0;
             margin: 0;
             display: flex;
             flex-direction: column;
-            gap: 7px;
+            gap: 0.5rem;
         }
+
         .player-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.98rem;
-            background: #f8fafc;
-            border-radius: 6px;
-            padding: 6px 10px;
-            margin-bottom: 2px;
-            border: 1px solid #f1f5f9;
+            font-size: 0.95rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            padding: 0.6rem 1rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
+
+        .player-item:hover {
+            background-color: rgba(255, 225, 0, 0.05);
+            border-color: rgba(255, 225, 0, 0.2);
+        }
+
         .player-item.best-player {
-            background: #e0e7ff;
-            border: 1.5px solid #2563eb;
+            background-color: rgba(255, 225, 0, 0.1);
+            border-color: rgba(255, 225, 0, 0.3);
+            position: relative;
         }
+
+        .player-item.best-player::after {
+            content: none;
+        }
+
+        .best-player-star {
+            color: var(--primary-color);
+            margin-left: 0.3rem;
+            font-size: 1rem;
+        }
+
+        .player-name {
+            display: flex;
+            align-items: center;
+        }
+
         .player-info {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.5rem;
         }
+
         .player-position {
-            color: #64748b;
-            font-size: 0.92em;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
             font-weight: 500;
-            margin-left: 8px;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
         }
+
         .player-strength {
             font-weight: 700;
-            color: #2563eb;
+            color: var(--primary-color);
             font-size: 1rem;
-            margin-left: 10px;
         }
-        @media (max-width: 700px) {
-            .team-list {
-                grid-template-columns: 1fr;
-                gap: 18px;
+
+        /* Efeito de gradiente no fundo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(255, 225, 0, 0.1), transparent 60%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
             }
-            .team-card {
-                width: 95vw;
-                padding: 18px 6vw;
+            
+            .team-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+                padding: 1rem;
+            }
+            
+            .team-strength {
+                align-self: flex-start;
+            }
+
+            .strength-meters {
+                flex-direction: column;
+                gap: 0.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <h1>Campeonato Brasileiro - Times</h1>
-    <div class="team-list">
-        <div class="team-card" th:each="team : ${teams}">
-            <div class="team-header">
-                <span class="team-name" th:text="${team.name}">Nome do Time</span>
-                <span class="team-strength" th:text="'Força: ' + ${team.strength}">Força: 85</span>
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-trophy-fill me-2"></i>Brasileirão
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="bi bi-table me-1"></i>Classificação</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="bi bi-calendar-event me-1"></i>Jogos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="bi bi-graph-up me-1"></i>Estatísticas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/teams/att"><i class="bi bi-people me-1"></i>Times</a>
+                    </li>
+                </ul>
             </div>
-            <div class="strength-meters">
-                <div class="strength-meter">
-                    <div class="strength-label">ATAQUE</div>
-                    <div class="strength-value" th:text="${team.attackStrength}">80</div>
-                </div>
-                <div class="strength-meter">
-                    <div class="strength-label">MEIO</div>
-                    <div class="strength-value" th:text="${team.midfieldStrength}">85</div>
-                </div>
-                <div class="strength-meter">
-                    <div class="strength-label">DEFESA</div>
-                    <div class="strength-value" th:text="${team.defenseStrength}">90</div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">Times do Campeonato</h1>
+        
+        <div class="row">
+            <div class="col-lg-6 mb-4" th:each="team : ${teams}">
+                <div class="team-card">
+                    <div class="team-header">
+                        <span class="team-name" th:text="${team.name}">Nome do Time</span>
+                        <span class="team-strength" th:text="'Força: ' + ${team.strength}">Força: 85</span>
+                    </div>
+                    <div class="team-body">
+                        <div class="strength-meters">
+                            <div class="strength-meter">
+                                <div class="strength-label">ATAQUE</div>
+                                <div class="strength-value" th:text="${team.attackStrength}">80</div>
+                            </div>
+                            <div class="strength-meter">
+                                <div class="strength-label">MEIO</div>
+                                <div class="strength-value" th:text="${team.midfieldStrength}">85</div>
+                            </div>
+                            <div class="strength-meter">
+                                <div class="strength-label">DEFESA</div>
+                                <div class="strength-value" th:text="${team.defenseStrength}">90</div>
+                            </div>
+                        </div>
+                        <div class="players-title">
+                            <i class="bi bi-people-fill"></i>Jogadores
+                        </div>
+                        <ul class="players-list">
+                            <li class="player-item" th:each="player,iterStat : ${team.players}"
+                                th:classappend="${player.strength} == ${team.maxPlayerStrength} ? 'best-player'">
+                                <span class="player-info">
+                                    <span class="player-name">
+                                        <span th:text="${player.name}">Nome do Jogador</span>
+                                        <span class="best-player-star" th:if="${player.strength} == ${team.maxPlayerStrength}">★</span>
+                                    </span>
+                                    <span class="player-position" th:text="${player.position}">Posição</span>
+                                </span>
+                                <span class="player-strength" th:text="${player.strength}">85</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="players-title">Jogadores</div>
-            <ul class="players-list">
-                <li class="player-item" th:each="player,iterStat : ${team.players}"
-                    th:classappend="${player.strength} == ${team.maxPlayerStrength} ? 'best-player'">
-                    <span class="player-info">
-                        <span th:text="${player.name}">Nome do Jogador</span>
-                        <span class="player-position" th:text="${player.position}">Posição</span>
-                    </span>
-                    <span class="player-strength" th:text="${player.strength}">85</span>
-                </li>
-            </ul>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

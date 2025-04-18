@@ -1,140 +1,264 @@
 package br.ufpb.poo.brasileirao.tournament;
 
-import br.ufpb.poo.brasileirao.match.Match;
-import br.ufpb.poo.brasileirao.model.Team;
-
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+/**
+ * Classe que representa a tabela de classificação de um campeonato.
+ */
 public class LeagueStandings {
-    public static final int TOTAL_ROUNDS = 38; 
-    public static final int MAX_TEAMS = 20;
-    
-    private String tournamentName;
-    private List<TeamStanding> standings;
-    private Map<String, TeamStanding> teamClassificationMap;
-    private List<Match> matches;
-    private int currentRound;
-    
-    public LeagueStandings(String tournamentName) {
-        this.tournamentName = tournamentName;
-        this.standings = new ArrayList<>();
-        this.teamClassificationMap = new HashMap<>();
-        this.matches = new ArrayList<>();
-        this.currentRound = 0;
+    private Map<String, TeamStats> teamStatsMap;
+
+    /**
+     * Cria uma nova tabela de classificação vazia.
+     */
+    public LeagueStandings() {
+        this.teamStatsMap = new HashMap<>();
     }
 
-    public void addTeam(Team team) {
-        if (team == null) {
-            throw new IllegalArgumentException("Team cannot be null");
+    /**
+     * Adiciona um time à tabela de classificação.
+     * 
+     * @param teamName o nome do time
+     */
+    public void addTeam(String teamName) {
+        if (!teamStatsMap.containsKey(teamName)) {
+            teamStatsMap.put(teamName, new TeamStats(teamName));
         }
-        
-        if (standings.size() >= MAX_TEAMS) {
-            throw new IllegalStateException("Cannot add more than " + MAX_TEAMS + " teams to the tournament");
-        }
-        
-        String teamName = team.getName();
-        if (!teamClassificationMap.containsKey(teamName)) {
-            TeamStanding classification = new TeamStanding(teamName);
-            standings.add(classification);
-            teamClassificationMap.put(teamName, classification);
-        }
-    }
-    
-    public void recordMatchResult(Match match) {
-        if (match == null) {
-            throw new IllegalArgumentException("Match cannot be null");
-        }
-        
-        Team homeTeam = match.getHomeTeam();
-        Team awayTeam = match.getAwayTeam();
-        
-        // Ensure both teams are in the table
-        if (!teamClassificationMap.containsKey(homeTeam.getName())) {
-            addTeam(homeTeam);
-        }
-        if (!teamClassificationMap.containsKey(awayTeam.getName())) {
-            addTeam(awayTeam);
-        }
-        
-        // Update classification for both teams
-        TeamStanding homeClassification = teamClassificationMap.get(homeTeam.getName());
-        TeamStanding awayClassification = teamClassificationMap.get(awayTeam.getName());
-        
-        homeClassification.updateClassification(match.getHomeTeamGoals(), match.getAwayTeamGoals());
-        awayClassification.updateClassification(match.getAwayTeamGoals(), match.getHomeTeamGoals());
-        
-        matches.add(match);
-        
-        // Sort the standings after each match update
-        sortStandings();
-    }
-    
-    private void sortStandings() {
-        Collections.sort(standings);
-    }
-    
-    //Getters
-    public int getTeamPosition(String teamName) {
-        if (!teamClassificationMap.containsKey(teamName)) {
-            return -1;
-        }
-        
-        TeamStanding classification = teamClassificationMap.get(teamName);
-        return standings.indexOf(classification) + 1; 
-    }
-    
-    public List<TeamStanding> getStandings() {
-        return new ArrayList<>(standings);
-    }
-    
-    public TeamStanding getTeamClassification(String teamName) {
-        return teamClassificationMap.get(teamName);
     }
 
+    /**
+     * Adiciona uma vitória para um time.
+     * 
+     * @param teamName o nome do time
+     * @param goalsFor gols marcados
+     * @param goalsAgainst gols sofridos
+     */
+    public void addWin(String teamName, int goalsFor, int goalsAgainst) {
+        TeamStats stats = teamStatsMap.get(teamName);
+        if (stats != null) {
+            stats.addWin(goalsFor, goalsAgainst);
+        }
+    }
+
+    /**
+     * Adiciona um empate para um time.
+     * 
+     * @param teamName o nome do time
+     * @param goalsFor gols marcados
+     * @param goalsAgainst gols sofridos
+     */
+    public void addDraw(String teamName, int goalsFor, int goalsAgainst) {
+        TeamStats stats = teamStatsMap.get(teamName);
+        if (stats != null) {
+            stats.addDraw(goalsFor, goalsAgainst);
+        }
+    }
+
+    /**
+     * Adiciona uma derrota para um time.
+     * 
+     * @param teamName o nome do time
+     * @param goalsFor gols marcados
+     * @param goalsAgainst gols sofridos
+     */
+    public void addLoss(String teamName, int goalsFor, int goalsAgainst) {
+        TeamStats stats = teamStatsMap.get(teamName);
+        if (stats != null) {
+            stats.addLoss(goalsFor, goalsAgainst);
+        }
+    }
+
+    /**
+     * Obtém a tabela de classificação ordenada por pontos, saldo de gols e gols marcados.
+     * 
+     * @return a lista ordenada de estatísticas dos times
+     */
+    public List<TeamStats> getStandings() {
+        List<TeamStats> standings = new ArrayList<>(teamStatsMap.values());
+        
+        Collections.sort(standings, Comparator
+                .comparingInt(TeamStats::getPoints).reversed()
+                .thenComparingInt(TeamStats::getGoalDifference).reversed()
+                .thenComparingInt(TeamStats::getGoalsFor).reversed()
+                .thenComparing(TeamStats::getTeamName));
+        
+        return standings;
+    }
+
+    /**
+     * Obtém o número de times na tabela.
+     * 
+     * @return o número de times
+     */
     public int getNumberOfTeams() {
-        return standings.size();
+        return teamStatsMap.size();
     }
-    
-    public String getTournamentName() {
-        return tournamentName;
-    }
-    
-    public void setCurrentRound(int round) {
-        if (round < 0) {
-            throw new IllegalArgumentException("Round cannot be negative");
+
+    /**
+     * Classe interna que representa as estatísticas de um time na tabela.
+     */
+    public static class TeamStats {
+        private String teamName;
+        private int played;
+        private int wins;
+        private int draws;
+        private int losses;
+        private int goalsFor;
+        private int goalsAgainst;
+        private int points;
+
+        /**
+         * Cria um objeto de estatísticas para um time.
+         * 
+         * @param teamName o nome do time
+         */
+        public TeamStats(String teamName) {
+            this.teamName = teamName;
+            this.played = 0;
+            this.wins = 0;
+            this.draws = 0;
+            this.losses = 0;
+            this.goalsFor = 0;
+            this.goalsAgainst = 0;
+            this.points = 0;
         }
-        this.currentRound = round;
-    }
-    
-    public int getCurrentRound() {
-        return currentRound;
-    }
-    
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(tournamentName).append(" - Round ").append(currentRound).append("\n");
-        sb.append(String.format("%-4s %-20s %-5s %-5s %-5s %-5s %-5s %-5s %-5s\n", 
-                "Pos", "Team", "P", "W", "D", "L", "GF", "GA", "GD"));
-        
-        int position = 1;
-        for (TeamStanding c : standings) {
-            sb.append(String.format("%-4d %-20s %-5d %-5d %-5d %-5d %-5d %-5d %-5d\n", 
-                    position++, 
-                    c.getTeamName(), 
-                    c.getPoints(), 
-                    c.getWins(), 
-                    c.getDraws(), 
-                    c.getLosses(),
-                    c.getGoalsFor(),
-                    c.getGoalsAgainst(),
-                    c.getGoalDifference()));
+
+        /**
+         * Adiciona uma vitória às estatísticas.
+         * 
+         * @param goalsFor gols marcados
+         * @param goalsAgainst gols sofridos
+         */
+        public void addWin(int goalsFor, int goalsAgainst) {
+            this.played++;
+            this.wins++;
+            this.goalsFor += goalsFor;
+            this.goalsAgainst += goalsAgainst;
+            this.points += 3;
         }
-        
-        return sb.toString();
+
+        /**
+         * Adiciona um empate às estatísticas.
+         * 
+         * @param goalsFor gols marcados
+         * @param goalsAgainst gols sofridos
+         */
+        public void addDraw(int goalsFor, int goalsAgainst) {
+            this.played++;
+            this.draws++;
+            this.goalsFor += goalsFor;
+            this.goalsAgainst += goalsAgainst;
+            this.points += 1;
+        }
+
+        /**
+         * Adiciona uma derrota às estatísticas.
+         * 
+         * @param goalsFor gols marcados
+         * @param goalsAgainst gols sofridos
+         */
+        public void addLoss(int goalsFor, int goalsAgainst) {
+            this.played++;
+            this.losses++;
+            this.goalsFor += goalsFor;
+            this.goalsAgainst += goalsAgainst;
+        }
+
+        /**
+         * Obtém o nome do time.
+         * 
+         * @return o nome do time
+         */
+        public String getTeamName() {
+            return teamName;
+        }
+
+        /**
+         * Obtém o número de jogos disputados.
+         * 
+         * @return o número de jogos
+         */
+        public int getPlayed() {
+            return played;
+        }
+
+        /**
+         * Obtém o número de vitórias.
+         * 
+         * @return o número de vitórias
+         */
+        public int getWins() {
+            return wins;
+        }
+
+        /**
+         * Obtém o número de empates.
+         * 
+         * @return o número de empates
+         */
+        public int getDraws() {
+            return draws;
+        }
+
+        /**
+         * Obtém o número de derrotas.
+         * 
+         * @return o número de derrotas
+         */
+        public int getLosses() {
+            return losses;
+        }
+
+        /**
+         * Obtém o número de gols marcados.
+         * 
+         * @return o número de gols marcados
+         */
+        public int getGoalsFor() {
+            return goalsFor;
+        }
+
+        /**
+         * Obtém o número de gols sofridos.
+         * 
+         * @return o número de gols sofridos
+         */
+        public int getGoalsAgainst() {
+            return goalsAgainst;
+        }
+
+        /**
+         * Calcula e retorna o saldo de gols.
+         * 
+         * @return o saldo de gols
+         */
+        public int getGoalDifference() {
+            return goalsFor - goalsAgainst;
+        }
+
+        /**
+         * Obtém o número de pontos.
+         * 
+         * @return o número de pontos
+         */
+        public int getPoints() {
+            return points;
+        }
+
+        /**
+         * Retorna uma representação em string das estatísticas do time.
+         * 
+         * @return a string que representa as estatísticas
+         */
+        @Override
+        public String toString() {
+            return String.format("%s - %dP | %dJ | %dV | %dE | %dD | %d:%d | SG: %d",
+                    teamName, points, played, wins, draws, losses, goalsFor, goalsAgainst, getGoalDifference());
+        }
     }
-}
+} 

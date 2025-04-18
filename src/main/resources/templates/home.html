@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brasileirão</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FFE100;
+            --primary-light: #FFF047;
+            --primary-dark: #E6CB00;
+            --background-color: #111111;
+            --card-bg: #1A1A1A;
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --text-primary: #FFFFFF;
+            --text-secondary: #999999;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+            --glow: 0 0 20px rgba(255, 225, 0, 0.2);
+        }
+
+        body {
+            background-color: var(--background-color);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .navbar {
+            background-color: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            color: var(--primary-color) !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+        }
+
+        .home-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            width: 100%;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            overflow: hidden;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--glow);
+            border-color: var(--primary-color);
+        }
+
+        .card-body {
+            padding: 3rem !important;
+        }
+
+        .title-container {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .main-title {
+            color: var(--primary-color);
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 30px rgba(255, 225, 0, 0.3);
+        }
+
+        .subtitle {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        .card-text {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--background-color);
+            border: none;
+            padding: 0.8rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(255, 225, 0, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .loading {
+            display: none;
+            margin-top: 1.5rem;
+        }
+
+        .spinner-border {
+            color: var(--primary-color) !important;
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .result-message {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+        }
+
+        .success {
+            background-color: rgba(40, 167, 69, 0.2);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            color: #98ff98;
+        }
+
+        .error {
+            background-color: rgba(220, 53, 69, 0.2);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+            color: #f8a8b0;
+        }
+
+        /* Remover efeito de gradiente no fundo */
+        body::before {
+            content: none;
+        }
+
+        /* Brilho no botão */
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover::after {
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 2rem 1rem;
+            }
+            
+            .card-body {
+                padding: 2rem !important;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-trophy-fill me-2"></i>Brasileirão
+            </a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="home-container">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="title-container">
+                        <h1 class="main-title">Brasileirão</h1>
+                        <div class="subtitle">ADR</div>
+                    </div>
+                    
+                    <p class="card-text">Bem-vindo ao simulador do Campeonato Brasileiro! Clique no botão abaixo para iniciar uma nova simulação.</p>
+                    
+                    <button id="btnIniciar" class="btn btn-primary">
+                        <i class="bi bi-play-fill me-2"></i>Iniciar Campeonato
+                    </button>
+
+                    <div id="loading" class="loading">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                        <p class="mt-2 text-light">Simulando campeonato...</p>
+                    </div>
+
+                    <div id="resultMessage" class="result-message"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('btnIniciar').addEventListener('click', function() {
+            const button = this;
+            const loading = document.getElementById('loading');
+            const resultMessage = document.getElementById('resultMessage');
+            
+            // Desabilitar botão e mostrar loading
+            button.disabled = true;
+            loading.style.display = 'block';
+            resultMessage.style.display = 'none';
+            
+            // Fazer a requisição para iniciar o campeonato
+            fetch('/iniciar-campeonato', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Esconder loading
+                loading.style.display = 'none';
+                
+                // Mostrar mensagem de resultado
+                resultMessage.textContent = data.message;
+                resultMessage.className = 'result-message ' + (data.status === 'success' ? 'success' : 'error');
+                resultMessage.style.display = 'block';
+                
+                // Se a simulação foi bem sucedida, redirecionar para a página do campeonato após 1 segundo
+                if (data.status === 'success') {
+                    setTimeout(() => {
+                        window.location.href = '/championship';
+                    }, 1000);
+                } else {
+                    // Reabilitar botão apenas em caso de erro
+                    button.disabled = false;
+                }
+            })
+            .catch(error => {
+                // Em caso de erro
+                loading.style.display = 'none';
+                resultMessage.textContent = 'Erro ao iniciar o campeonato. Tente novamente.';
+                resultMessage.className = 'result-message error';
+                resultMessage.style.display = 'block';
+                button.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html> 

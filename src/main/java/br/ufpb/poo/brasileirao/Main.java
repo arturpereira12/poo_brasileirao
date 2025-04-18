@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -30,212 +29,184 @@ public class Main {
     }
 
     @Bean
-    public CommandLineRunner simulateTournament() {
-        return args -> {
-            System.out.println("=== SIMULADOR DO CAMPEONATO BRASILEIRO ===");
-
-            ObjectMapper mapper = configureObjectMapper();
-
-            try {
-                List<Team> teams = carregarTimes();
-                if (teams == null || teams.isEmpty()) {
-                    System.out.println("Nenhum time encontrado para simular!");
-                    return;
-                }
-
-                TournamentController tournamentController = executarTorneio(teams);
-
-                salvarResultados(tournamentController, mapper);
-
-            } catch (Exception e) {
-                System.err.println("Erro durante a simulação do torneio: " + e.getMessage());
-                e.printStackTrace();
-            }
-        };
-    }
-
-    private ObjectMapper configureObjectMapper() {
+    public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         return mapper;
     }
 
-    private List<Team> carregarTimes() {
-        TeamController teamController = new TeamController();
-        List<Team> allTeams = teamController.leiaDoArquivo();
+    public static class TournamentSimulator {
+        private final ObjectMapper mapper;
 
-        if (allTeams == null || allTeams.isEmpty()) {
-            System.out.println("Nenhum time encontrado para simular!");
-            return null;
+        public TournamentSimulator(ObjectMapper mapper) {
+            this.mapper = mapper;
         }
 
-        System.out.println("Total de times disponíveis: " + allTeams.size());
-        
-        // Selecionar apenas 20 times com base na força (strength)
-        List<Team> selectedTeams = selecionarTimesPorForca(allTeams, 20);
-        
-        System.out.println("Times selecionados para o campeonato: " + selectedTeams.size());
-        
-        return selectedTeams;
-    }
+        public String simulateTournament() throws Exception {
+            System.out.println("=== SIMULADOR DO CAMPEONATO BRASILEIRO ===");
 
-    /**
-     * Seleciona times aleatoriamente com probabilidade ponderada pelo atributo strength
-     * Times com maior strength têm maior chance de serem selecionados
-     * 
-     * @param allTeams Lista completa de times
-     * @param quantidade Quantidade de times a serem selecionados
-     * @return Lista com os times selecionados
-     */
-    private List<Team> selecionarTimesPorForca(List<Team> allTeams, int quantidade) {
-        if (allTeams.size() <= quantidade) {
-            return new ArrayList<>(allTeams);
+            try {
+                List<Team> teams = carregarTimes();
+                if (teams == null || teams.isEmpty()) {
+                    return "Nenhum time encontrado para simular!";
+                }
+
+                TournamentController tournamentController = executarTorneio(teams);
+                String simulationFolder = salvarResultados(tournamentController);
+                
+                return "Simulação concluída com sucesso! Resultados salvos em: " + simulationFolder;
+
+            } catch (Exception e) {
+                System.err.println("Erro durante a simulação do torneio: " + e.getMessage());
+                e.printStackTrace();
+                throw e;
+            }
         }
-        
-        // Lista para armazenar os times selecionados
-        List<Team> selectedTeams = new ArrayList<>();
-        
-        // Criar uma cópia da lista original para não modificá-la
-        List<Team> candidatos = new ArrayList<>(allTeams);
-        
-        // Calcular a soma total de strengths para normalização
-        int somaTotal = 0;
-        for (Team team : candidatos) {
-            somaTotal += team.getStrength();
+
+        private List<Team> carregarTimes() {
+            TeamController teamController = new TeamController();
+            List<Team> allTeams = teamController.leiaDoArquivo();
+
+            if (allTeams == null || allTeams.isEmpty()) {
+                System.out.println("Nenhum time encontrado para simular!");
+                return null;
+            }
+
+            System.out.println("Total de times disponíveis: " + allTeams.size());
+            
+            // Selecionar apenas 20 times com base na força (strength)
+            List<Team> selectedTeams = selecionarTimesPorForca(allTeams, 20);
+            
+            System.out.println("Times selecionados para o campeonato: " + selectedTeams.size());
+            
+            return selectedTeams;
         }
-        
-        Random random = new Random();
-        
-        // Selecionar 'quantidade' times
-        for (int i = 0; i < quantidade; i++) {
-            if (candidatos.isEmpty()) {
-                break;
+
+        private List<Team> selecionarTimesPorForca(List<Team> allTeams, int quantidade) {
+            if (allTeams.size() <= quantidade) {
+                return new ArrayList<>(allTeams);
             }
             
-            // Recalcular a soma total dos times restantes
-            int somaParcial = 0;
+            List<Team> selectedTeams = new ArrayList<>();
+            List<Team> candidatos = new ArrayList<>(allTeams);
+            
+            int somaTotal = 0;
             for (Team team : candidatos) {
-                somaParcial += team.getStrength();
+                somaTotal += team.getStrength();
             }
             
-            // Gerar um número aleatório entre 0 e a soma total
-            int valorAleatorio = random.nextInt(somaParcial);
+            Random random = new Random();
             
-            // Implementar a "roleta" - time com maior strength tem maior fatia da roleta
-            int acumulado = 0;
-            int indiceEscolhido = 0;
-            
-            for (int j = 0; j < candidatos.size(); j++) {
-                acumulado += candidatos.get(j).getStrength();
-                if (valorAleatorio < acumulado) {
-                    indiceEscolhido = j;
+            for (int i = 0; i < quantidade; i++) {
+                if (candidatos.isEmpty()) {
                     break;
+                }
+                
+                int somaParcial = 0;
+                for (Team team : candidatos) {
+                    somaParcial += team.getStrength();
+                }
+                
+                int valorAleatorio = random.nextInt(somaParcial);
+                int acumulado = 0;
+                int indiceEscolhido = 0;
+                
+                for (int j = 0; j < candidatos.size(); j++) {
+                    acumulado += candidatos.get(j).getStrength();
+                    if (valorAleatorio < acumulado) {
+                        indiceEscolhido = j;
+                        break;
+                    }
+                }
+                
+                selectedTeams.add(candidatos.get(indiceEscolhido));
+                candidatos.remove(indiceEscolhido);
+            }
+            
+            System.out.println("\n=== TIMES SELECIONADOS PARA O CAMPEONATO ===");
+            for (Team team : selectedTeams) {
+                System.out.printf("%s (Força: %d)%n", team.getName(), team.getStrength());
+            }
+            System.out.println();
+            
+            return selectedTeams;
+        }
+
+        private TournamentController executarTorneio(List<Team> teams) throws Exception {
+            TournamentController tournamentController = new TournamentController("Campeonato Brasileiro 2023");
+            tournamentController.addTeams(teams);
+            System.out.println("Times adicionados ao torneio: " + tournamentController.getLeagueStandings().getNumberOfTeams());
+
+            tournamentController.startTournament();
+            System.out.println("Torneio iniciado e calendário gerado!");
+
+            System.out.println("Simulando todas as rodadas...");
+            tournamentController.simulateAllRemainingRounds();
+            System.out.println("Simulação concluída!");
+
+            return tournamentController;
+        }
+
+        private String salvarResultados(TournamentController tournamentController) throws Exception {
+            LeagueStandings standings = tournamentController.getLeagueStandings();
+            List<Match> allMatches = tournamentController.getAllSimulatedMatches();
+            TopScorersTable scorers = tournamentController.getTopScorers();
+        
+            System.out.println("\n=== RESUMO DO CAMPEONATO ===");
+            System.out.println("Campeão: " + standings.getStandings().get(0).getTeamName());
+            System.out.println("Total de jogos: " + allMatches.size());
+        
+            List<TopScorersTable.PlayerStats> topScorers = scorers.getTopScorers(10);
+            if (topScorers != null && !topScorers.isEmpty()) {
+                TopScorersTable.PlayerStats artilheiro = topScorers.get(0);
+                System.out.println("Artilheiro: " + artilheiro.getPlayerName() + " - " + artilheiro.getGoals() + " gols");
+            } else {
+                System.out.println("Não foi possível determinar o artilheiro.");
+            }
+        
+            String simulationFolderName = criarPastaSimulacao();
+            
+            String standingsPath = simulationFolderName + "/standings.json";
+            String matchesPath = simulationFolderName + "/matches.json";
+            String scorersPath = simulationFolderName + "/scorers.json";
+            
+            mapper.writeValue(new File(standingsPath), standings.getStandings());
+            mapper.writeValue(new File(matchesPath), allMatches);
+            mapper.writeValue(new File(scorersPath), topScorers);
+        
+            System.out.println("Resultados salvos na pasta '" + simulationFolderName + "'");
+            return simulationFolderName;
+        }
+        
+        private void criarDiretorioResultados() {
+            File resultsDir = new File("results");
+            if (!resultsDir.exists()) {
+                boolean criado = resultsDir.mkdir();
+                if (criado) {
+                    System.out.println("Diretório 'results' criado com sucesso.");
+                } else {
+                    System.out.println("Não foi possível criar o diretório 'results'.");
+                }
+            }
+        }
+        
+        private String criarPastaSimulacao() throws Exception {
+            criarDiretorioResultados();
+            
+            String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"));
+            
+            String simulationFolder = "results/simulacao_" + timestamp;
+            File simulationDir = new File(simulationFolder);
+            
+            if (!simulationDir.exists()) {
+                boolean criado = simulationDir.mkdir();
+                if (!criado) {
+                    throw new Exception("Não foi possível criar a pasta para esta simulação: " + simulationFolder);
                 }
             }
             
-            // Adicionar o time selecionado e removê-lo da lista de candidatos
-            selectedTeams.add(candidatos.get(indiceEscolhido));
-            candidatos.remove(indiceEscolhido);
-        }
-        
-        // Mostrar os times selecionados
-        System.out.println("\n=== TIMES SELECIONADOS PARA O CAMPEONATO ===");
-        for (Team team : selectedTeams) {
-            System.out.printf("%s (Força: %d)%n", team.getName(), team.getStrength());
-        }
-        System.out.println();
-        
-        return selectedTeams;
-    }
-
-    private TournamentController executarTorneio(List<Team> teams) throws Exception {
-        TournamentController tournamentController = new TournamentController("Campeonato Brasileiro 2023");
-        tournamentController.addTeams(teams);
-        System.out.println("Times adicionados ao torneio: " + tournamentController.getLeagueStandings().getNumberOfTeams());
-
-        tournamentController.startTournament();
-        System.out.println("Torneio iniciado e calendário gerado!");
-
-        System.out.println("Simulando todas as rodadas...");
-        tournamentController.simulateAllRemainingRounds();
-        System.out.println("Simulação concluída!");
-
-        return tournamentController;
-    }
-
-    private void salvarResultados(TournamentController tournamentController, ObjectMapper mapper) throws Exception {
-        LeagueStandings standings = tournamentController.getLeagueStandings();
-        List<Match> allMatches = tournamentController.getAllSimulatedMatches();
-        TopScorersTable scorers = tournamentController.getTopScorers();
-    
-        System.out.println("\n=== RESUMO DO CAMPEONATO ===");
-        System.out.println("Campeão: " + standings.getStandings().get(0).getTeamName());
-        System.out.println("Total de jogos: " + allMatches.size());
-    
-        // Usar ScorerStats para exibir o artilheiro
-        List<TopScorersTable.ScorerStats> topScorers = scorers.getTopScorers(10);
-        if (topScorers != null && !topScorers.isEmpty()) {
-            TopScorersTable.ScorerStats artilheiro = topScorers.get(0);
-            System.out.println("Artilheiro: " + artilheiro.getPlayerName() + " - " + artilheiro.getGoals() + " gols");
-        } else {
-            System.out.println("Não foi possível determinar o artilheiro.");
-        }
-    
-        // Criar a estrutura de diretórios para a simulação atual
-        String simulationFolderName = criarPastaSimulacao();
-        
-        // Caminho completo para salvar os arquivos
-        String standingsPath = simulationFolderName + "/standings.json";
-        String matchesPath = simulationFolderName + "/matches.json";
-        String scorersPath = simulationFolderName + "/scorers.json";
-        
-        // Salvar os arquivos na pasta da simulação atual
-        mapper.writeValue(new File(standingsPath), standings.getStandings());
-        mapper.writeValue(new File(matchesPath), allMatches);
-        mapper.writeValue(new File(scorersPath), topScorers);
-    
-        System.out.println("Resultados salvos na pasta '" + simulationFolderName + "'");
-    }
-    
-    /**
-     * Cria a pasta principal "results" se não existir
-     */
-    private void criarDiretorioResultados() {
-        File resultsDir = new File("results");
-        if (!resultsDir.exists()) {
-            boolean criado = resultsDir.mkdir();
-            if (criado) {
-                System.out.println("Diretório 'results' criado com sucesso.");
-            } else {
-                System.out.println("Não foi possível criar o diretório 'results'.");
-            }
+            return simulationFolder;
         }
     }
-    
-    /**
-     * Cria uma pasta única para a simulação atual dentro da pasta "results"
-     * O nome da pasta é baseado na data e hora atual e no campeão
-     * @return O caminho da pasta criada
-     */
-    private String criarPastaSimulacao() throws Exception {
-        // Garantir que a pasta principal existe
-        criarDiretorioResultados();
-        
-        // Gerar nome único baseado em data e hora
-        String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"));
-        
-        // Criar pasta para esta simulação
-        String simulationFolder = "results/simulacao_" + timestamp;
-        File simulationDir = new File(simulationFolder);
-        
-        if (!simulationDir.exists()) {
-            boolean criado = simulationDir.mkdir();
-            if (!criado) {
-                throw new Exception("Não foi possível criar a pasta para esta simulação: " + simulationFolder);
-            }
-        }
-        
-        return simulationFolder;
-    }
-    }
+}

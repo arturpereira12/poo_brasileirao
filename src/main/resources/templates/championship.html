@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brasileirão - Simulação</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FFE100;
+            --primary-light: #FFF047;
+            --primary-dark: #E6CB00;
+            --background-color: #111111;
+            --card-bg: #1A1A1A;
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --text-primary: #FFFFFF;
+            --text-secondary: #999999;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+            --glow: 0 0 20px rgba(255, 225, 0, 0.2);
+        }
+
+        body {
+            background-color: #111111;
+            font-family: 'Inter', sans-serif;
+            color: #FFFFFF;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            color: var(--primary-color) !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .card {
+            background-color: #1A1A1A;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--glow);
+            border-color: var(--primary-color);
+        }
+
+        .card-header {
+            background-color: #111111;
+            border-bottom: none;
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #FFFFFF;
+        }
+
+        .card-header i {
+            color: var(--primary-color);
+            margin-right: 0.75rem;
+        }
+
+        .table {
+            color: #333333;
+            margin-bottom: 0;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background-color: #111111;
+            border-bottom: 1px solid rgba(255, 225, 0, 0.3);
+            font-weight: 500;
+            color: #CCCCCC;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.75rem 1rem;
+            text-align: center;
+        }
+
+        .table td {
+            padding: 0.75rem 1rem;
+            text-align: center;
+            border-bottom: none;
+            font-size: 0.9rem;
+            color: #333333;
+            background-color: #f5f5f5;
+        }
+
+        .table tbody tr {
+            transition: background-color 0.2s ease;
+            position: relative;
+        }
+
+        .table tbody tr:hover td {
+            background-color: #e0e0e0;
+            color: #111111;
+        }
+
+        /* Cores alternadas para linhas */
+        .table tbody tr:nth-child(odd) td {
+            background-color: #f5f5f5;
+        }
+
+        .table tbody tr:nth-child(even) td {
+            background-color: #ebebeb;
+        }
+
+        /* Estilo específico para a coluna de posição */
+        .table td:first-child {
+            color: #333333;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Estilo específico para a coluna de time */
+        .table td:nth-child(2) {
+            text-align: left;
+            color: #111111;
+            font-weight: 500;
+        }
+
+        /* Estilo para os números nas colunas */
+        .table td:not(:first-child):not(:nth-child(2)) {
+            color: #333333;
+            font-size: 0.9rem;
+        }
+
+        /* Ajuste do container da tabela */
+        .table-responsive {
+            background-color: transparent;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .stats-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(145deg, #1A1A1A, #222222);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-color);
+            opacity: 0.5;
+        }
+
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+            text-shadow: 0 0 20px rgba(255, 225, 0, 0.3);
+        }
+
+        .stats-label {
+            color: #CCCCCC;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-link {
+            color: #CCCCCC;
+            transition: var(--transition);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color);
+            background-color: rgba(255, 225, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            color: var(--background-color);
+            text-shadow: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--glow);
+            color: var(--background-color);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover::after {
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+
+        .progress {
+            height: 8px;
+            margin: 0.75rem 0 0.5rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .progress-bar {
+            background-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(255, 225, 0, 0.5);
+            background-image: linear-gradient(45deg, 
+                              rgba(255, 255, 255, 0.15) 25%, 
+                              transparent 25%, 
+                              transparent 50%, 
+                              rgba(255, 255, 255, 0.15) 50%, 
+                              rgba(255, 255, 255, 0.15) 75%, 
+                              transparent 75%, 
+                              transparent);
+            background-size: 20px 20px;
+            transition: width 0.5s ease;
+            position: relative;
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.25rem;
+            font-size: 0.8rem;
+            color: #CCCCCC;
+        }
+
+        .progress-percentage {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .progress-rounds {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .progress-label {
+            display: none;
+        }
+
+        /* Container da barra de progresso */
+        .progress-container {
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+        }
+
+        .badge.bg-primary {
+            background-color: #FFE100 !important;
+            border: none;
+            color: #111111;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 0.4rem 0.75rem;
+            border-radius: 4px;
+        }
+
+        .badge.bg-secondary {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            color: var(--text-primary);
+        }
+
+        .team-name {
+            color: #FFFFFF;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            font-weight: 500;
+        }
+
+        .team-name:hover {
+            color: var(--primary-color);
+        }
+
+        .score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-shadow: 0 0 20px rgba(255, 225, 0, 0.3);
+        }
+
+        .vs-badge {
+            background-color: var(--primary-color);
+            color: #111111;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+        }
+
+        .match-date {
+            color: #AAAAAA;
+            font-size: 0.8rem;
+        }
+
+        .alert {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+        }
+
+        .alert-success {
+            background-color: rgba(40, 167, 69, 0.2);
+            border-color: rgba(40, 167, 69, 0.3);
+            color: #98ff98;
+        }
+
+        .navbar-toggler {
+            border-color: rgba(255, 225, 0, 0.5);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 225, 0, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .stats-card {
+                margin-bottom: 1rem;
+            }
+            
+            .match-card {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Efeito de brilho nos links */
+        a {
+            position: relative;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Efeito de hover na tabela */
+        .table-hover tbody tr:hover {
+            background-color: rgba(255, 225, 0, 0.05);
+        }
+
+        /* Container com máximo width */
+        .container {
+            max-width: 1200px;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Efeito de gradiente no fundo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(255, 225, 0, 0.1), transparent 60%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Ajuste das legendas da tabela */
+        .table thead th {
+            position: relative;
+        }
+
+        .table thead th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-color);
+            opacity: 0.3;
+        }
+
+        /* Indicadores para G4 e Z4 */
+        .position-1 td:first-child::before,
+        .position-2 td:first-child::before,
+        .position-3 td:first-child::before,
+        .position-4 td:first-child::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background-color: #00aa55;
+        }
+
+        .position-17 td:first-child::before,
+        .position-18 td:first-child::before,
+        .position-19 td:first-child::before,
+        .position-20 td:first-child::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background-color: #cc0000;
+        }
+
+        /* Texto dos jogos */
+        .match-card .team-name {
+            color: #FFFFFF;
+            font-weight: 500;
+        }
+
+        /* Correção para todos os elementos dentro de cards com fundo escuro */
+        .card-body:not(.table-responsive) {
+            color: #FFFFFF;
+        }
+
+        /* Ajustes para cards de estatísticas específicas */
+        .match-card {
+            background-color: #1A1A1A;
+        }
+        
+        .match-card .card-body {
+            background-color: #1A1A1A;
+            padding: 1rem;
+        }
+
+        .match-card .match-content {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .match-team {
+            text-align: center;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
+        }
+
+        .match-team.home {
+            justify-self: end;
+        }
+
+        .match-team.away {
+            justify-self: start;
+        }
+
+        .vs-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .vs-badge {
+            background-color: var(--primary-color);
+            color: #111111;
+            font-weight: 600;
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .match-date {
+            color: #AAAAAA;
+            font-size: 0.75rem;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-shadow: 0 0 20px rgba(255, 225, 0, 0.3);
+            margin-top: 0.25rem;
+        }
+
+        .team-name {
+            color: #FFFFFF;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Especifico para times na tabela */
+        .table .team-name {
+            color: #111111;
+        }
+
+        /* Ajuste do botão de simulação */
+        #simulateButton {
+            margin: 1rem 0;
+            min-width: 200px;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            background-color: var(--primary-color);
+            border: none;
+            color: #111111;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #simulateButton:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(255, 225, 0, 0.3);
+        }
+
+        #simulateButton:active {
+            transform: translateY(0);
+        }
+
+        #resultMessage {
+            display: none;
+            margin: 1rem 0;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-trophy-fill me-2"></i>Brasileirão
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="bi bi-table me-1"></i>Classificação</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-calendar-event me-1"></i>Jogos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-graph-up me-1"></i>Estatísticas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/teams/att"><i class="bi bi-people me-1"></i>Times</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Progresso do Campeonato -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="bi bi-graph-up"></i>Progresso do Campeonato
+            </div>
+            <div class="card-body">
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span class="progress-rounds">
+                            <span th:text="${round} + '/' + ${totalRounds} + ' Rodadas Completadas'"></span>
+                        </span>
+                        <span class="progress-percentage">
+                            <span th:text="'Progresso: ' + ${(round * 100 / totalRounds)} + '%'"></span>
+                        </span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" 
+                             th:style="'width: ' + ${(round * 100 / totalRounds)} + '%'">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center" th:if="${canSimulateNextRound}">
+                    <button id="simulateButton" class="btn btn-primary">
+                        <i class="bi bi-play-fill me-2"></i>Simular Próxima Rodada
+                    </button>
+                    <div id="resultMessage"></div>
+                </div>
+                <div class="text-center" th:unless="${canSimulateNextRound}">
+                    <div class="alert alert-success">
+                        <i class="bi bi-check-circle-fill me-2"></i>Campeonato finalizado!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estatísticas Rápidas -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="stats-number" th:text="${totalMatches}">0</div>
+                    <div class="stats-label">Jogos Realizados</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="stats-number" th:text="${totalGoals}">0</div>
+                    <div class="stats-label">Gols Marcados</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="stats-number" th:text="${averageGoals}">0.0</div>
+                    <div class="stats-label">Média de Gols/Jogo</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="stats-number" th:text="${round}">1</div>
+                    <div class="stats-label">Rodada Atual</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabela de Classificação -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-table"></i>Tabela de Classificação</span>
+                <span class="badge bg-primary">Rodada <span th:text="${round}">1</span></span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Time</th>
+                                <th>P</th>
+                                <th>J</th>
+                                <th>V</th>
+                                <th>E</th>
+                                <th>D</th>
+                                <th>GP</th>
+                                <th>GC</th>
+                                <th>SG</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="team, stat : ${standings}" 
+                                th:class="'position-' + ${stat.count}">
+                                <td th:text="${stat.count}">1</td>
+                                <td>
+                                    <a th:href="@{/teams/att/{name}(name=${team.team.name})}" 
+                                       class="text-decoration-none text-dark team-name">
+                                        <span th:text="${team.team.name}">Time</span>
+                                    </a>
+                                </td>
+                                <td th:text="${team.points}">0</td>
+                                <td th:text="${team.played}">0</td>
+                                <td th:text="${team.wins}">0</td>
+                                <td th:text="${team.draws}">0</td>
+                                <td th:text="${team.losses}">0</td>
+                                <td th:text="${team.goalsFor}">0</td>
+                                <td th:text="${team.goalsAgainst}">0</td>
+                                <td th:text="${team.goalDifference}">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Próximos Jogos -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="bi bi-calendar-event"></i>Próxima Rodada
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3" th:each="match : ${nextMatches}">
+                        <div class="card match-card">
+                            <div class="card-body">
+                                <div class="match-content">
+                                    <div class="match-team home">
+                                        <div class="team-name" th:text="${match.homeTeam.name}">Time Casa</div>
+                                    </div>
+                                    <div class="vs-container">
+                                        <div class="vs-badge">VS</div>
+                                        <div class="match-date" th:text="${match.date}">Data</div>
+                                    </div>
+                                    <div class="match-team away">
+                                        <div class="team-name" th:text="${match.awayTeam.name}">Time Visitante</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Últimos Resultados -->
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-trophy"></i>Resultados da Rodada
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3" th:each="match : ${recentMatches}">
+                        <div class="card match-card">
+                            <div class="card-body">
+                                <div class="match-content">
+                                    <div class="match-team home">
+                                        <div class="team-name" th:text="${match.homeTeam.name}">Time Casa</div>
+                                        <div class="score" th:text="${match.homeScore}">0</div>
+                                    </div>
+                                    <div class="vs-container">
+                                        <div class="vs-badge">x</div>
+                                        <div class="match-date" th:text="${match.date}">Data</div>
+                                    </div>
+                                    <div class="match-team away">
+                                        <div class="team-name" th:text="${match.awayTeam.name}">Time Visitante</div>
+                                        <div class="score" th:text="${match.awayScore}">0</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('simulateButton')?.addEventListener('click', function() {
+            const button = this;
+            const resultMessage = document.getElementById('resultMessage');
+            
+            // Desabilitar botão
+            button.disabled = true;
+            button.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Simulando...';
+            
+            // Fazer a requisição para simular a próxima rodada
+            fetch('/championship/simulate-next-round', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Mostrar mensagem de resultado
+                resultMessage.textContent = data.message;
+                resultMessage.className = data.status === 'success' ? 'alert alert-success' : 'alert alert-danger';
+                resultMessage.style.display = 'block';
+                
+                // Se a simulação foi bem sucedida, recarregar a página após 1 segundo
+                if (data.status === 'success') {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    // Reabilitar botão em caso de erro
+                    button.disabled = false;
+                    button.innerHTML = '<i class="bi bi-play-fill me-2"></i>Simular Próxima Rodada';
+                }
+            })
+            .catch(error => {
+                // Em caso de erro
+                resultMessage.textContent = 'Erro ao simular a rodada. Tente novamente.';
+                resultMessage.className = 'alert alert-danger';
+                resultMessage.style.display = 'block';
+                
+                // Reabilitar botão
+                button.disabled = false;
+                button.innerHTML = '<i class="bi bi-play-fill me-2"></i>Simular Próxima Rodada';
+            });
+        });
+    </script>
+</body>
+</html> 
