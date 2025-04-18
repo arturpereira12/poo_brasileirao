@@ -249,6 +249,32 @@
             font-size: 1rem;
         }
 
+        .team-crest {
+            width: 40px;
+            height: 40px;
+            overflow: visible;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            margin-right: 15px;
+            position: relative;
+        }
+
+        .team-crest.large {
+            width: 45px;
+            height: 45px;
+        }
+
+        .team-crest img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            position: relative;
+        }
+
         /* Efeito de gradiente no fundo */
         body::before {
             content: '';
@@ -320,8 +346,79 @@
             <div class="col-lg-6 mb-4" th:each="team : ${teams}">
                 <div class="team-card">
                     <div class="team-header">
-                        <span class="team-name" th:text="${team.name}">Nome do Time</span>
-                        <span class="team-strength" th:text="'Força: ' + ${team.strength}">Força: 85</span>
+                        <div class="d-flex align-items-center">
+                            <div class="team-crest">
+                                <img th:if="${team.name == 'Flamengo'}" 
+                                     th:src="@{/images/crests/Flamengo1.png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'Grêmio'}" 
+                                     th:src="@{/images/crests/Gremio (1).png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'Corinthians'}" 
+                                     th:src="@{/images/crests/Corinthians (1).png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'São Paulo'}" 
+                                     th:src="@{/images/crests/Sao Paulo.png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'Fluminense'}" 
+                                     th:src="@{/images/crests/Fluminense (1).png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'Palmeiras'}" 
+                                     th:src="@{/images/crests/Palmeiras (1).png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'Internacional'}" 
+                                     th:src="@{/images/crests/Internacional (1).png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'Atlético-MG'}" 
+                                     th:src="@{/images/crests/Atletico MG.png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'Cruzeiro'}" 
+                                     th:src="@{/images/crests/Cruzeiro.png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'Athletico-PR'}" 
+                                     th:src="@{/images/crests/Athletico PR.png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'Juventude'}" 
+                                     th:src="@{/images/crests/Juventude.png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'Goiás'}" 
+                                     th:src="@{/images/crests/Goias.png}"
+                                     th:alt="${team.name}"
+                                     class="large">
+                                <img th:if="${team.name == 'Santa Cruz'}" 
+                                     th:src="@{/images/crests/SantaCruz.png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'Bahia'}" 
+                                     th:src="@{/images/crests/Bahia.png}"
+                                     th:alt="${team.name}"
+                                     class="large">
+                                <img th:if="${team.name == 'Ceará'}" 
+                                     th:src="@{/images/crests/Ceara.png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'América-MG'}" 
+                                     th:src="@{/images/crests/AmericaMG.png}"
+                                     th:alt="${team.name}"
+                                     class="large">
+                                <img th:if="${team.name == 'Fortaleza'}" 
+                                     th:src="@{/images/crests/Fortaleza.png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'Vasco da Gama'}" 
+                                     th:src="@{/images/crests/Vasco.png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'Santos'}" 
+                                     th:src="@{/images/crests/Santos.png}"
+                                     th:alt="${team.name}"
+                                     class="large">
+                                <img th:if="${team.name == 'Botafogo'}" 
+                                     th:src="@{/images/crests/Botafogo.png}"
+                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'Atlético-GO'}" 
+                                     th:src="@{/images/crests/AtleticoGO.png}"
+                                     th:alt="${team.name}">
+                            </div>
+                            <span class="team-name" th:text="${team.name}">Nome do Time</span>
+                        </div>
+                        <div class="team-strength" th:text="${team.strength} + ' de Força'">80 de Força</div>
                     </div>
                     <div class="team-body">
                         <div class="strength-meters">
