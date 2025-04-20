@@ -229,7 +229,6 @@ public class TournamentController {
      * @param isHome true se é o time da casa, false se é o visitante
      */
     private void simulateGoalScorers(Match match, Team team, int goals, boolean isHome) {
-        List<String> positions = List.of("Atacante", "Meio-Campista", "Zagueiro");
         
         for (int i = 0; i < goals; i++) {
             // Probabilidades de gols por posição: 70% atacantes, 25% meio-campistas, 5% defensores

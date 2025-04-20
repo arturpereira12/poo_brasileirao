@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.ufpb.poo.brasileirao.match.Match;
-import br.ufpb.poo.brasileirao.model.Team;
 import br.ufpb.poo.brasileirao.service.TournamentManager;
 import br.ufpb.poo.brasileirao.tournament.LeagueStandings;
 import br.ufpb.poo.brasileirao.tournament.TopScorersTable;

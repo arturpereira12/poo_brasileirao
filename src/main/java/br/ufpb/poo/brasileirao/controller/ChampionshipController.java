@@ -15,11 +15,8 @@ import br.ufpb.poo.brasileirao.model.Team;
 import br.ufpb.poo.brasileirao.service.TournamentManager;
 import br.ufpb.poo.brasileirao.tournament.LeagueStandings;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 @Controller
@@ -39,7 +36,6 @@ public class ChampionshipController {
      */
     @Deprecated
     private List<Standing> legacyStandings;
-    private Random random = new Random();
 
     @GetMapping
     public String showChampionship(Model model) {

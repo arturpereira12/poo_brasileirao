@@ -2,7 +2,6 @@ package br.ufpb.poo.brasileirao;
 
 import br.ufpb.poo.brasileirao.match.Match;
 import br.ufpb.poo.brasileirao.model.Team;
-import br.ufpb.poo.brasileirao.model.Player;
 import br.ufpb.poo.brasileirao.controladores.TeamController;
 import br.ufpb.poo.brasileirao.controladores.TournamentController;
 import br.ufpb.poo.brasileirao.tournament.LeagueStandings;
@@ -90,11 +89,6 @@ public class Main {
             
             List<Team> selectedTeams = new ArrayList<>();
             List<Team> candidatos = new ArrayList<>(allTeams);
-            
-            int somaTotal = 0;
-            for (Team team : candidatos) {
-                somaTotal += team.getStrength();
-            }
             
             Random random = new Random();
             

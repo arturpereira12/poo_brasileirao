@@ -10,7 +10,6 @@ import java.util.Random;
 
 @Service
 public class TournamentService {
-    private String name;
     private List<Team> teams;
     private List<Match> matches;
     private List<LeagueStanding> standings;
@@ -22,7 +21,6 @@ public class TournamentService {
     }
 
     public TournamentService(String name) {
-        this.name = name;
         this.teams = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.standings = new ArrayList<>();
