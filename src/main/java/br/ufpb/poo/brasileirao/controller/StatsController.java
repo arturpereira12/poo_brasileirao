@@ -7,9 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.ufpb.poo.brasileirao.match.Match;
+import br.ufpb.poo.brasileirao.model.Player;
+import br.ufpb.poo.brasileirao.model.Position;
+import br.ufpb.poo.brasileirao.model.Team;
 import br.ufpb.poo.brasileirao.service.TournamentManager;
 import br.ufpb.poo.brasileirao.tournament.LeagueStandings;
 import br.ufpb.poo.brasileirao.tournament.TopScorersTable;
+import br.ufpb.poo.brasileirao.tournament.TopScorersTable.PlayerStats;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -44,7 +48,8 @@ public class StatsController {
         
         // Artilharia
         TopScorersTable topScorers = tournamentManager.getTopScorers();
-        model.addAttribute("topScorers", topScorers.getTopScorers(10)); // Top 10 artilheiros
+        List<PlayerStats> topScorersList = topScorers.getTopScorers(10); // Top 10 artilheiros
+        model.addAttribute("topScorers", topScorersList);
         
         // Estatísticas dos times
         LeagueStandings standings = tournamentManager.getLeagueStandings();
@@ -88,11 +93,55 @@ public class StatsController {
             // Mapa de placares mais comuns
             Map<String, Integer> scoreFrequency = new HashMap<>();
             
-            // Mapa para contar gols por posição
+            // Mapa para contar gols por posição (REAL baseado nos artilheiros)
             Map<String, Integer> goalsByPosition = new HashMap<>();
             goalsByPosition.put("Atacante", 0);
             goalsByPosition.put("Meio-Campista", 0);
             goalsByPosition.put("Zagueiro", 0);
+            goalsByPosition.put("Goleiro", 0);
+            
+            // Calcular gols por posição com base nos jogadores que marcaram
+            // Primeiro, obtenha todos os times para conseguir a posição de cada jogador
+            List<Team> teams = tournamentManager.getTeams();
+            Map<String, Player> playersByName = new HashMap<>();
+            
+            // Criar um mapa de todos os jogadores para fácil acesso por nome
+            for (Team team : teams) {
+                for (Player player : team.getPlayers()) {
+                    playersByName.put(player.getName(), player);
+                }
+            }
+            
+            // Contar gols por posição usando os artilheiros reais
+            List<PlayerStats> allScorers = topScorers.getTopScorers();
+            for (PlayerStats scorer : allScorers) {
+                String playerName = scorer.getPlayerName();
+                int goals = scorer.getGoals();
+                
+                // Encontrar o jogador pelo nome
+                Player player = playersByName.get(playerName);
+                if (player != null) {
+                    // Converter Position enum para string legível
+                    String positionStr;
+                    Position position = player.getPosition();
+                    
+                    if (position == Position.FORWARD) {
+                        positionStr = "Atacante";
+                    } else if (position == Position.MIDFIELDER) {
+                        positionStr = "Meio-Campista";
+                    } else if (position == Position.DEFENDER) {
+                        positionStr = "Zagueiro";
+                    } else if (position == Position.GOALKEEPER) {
+                        positionStr = "Goleiro";
+                    } else {
+                        // Posição desconhecida ou nula, use atacante como padrão
+                        positionStr = "Atacante";
+                    }
+                    
+                    // Adicionar gols à posição correspondente
+                    goalsByPosition.put(positionStr, goalsByPosition.get(positionStr) + goals);
+                }
+            }
             
             // Análise detalhada de cada jogo
             for (Match match : allMatches) {
@@ -127,24 +176,6 @@ public class StatsController {
                 // Frequência de placares
                 String scoreKey = homeGoals + "x" + awayGoals;
                 scoreFrequency.put(scoreKey, scoreFrequency.getOrDefault(scoreKey, 0) + 1);
-                
-                // Contagem de gols por posição (obtidos via simulação)
-                for (String position : goalsByPosition.keySet()) {
-                    // Como não temos acesso direto a quais posições marcaram na partida específica,
-                    // vamos estimar com base nas porcentagens de simulação (70% atacantes, 25% meio-campo, 5% zagueiros)
-                    double totalMatchGoalsDouble = totalMatchGoals;
-                    switch (position) {
-                        case "Atacante":
-                            goalsByPosition.put(position, goalsByPosition.get(position) + (int)(totalMatchGoalsDouble * 0.7));
-                            break;
-                        case "Meio-Campista":
-                            goalsByPosition.put(position, goalsByPosition.get(position) + (int)(totalMatchGoalsDouble * 0.25));
-                            break;
-                        case "Zagueiro":
-                            goalsByPosition.put(position, goalsByPosition.get(position) + (int)(totalMatchGoalsDouble * 0.05));
-                            break;
-                    }
-                }
             }
             
             // Encontrar o placar mais frequente
@@ -184,4 +215,4 @@ public class StatsController {
         
         return "stats";
     }
-} 
+}

@@ -1,13 +1,18 @@
 package br.ufpb.poo.brasileirao.service;
 
 import br.ufpb.poo.brasileirao.match.Match;
+import br.ufpb.poo.brasileirao.model.GoalProbabilityCalculatorFactory;
+import br.ufpb.poo.brasileirao.model.Player;
+import br.ufpb.poo.brasileirao.model.Position;
 import br.ufpb.poo.brasileirao.model.Team;
 import br.ufpb.poo.brasileirao.tournament.LeagueStandings;
 import br.ufpb.poo.brasileirao.tournament.TopScorersTable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import org.springframework.stereotype.Service;
 
@@ -263,40 +268,92 @@ public class TournamentManager {
      */
     private void simulateGoalScorers(Match match, Team team, int goals, boolean isHome) {
         
+        // Mapear jogadores por posição
+        Map<Position, List<Player>> playersByPosition = new HashMap<>();
+        for (Position position : Position.values()) {
+            playersByPosition.put(position, new ArrayList<>());
+        }
+        
+        // Classificar jogadores por posição
+        for (Player player : team.getPlayers()) {
+            if (player.getPosition() != null) {
+                playersByPosition.get(player.getPosition()).add(player);
+            }
+        }
+        
         for (int i = 0; i < goals; i++) {
-            // Probabilidades de gols por posição: 70% atacantes, 25% meio-campistas, 5% defensores
-            String position;
-            double rand = random.nextDouble();
-            if (rand < 0.7) {
-                position = "Atacante";
-            } else if (rand < 0.95) {
-                position = "Meio-Campista";
-            } else {
-                position = "Zagueiro";
-            }
+            // Usar nossa factory para determinar qual posição deve marcar o gol
+            double randomValue = random.nextDouble();
+            Position scorerPosition = GoalProbabilityCalculatorFactory.getPositionForGoal(randomValue);
+            String scorer = null;
             
-            // Filtrar jogadores da posição
-            List<String> eligiblePlayers = new ArrayList<>();
-            for (var player : team.getPlayers()) {
-                if (player.getPosition().equals(position)) {
-                    eligiblePlayers.add(player.getName());
-                }
-            }
-            
-            String scorer;
+            // Tentar encontrar um jogador na posição determinada usando ponderação por força
+            List<Player> eligiblePlayers = playersByPosition.get(scorerPosition);
             if (!eligiblePlayers.isEmpty()) {
-                // Selecionar jogador aleatório para marcar o gol
-                scorer = eligiblePlayers.get(random.nextInt(eligiblePlayers.size()));
+                // Escolher jogador com base na força (weighted random selection)
+                scorer = selectPlayerWeightedByStrength(eligiblePlayers);
             } else {
-                // Se não tiver jogadores na posição, selecionar qualquer jogador
-                var players = team.getPlayers();
-                scorer = players.get(random.nextInt(players.size())).getName();
+                // Fallback: se não houver jogadores na posição selecionada
+                // Tente cada posição na ordem de probabilidade (FORWARD, MIDFIELDER, DEFENDER)
+                Position[] fallbackOrder = {Position.FORWARD, Position.MIDFIELDER, Position.DEFENDER};
+                
+                for (Position fallbackPosition : fallbackOrder) {
+                    List<Player> fallbackPlayers = playersByPosition.get(fallbackPosition);
+                    if (!fallbackPlayers.isEmpty()) {
+                        // Escolher jogador com base na força (weighted random selection)
+                        scorer = selectPlayerWeightedByStrength(fallbackPlayers);
+                        break;
+                    }
+                }
+                
+                // Caso extremo: nenhum jogador elegível encontrado nas posições de campo
+                if (scorer == null) {
+                    List<Player> anyPlayers = playersByPosition.get(Position.GOALKEEPER);
+                    if (!anyPlayers.isEmpty()) {
+                        // Mesmo para goleiros, usar seleção ponderada
+                        scorer = selectPlayerWeightedByStrength(anyPlayers);
+                    } else {
+                        scorer = "Gol Contra";
+                    }
+                }
             }
             
             // Registrar gol
             match.addGoal(team.getName(), scorer);
             topScorers.addGoal(scorer, team.getName());
         }
+    }
+    
+    /**
+     * Seleciona um jogador com base na ponderação por força.
+     * Jogadores com mais força têm maior probabilidade de serem selecionados.
+     * 
+     * @param players Lista de jogadores elegíveis
+     * @return Nome do jogador selecionado
+     */
+    private String selectPlayerWeightedByStrength(List<Player> players) {
+        // Calcular a soma total da força
+        int totalStrength = players.stream().mapToInt(Player::getStrength).sum();
+        
+        // Se todos os jogadores têm força zero, use seleção uniforme
+        if (totalStrength <= 0) {
+            return players.get(random.nextInt(players.size())).getName();
+        }
+        
+        // Gerar um valor aleatório entre 0 e a soma total de força
+        double randomValue = random.nextDouble() * totalStrength;
+        
+        // Seleção com base na ponderação da força
+        double cumulativeStrength = 0;
+        for (Player player : players) {
+            cumulativeStrength += player.getStrength();
+            if (randomValue < cumulativeStrength) {
+                return player.getName();
+            }
+        }
+        
+        // Caso extremamente improvável - retornar o último jogador
+        return players.get(players.size() - 1).getName();
     }
 
     /**
@@ -445,4 +502,4 @@ public class TournamentManager {
         
         return stats;
     }
-} 
+}
