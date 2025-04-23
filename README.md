@@ -1,16 +1,4 @@
-# Simulação do Campeonato Brasileiro
-
-## Integrantes da Equipe:
-
-*   Artur Coelho Batista Guedes Pereira
-*   Davi de Oliveira Gurgel
-*   Rafael Torres Nóbrega Gomes
-
-## Local de Armazenamento do Código Fonte:
-
-*   https://github.com/arturpereira12/poo_brasileirao
-
-## Introdução
+# 🏆 Simulação do Campeonato Brasileiro
 
 Este projeto consiste no desenvolvimento de um sistema computacional destinado à simulação do Campeonato Brasileiro de Futebol. O objetivo central reside na criação de um modelo que represente a dinâmica de um torneio de pontos corridos, contemplando turno e returno, em conformidade com o formato oficial da competição.
 
@@ -23,76 +11,117 @@ As funcionalidades implementadas no sistema incluem:
 
 O desenvolvimento do sistema foi fundamentado nos princípios da Programação Orientada a Objetos (POO). Por exemplo, **encapsulamento** foi aplicado na criação de classes como `Time` e `Jogador`, que agrupam atributos (como nome, nível) e comportamentos (como calcular força). A **abstração** permitiu modelar entidades complexas do mundo real (campeonato, partida) em classes que expõem funcionalidades essenciais, ocultando detalhes internos de implementação. O sistema utiliza a linguagem Java e o framework Spring Boot para a implementação da aplicação web, o que possibilita a visualização e interação do usuário com a simulação do campeonato.
 
-## Ferramentas Utilizadas e Estrutura do Projeto
+## 👥 Integrantes da Equipe
 
-### Ferramentas:
+- **Artur Coelho Batista Guedes Pereira**
+- **Davi de Oliveira Gurgel**
+- **Rafael Torres Nóbrega Gomes**
 
-*   **Linguagem de Programação:** Java
-*   **Framework:** Spring Boot (Utilizado para a construção da aplicação web e gerenciamento de serviços backend)
-*   **Ambiente de Desenvolvimento Integrado (IDE):** Visual Studio Code
-*   **Sistema de Controle de Versão:** Git
-*   **Gerenciador de Dependências:** Maven
-*   **Banco de Dados:** Não aplicável (Persistência de dados realizada em memória ou arquivos, como JSON)
+---
 
-### Estrutura de Pacotes:
+## 🚀 Funcionalidades
 
-O código fonte do projeto, localizado em `src/main/java`, está organizado na seguinte estrutura hierárquica de pacotes:
+✔️ **Carregamento de dados**  
+   - Equipes, jogadores e níveis de habilidade  
+   
+🎮 **Simulação realista**  
+   - Geração automática de calendário (turno e returno)  
+   - Resultados baseados em força das equipes + aleatoriedade  
 
-*   **`br.ufpb.poo.brasileirao`**: Pacote raiz da aplicação.
-    *   `Main.java`: Ponto de entrada da aplicação Spring Boot. Contém também a classe interna `TournamentSimulator` para a execução original da simulação via console.
-*   **`br.ufpb.poo.brasileirao.model`**: Agrupa as classes que representam as entidades fundamentais do domínio do problema.
-    *   `Team.java`: Modela uma equipe participante do campeonato.
-    *   `Player.java`: Modela um jogador, associado a uma equipe.
-    *   `Position.java`: Enumeração que define as possíveis posições de um jogador.
-    *   `Standing.java`: Representação legada das estatísticas de um time na classificação (obsoleta).
-*   **`br.ufpb.poo.brasileirao.match`**: Contém as classes relacionadas à representação de partidas.
-    *   `Match.java`: Modela uma partida individual entre duas equipes, incluindo resultado e data.
-*   **`br.ufpb.poo.brasileirao.tournament`**: Engloba as classes responsáveis pela gestão da estrutura e das estatísticas do torneio.
-    *   `LeagueStandings.java`: Gerencia a tabela de classificação geral do campeonato.
-    *   `LeagueStandings.TeamStats`: Classe interna que armazena as estatísticas detalhadas de um time específico na classificação.
-    *   `TopScorersTable.java`: Gerencia a lista dos principais artilheiros da competição.
-*   **`br.ufpb.poo.brasileirao.service`**: Contém as classes de serviço que implementam a lógica de negócio da aplicação.
-    *   `TournamentManager.java`: Serviço central que orquestra a simulação do torneio, incluindo geração de calendário, simulação de partidas e atualização de estatísticas para a interface web.
-    *   `TeamService.java`: Serviço dedicado a operações relacionadas às equipes, como o carregamento de dados a partir de fontes externas.
-    *   `TournamentService.java`: Implementação alternativa ou legada do serviço de gerenciamento do torneio.
-*   **`br.ufpb.poo.brasileirao.controller`**: Agrupa os controladores Spring MVC, responsáveis por receber requisições HTTP e retornar respostas para a interface web.
-    *   `HomeController.java`: Controlador para a página inicial da aplicação.
-    *   `ChampionshipController.java`: Controlador para endpoints relacionados à classificação e à simulação de rodadas.
-    *   `MatchesController.java`: Controlador para endpoints que exibem informações sobre as partidas.
-    *   `StatsController.java`: Controlador para endpoints relacionados à exibição de estatísticas, como a artilharia.
-*   **`br.ufpb.poo.brasileirao.controladores`**: Pacote contendo implementações de controladores mais antigas ou alternativas, possivelmente associadas à versão de console da simulação.
-    *   `TeamController.java`: Controlador legado para o carregamento de dados de equipes.
-    *   `TournamentController.java`: Controlador legado para a gestão do torneio.
+📊 **Estatísticas em tempo real**  
+   - Tabela de classificação dinâmica  
+   - Lista de artilheiros atualizada  
 
-## Resultados e Considerações Finais
+🌐 **Interface Web Interativa**  
+   - Desenvolvida com HTML5, CSS3 e Thymeleaf  
+   - Visualização responsiva de resultados e estatísticas  
 
-### Resultados Alcançados
+---
 
-O projeto resultou em um sistema funcional capaz de simular o Campeonato Brasileiro de Futebol no formato de pontos corridos (turno e returno). A solução implementa com sucesso as funcionalidades propostas, incluindo:
+## 🛠️ Tecnologias
 
-*   Carregamento dinâmico de equipes e jogadores a partir de fontes de dados (ex: arquivos JSON).
-*   Geração automática e correta do calendário de jogos, garantindo que todas as equipes se enfrentem duas vezes.
-*   Simulação de partidas com resultados baseados na força das equipes e com um componente de aleatoriedade.
-*   Cálculo preciso e atualização em tempo real da tabela de classificação e da artilharia após cada rodada simulada.
-*   Interface web interativa desenvolvida com Spring Boot e Thymeleaf (ou outra tecnologia de front-end), permitindo ao usuário visualizar a classificação, os jogos por rodada, os artilheiros e iniciar/avançar a simulação.
+| Ferramenta           | Descrição                                  |
+|----------------------|--------------------------------------------|
+| **Java 17**          | Linguagem principal do projeto            |
+| **Spring Boot**      | Framework para backend e gestão de serviços|
+| **Maven**            | Gerenciamento de dependências             |
+| **HTML5 CSS3**              | Desenvolvimento do Frontend                      |
 
-O sistema demonstra a aplicação prática dos conceitos de Orientação a Objetos na modelagem de um problema complexo do mundo real.
+---
 
-### Dificuldades Encontradas
+## 🗃️ Estrutura de Pacotes
 
-Durante o desenvolvimento, a equipe enfrentou alguns desafios, tais como:
+O código fonte do projeto (`src/main/java`) está organizado na seguinte estrutura:
 
-*   **Modelagem Inicial:** Definir a estrutura de classes e relacionamentos mais adequada para representar a complexidade do campeonato (times, jogadores, partidas, classificação, artilharia) exigiu discussões e refinamentos.
-*   **Algoritmo de Geração de Calendário:** Implementar um algoritmo eficiente e justo para gerar o calendário de jogos (turno e returno) de forma que evitasse confrontos repetidos na mesma rodada ou sequências desbalanceadas de jogos em casa/fora.
-*   **Integração Front-end e Back-end:** Conectar a lógica de simulação do backend (Java/Spring Boot) com a interface web (HTML/CSS/JavaScript/Thymeleaf), garantindo a atualização dinâmica dos dados e a interatividade do usuário.
-*   **Gerenciamento de Estado da Simulação:** Manter o estado correto da simulação (rodada atual, partidas jogadas, classificação) entre as requisições web.
+```bash
+br.ufpb.poo.brasileirao/
+├── Main.java                    # Ponto de entrada Spring Boot + simulador console
+│
+├── model/                       # Entidades do domínio
+│   ├── Team.java                # Modelo de equipe
+│   ├── Player.java              # Modelo de jogador
+│   ├── Position.java            # Enum de posições
+│   └── Standing.java            # Estatísticas de time (legado)
+│
+├── match/                       # Lógica de partidas
+│   └── Match.java               # Modelo de partida (resultado + data)
+│
+├── tournament/                  # Gerenciamento do torneio
+│   ├── LeagueStandings.java      # Tabela de classificação
+│   │   └── TeamStats            # Estatísticas por time
+│   └── TopScorersTable.java      # Lista de artilheiros
+│
+├── service/                     # Lógica de negócio
+│   ├── TournamentManager.java    # Orquestração principal
+│   ├── TeamService.java          # Operações com equipes
+│   └── TournamentService.java    # Gerenciamento alternativo
+│
+├── controller/                  # Controladores Web
+│   ├── HomeController.java       # Página inicial
+│   ├── ChampionshipController.java # Classificação/simulação
+│   ├── MatchesController.java    # Gerenciamento de partidas
+│   └── StatsController.java      # Estatísticas/artilharia
+│
+└── controladores/               # Controladores legados
+    ├── TeamController.java       # Carregamento de dados (legado)
+    └── TournamentController.java # Gerenciamento (legado)
 
-### Reflexão sobre a Aprendizagem (Java e POO)
+```
+## 📊 Resultados e Considerações
 
-O desenvolvimento deste projeto proporcionou uma experiência prática valiosa no aprendizado e aplicação da linguagem Java e dos paradigmas da Programação Orientada a Objetos (POO).
+### ✅ Conquistas
+- **Sistema completo** de simulação do Brasileirão  
+- **Carregamento dinâmico** de dados (JSON)  
+- **Algoritmo eficiente** para geração de calendário  
+- **Simulação realista** com força das equipes + aleatoriedade  
+- **Interface web integrada** (Spring Boot + Thymeleaf)  
 
-*   **Java:** A equipe pôde aprofundar seus conhecimentos na sintaxe, bibliotecas padrão (Collections, I/O, Date/Time API) e recursos da linguagem. O uso do Spring Boot também introduziu conceitos importantes como injeção de dependência, anotações e o padrão MVC.
-*   **POO:** Os princípios de POO foram fundamentais para a organização e modularidade do código.
+### �️ Desafios Superados
+| Desafio                      | Solução Implementada               |
+|------------------------------|-------------------------------------|
+| Modelagem de classes         | Diagramas UML + revisões iterativas|
+| Geração de calendário        | Algoritmo round-robin adaptado     |
+| Integração frontend/backend  | API REST + Thymeleaf templates     |
+| Gerenciamento de estado      | Padrão Singleton + session attributes |
+
+### 🎓 Aprendizados
+
+#### Java & Spring Boot
+- Domínio avançado de Collections Framework  
+- Configuração automática com Spring Boot  
+- Injeção de dependências  
+- Padrão MVC na prática  
+
+#### POO Aplicada
+- **Encapsulamento**: Modelagem de entidades com acesso controlado  
+- **Abstração**: Interfaces para serviços e controladores  
+- **Coesão**: Divisão clara de responsabilidades  
+- **Baixo acoplamento**: Comunicação via interfaces  
+
+### 💡 Sugestões para a Disciplina
+- Maior ênfase em testes unitários  
+- Workshops de integração frontend/backend  
+- Casos de estudo com sistemas legados  
 
 ### Feedback e Sugestões para a Disciplina
 
