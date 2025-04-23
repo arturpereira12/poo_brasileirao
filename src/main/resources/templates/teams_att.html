@@ -287,6 +287,53 @@
             pointer-events: none;
             z-index: -1;
         }
+        
+        /* Estilos para o componente de ordenação */
+        .sorting-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .sorting-box {
+            background-color: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(255, 225, 0, 0.2);
+            border-radius: var(--border-radius);
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .sorting-label {
+            color: var(--text-primary);
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+
+        .sorting-select {
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 225, 0, 0.3);
+            color: var(--primary-color);
+            border-radius: 8px;
+            padding: 0.4rem 1rem;
+            font-weight: 500;
+            min-width: 220px;
+            transition: var(--transition);
+        }
+
+        .sorting-select:focus {
+            box-shadow: 0 0 0 0.25rem rgba(255, 225, 0, 0.25);
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .sorting-select option {
+            background-color: #222;
+            color: #fff;
+            padding: 8px;
+        }
 
         @media (max-width: 768px) {
             .container {
@@ -307,6 +354,17 @@
             .strength-meters {
                 flex-direction: column;
                 gap: 0.5rem;
+            }
+            
+            .sorting-box {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1rem;
+                width: 100%;
+            }
+            
+            .sorting-select {
+                width: 100%;
             }
         }
     </style>
@@ -342,7 +400,19 @@
     <div class="container">
         <h1 class="page-title">Times do Campeonato</h1>
         
-        <div class="row">
+        <!-- Novo componente de ordenação -->
+        <div class="sorting-container">
+            <div class="sorting-box">
+                <label for="sortTeams" class="sorting-label">Ordenar por:</label>
+                <select id="sortTeams" class="sorting-select">
+                    <option value="alphabetical" selected>Ordem Alfabética</option>
+                    <option value="strength-desc">Força (Maior para Menor)</option>
+                    <option value="strength-asc">Força (Menor para Maior)</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="row" id="teamsContainer">
             <div class="col-lg-6 mb-4" th:each="team : ${teams}">
                 <div class="team-card">
                     <div class="team-header">
@@ -458,5 +528,55 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Script para ordenação dos times -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sortSelect = document.getElementById('sortTeams');
+            
+            // Ordenar os times alfabeticamente por padrão ao carregar a página
+            sortTeamsByValue('alphabetical');
+            
+            sortSelect.addEventListener('change', function() {
+                const sortValue = this.value;
+                sortTeamsByValue(sortValue);
+            });
+            
+            function sortTeamsByValue(sortValue) {
+                const teamsContainer = document.getElementById('teamsContainer');
+                const teamCards = Array.from(document.querySelectorAll('.col-lg-6.mb-4'));
+                
+                // Ordenar os cards com base na opção selecionada
+                teamCards.sort(function(a, b) {
+                    const teamNameA = a.querySelector('.team-name').textContent;
+                    const teamNameB = b.querySelector('.team-name').textContent;
+                    
+                    const strengthTextA = a.querySelector('.team-strength').textContent;
+                    const strengthTextB = b.querySelector('.team-strength').textContent;
+                    
+                    // Extrair apenas o número da força (remover o texto "de Força")
+                    const teamStrengthA = parseInt(strengthTextA);
+                    const teamStrengthB = parseInt(strengthTextB);
+                    
+                    switch(sortValue) {
+                        case 'alphabetical':
+                            return teamNameA.localeCompare(teamNameB);
+                        case 'strength-desc':
+                            return teamStrengthB - teamStrengthA;
+                        case 'strength-asc':
+                            return teamStrengthA - teamStrengthB;
+                        default:
+                            return teamNameA.localeCompare(teamNameB); // Agora o default também é alfabético
+                    }
+                });
+                
+                // Limpar o container e adicionar os cards ordenados
+                teamsContainer.innerHTML = '';
+                teamCards.forEach(function(card) {
+                    teamsContainer.appendChild(card);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
