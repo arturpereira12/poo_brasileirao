@@ -615,6 +615,29 @@
             border-radius: 8px;
             font-weight: 500;
         }
+
+        /* Novos estilos para o controle de simulação */
+        .simulation-control {
+            width: 160px;
+        }
+
+        .simulation-control .form-select {
+            background-color: #222;
+            color: #fff;
+            border: 1px solid rgba(255, 225, 0, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .simulation-control .form-select:focus {
+            box-shadow: 0 0 0 0.25rem rgba(255, 225, 0, 0.25);
+            border-color: var(--primary-color);
+        }
+
+        .simulation-control .form-label {
+            font-size: 0.85rem;
+            color: #ccc;
+        }
     </style>
 </head>
 <body>
@@ -668,9 +691,22 @@
                     </div>
                 </div>
                 <div class="text-center" th:if="${canSimulateNextRound}">
-                    <button id="simulateButton" class="btn btn-primary">
-                        <i class="bi bi-play-fill me-2"></i>Simular Próxima Rodada
-                    </button>
+                    <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                        <button id="simulateButton" class="btn btn-primary">
+                            <i class="bi bi-play-fill me-2"></i>Simular Rodadas
+                        </button>
+                        <div class="simulation-control">
+                            <label for="roundsToSimulate" class="form-label text-light mb-1">Número de rodadas:</label>
+                            <select id="roundsToSimulate" class="form-select form-select-sm">
+                                <option value="1" selected>1 rodada</option>
+                                <option value="2">2 rodadas</option>
+                                <option value="3">3 rodadas</option>
+                                <option value="5">5 rodadas</option>
+                                <option value="10">10 rodadas</option>
+                                <option value="-1">Todas restantes</option>
+                            </select>
+                        </div>
+                    </div>
                     <div id="resultMessage"></div>
                 </div>
                 <div class="text-center" th:unless="${canSimulateNextRound}">
@@ -917,17 +953,24 @@
         document.getElementById('simulateButton')?.addEventListener('click', function() {
             const button = this;
             const resultMessage = document.getElementById('resultMessage');
+            const roundsToSimulate = document.getElementById('roundsToSimulate').value;
             
             // Desabilitar botão
             button.disabled = true;
             button.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Simulando...';
             
-            // Fazer a requisição para simular a próxima rodada
-            fetch('/championship/simulate-next-round', {
+            // Preparar dados para enviar
+            const requestData = {
+                rounds: parseInt(roundsToSimulate)
+            };
+            
+            // Fazer a requisição para simular rodadas
+            fetch('/championship/simulate-rounds', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify(requestData)
             })
             .then(response => response.json())
             .then(data => {
@@ -944,20 +987,20 @@
                 } else {
                     // Reabilitar botão em caso de erro
                     button.disabled = false;
-                    button.innerHTML = '<i class="bi bi-play-fill me-2"></i>Simular Próxima Rodada';
+                    button.innerHTML = '<i class="bi bi-play-fill me-2"></i>Simular Rodadas';
                 }
             })
             .catch(error => {
                 // Em caso de erro
-                resultMessage.textContent = 'Erro ao simular a rodada. Tente novamente.';
+                resultMessage.textContent = 'Erro ao simular rodadas. Tente novamente.';
                 resultMessage.className = 'alert alert-danger';
                 resultMessage.style.display = 'block';
                 
                 // Reabilitar botão
                 button.disabled = false;
-                button.innerHTML = '<i class="bi bi-play-fill me-2"></i>Simular Próxima Rodada';
+                button.innerHTML = '<i class="bi bi-play-fill me-2"></i>Simular Rodadas';
             });
         });
     </script>
 </body>
-</html> 
+</html>

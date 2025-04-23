@@ -18,6 +18,9 @@ import br.ufpb.poo.brasileirao.tournament.LeagueStandings;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/championship")
@@ -169,4 +172,49 @@ public class ChampionshipController {
         public int getGoalDifference() { return goalsFor - goalsAgainst; }
         public Team getTeam() { return new Team(teamName); } // Para compatibilidade com o template
     }
-} 
+    
+    @PostMapping("/simulate-rounds")
+    @ResponseBody
+    public Map<String, String> simulateRounds(@RequestBody Map<String, Integer> request) {
+        Map<String, String> response = new HashMap<>();
+        
+        if (tournamentManager.isTournamentCompleted()) {
+            response.put("status", "error");
+            response.put("message", "O campeonato já terminou!");
+            return response;
+        }
+        
+        int roundsToSimulate = request.get("rounds");
+        int simulatedCount = 0;
+        
+        // Simular todas as rodadas restantes
+        if (roundsToSimulate == -1) {
+            tournamentManager.simulateAllRemainingRounds();
+            response.put("status", "success");
+            response.put("message", "Todas as rodadas restantes foram simuladas com sucesso!");
+        } 
+        // Simular um número específico de rodadas
+        else {
+            for (int i = 0; i < roundsToSimulate; i++) {
+                boolean success = tournamentManager.simulateNextRound();
+                if (success) {
+                    simulatedCount++;
+                } else {
+                    break; // O torneio terminou
+                }
+            }
+            
+            String message;
+            if (simulatedCount == 1) {
+                message = "1 rodada simulada com sucesso!";
+            } else {
+                message = simulatedCount + " rodadas simuladas com sucesso!";
+            }
+            
+            response.put("status", "success");
+            response.put("message", message);
+        }
+        
+        return response;
+    }
+}
