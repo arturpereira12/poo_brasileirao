@@ -1,270 +1,69 @@
-@startuml BrasileiraoSimulation
+@startuml BrasileiraoSimplificado
 
-' Tipos externos (sem pacote)
-class ModelAndView
-class ObjectMapper
-class Model
-class Random
-class LocalDate
-class LocalDateTime
-class Map<K,V>
-class List<T>
-
-' Pacotes com alias
-package "br.ufpb.poo.brasileirao" {
-  
-  package "model" as MODEL {
-    class Team {
-      - name: String
-      - strength: int
-      - players: List<Player>
-      + getStrength(): int
-      + getPlayers(): List<Player>
-      + getName(): String
-    }
-    class Player {
-      - name: String
-      - strength: int
-      - position: Position
-      + getName(): String
-      + getStrength(): int
-      + getPosition(): Position
-    }
-    enum Position {
-      FORWARD
-      MIDFIELDER
-      DEFENDER
-      GOALKEEPER
-    }
-    class Standing <<Deprecated>> {
-      - team: Team
-      - points: int
-      - played: int
-      - wins: int
-      - draws: int
-      - losses: int
-      - goalsFor: int
-      - goalsAgainst: int
-      - goalDifference: int
-      + getName(): String
-      + getPoints(): int
-      + getPlayed(): int
-      + getWins(): int
-      + getDraws(): int
-      + getLosses(): int
-      + getGoalsFor(): int
-      + getGoalsAgainst(): int
-      + getGoalDifference(): int
-    }
-
-    Team "1" *-- "0..*" Player : contains
-    Player *-- Position
-    Standing ..> Team : uses
+package "br.ufpb.poo.brasileirao.model" {
+  class Team {
+    - name: String
+    - strength: int
+    - players: List<Player>
   }
-  
-  package "match" as MATCH {
-    class Match {
-      - homeTeam: MODEL.Team
-      - awayTeam: MODEL.Team
-      - homeScore: int
-      - awayScore: int
-      - date: LocalDate
-      - dateTime: LocalDateTime
-      - round: int
-      - played: boolean
-      - goalScorers: Map<String, List<String>>
-      + Match(home: MODEL.Team, away: MODEL.Team, date: LocalDate, round: int)
-      + Match(home: MODEL.Team, away: MODEL.Team, dateTime: LocalDateTime)
-      + setResult(homeScore: int, awayScore: int)
-      + addGoal(teamName: String, playerName: String)
-      + getHomeTeam(): MODEL.Team
-      + getAwayTeam(): MODEL.Team
-      + getHomeScore(): int
-      + getAwayScore(): int
-      + getRound(): int
-      + isPlayed(): boolean
-      + getGoalScorers(): Map<String, List<String>>
-      + getFormattedDate(): String
-    }
-    Match --> "2" MODEL.Team : references
+  class Player {
+    - name: String
+    - strength: int
+    - position: Position
   }
+  enum Position
+  Team "1" *-- "0..*" Player
+  Player *-- Position
+}
 
-  package "tournament" as TOUR {
-    class LeagueStandings {
-      - teamStatsMap: Map<String, TeamStats>
-      + addTeam(teamName: String)
-      + addWin(teamName: String, goalsFor: int, goalsAgainst: int)
-      + addDraw(teamName: String, goalsFor: int, goalsAgainst: int)
-      + addLoss(teamName: String, goalsFor: int, goalsAgainst: int)
-      + getStandings(): List<TeamStats>
-      + getNumberOfTeams(): int
-    }
-    class TeamStats {
-      - teamName: String
-      - played: int
-      - wins: int
-      - draws: int
-      - losses: int
-      - goalsFor: int
-      - goalsAgainst: int
-      - points: int
-      + TeamStats(teamName: String)
-      + addWin(goalsFor: int, goalsAgainst: int)
-      + addDraw(goalsFor: int, goalsAgainst: int)
-      + addLoss(goalsFor: int, goalsAgainst: int)
-      + getTeamName(): String
-      + getPlayed(): int
-      + getWins(): int
-      + getDraws(): int
-      + getLosses(): int
-      + getGoalsFor(): int
-      + getGoalsAgainst(): int
-      + getPoints(): int
-      + getGoalDifference(): int
-    }
-    class TopScorersTable {
-      + addGoal(playerName: String)
-      + getTopScorers(): List<ScorerEntry>
-    }
-    class ScorerEntry {
-      - playerName: String
-      - goals: int
-    }
-
-    TopScorersTable ..> ScorerEntry
-    LeagueStandings "1" *-- "0..*" TeamStats : contains
+package "br.ufpb.poo.brasileirao.match" {
+  class Match {
+    - homeTeam: Team
+    - awayTeam: Team
+    - homeScore: int
+    - awayScore: int
+    - round: int
   }
+  Match --> Team : home/away
+}
 
-  package "service" as SVC {
-    class TournamentManager <<Service>> {
-      - tournamentName: String
-      - teams: List<MODEL.Team>
-      - scheduledMatches: List<MATCH.Match>
-      - simulatedMatches: List<MATCH.Match>
-      - leagueStandings: TOUR.LeagueStandings
-      - topScorers: TOUR.TopScorersTable
-      - currentRound: int
-      - totalRounds: int
-      - isActive: boolean
-      - random: Random
-      + addTeams(teams: List<MODEL.Team>)
-      + startTournament()
-      + reset()
-      + simulateNextRound(): boolean
-      + simulateAllRemainingRounds()
-      + getLeagueStandings(): TOUR.LeagueStandings
-      + getTopScorers(): TOUR.TopScorersTable
-      + getAllSimulatedMatches(): List<MATCH.Match>
-      + getAllScheduledMatches(): List<MATCH.Match>
-      + getCurrentRound(): int
-      + getTotalRounds(): int
-      + isActive(): boolean
-      - generateSchedule()
-      - simulateMatch(match: MATCH.Match)
-      - updateStandings(match: MATCH.Match)
-      - simulateGoalScorers(match: MATCH.Match, team: MODEL.Team, goals: int, isHome: boolean)
-    }
-    class TeamService <<Service>> {
-      + leiaDoArquivo(): List<MODEL.Team>
-    }
-    class TournamentController
-    class TopScorers <<Deprecated>>
-    class TournamentService <<Service>> {
-      - teams: List<MODEL.Team>
-      - matches: List<MATCH.Match>
-      - standings: List<MODEL.Standing>
-      + startTournament()
-      + simulateAllRemainingRounds()
-      + getLeagueStandings(): List<MODEL.Standing>
-      + getTopScorers(): TopScorers
-    }
-
-    TournamentManager o-- TOUR.LeagueStandings
-    TournamentManager o-- TOUR.TopScorersTable
-    TournamentManager o-- "0..*" MODEL.Team
-    TournamentManager o-- "0..*" MATCH.Match
-    TournamentManager ..> Random
-
-    TeamService ..> MODEL.Team
-    TournamentService o-- "0..*" MODEL.Team
-    TournamentService o-- "0..*" MATCH.Match
-    TournamentService o-- "0..*" MODEL.Standing
+package "br.ufpb.poo.brasileirao.tournament" {
+  class LeagueStandings {
+    - teamStatsMap: Map<String, TeamStats>
   }
-
-  package "controladores" as CNTR {
-    class TeamController <<Controller>> {
-      + leiaDoArquivo(): List<MODEL.Team>
-      + leiaTeams(mv: ModelAndView): ModelAndView
-      + leiaTeamsAtt(mv: ModelAndView): ModelAndView
-      + leiaTeamAtt(name: String, mv: ModelAndView): ModelAndView
-    }
-    TeamController ..> MODEL.Team
-    TeamController ..> ObjectMapper
-    TeamController ..> ModelAndView
+  class TeamStats {
+    - teamName: String
+    - points: int
   }
+  class TopScorersTable
+  LeagueStandings "1" *-- "0..*" TeamStats
+}
 
-  package "controller" as WEB {
-    class ChampionshipController <<Controller>> {
-      - tournamentManager: SVC.TournamentManager
-      - teamController: CNTR.TeamController
-      + initializeChampionship()
-      + getStandings(model: Model): String
-      + simulateRounds(request: Map<String, Integer>): Map<String, String>
-    }
-    class StandingAdapter {
-      - ts: TOUR.TeamStats
-      + StandingAdapter(ts: TOUR.TeamStats)
-      + getTeamName(): String
-      + getPlayed(): int
-      + getWins(): int
-      + getDraws(): int
-      + getLosses(): int
-      + getGoalsFor(): int
-      + getGoalsAgainst(): int
-      + getPoints(): int
-      + getGoalDifference(): int
-    }
-    class HomeController <<Controller>> {
-      + home(model: Model): String
-    }
-    class MatchesController <<Controller>> {
-      - tournamentManager: SVC.TournamentManager
-      + matchesByRound(round: int, model: Model): String
-      + allMatches(model: Model): String
-    }
-    class StatsController <<Controller>> {
-      - tournamentManager: SVC.TournamentManager
-      + topScorers(model: Model): String
-    }
-
-    ChampionshipController ..> SVC.TournamentManager
-    ChampionshipController ..> CNTR.TeamController
-    ChampionshipController ..> StandingAdapter
-    StandingAdapter ..> TOUR.TeamStats
-
-    MatchesController ..> SVC.TournamentManager
-    StatsController ..> SVC.TournamentManager
+package "br.ufpb.poo.brasileirao.service" {
+  class TournamentManager {
+    - teams: List<Team>
+    - matches: List<Match>
+    - leagueStandings: LeagueStandings
+    - topScorers: TopScorersTable
+    + addTeams(List<Team>)
+    + startTournament()
+    + simulateNextRound()
+    + getLeagueStandings()
+    + getTopScorers()
   }
+  TournamentManager o-- LeagueStandings
+  TournamentManager o-- TopScorersTable
+  TournamentManager o-- "0..*" Team
+  TournamentManager o-- "0..*" Match
+}
 
-  class Main {
-    + main(args: String[])
-    + objectMapper(): ObjectMapper
-  }
-  class TournamentSimulator {
-    - mapper: ObjectMapper
-    + simulateTournament(): String
-    - carregarTimes(): List<MODEL.Team>
-    - selecionarTimesPorForca(allTeams: List<MODEL.Team>, quantidade: int): List<MODEL.Team>
-    - executarTorneio(teams: List<MODEL.Team>): SVC.TournamentController
-    - salvarResultados(tc: SVC.TournamentController): String
-  }
-
-  Main +-- TournamentSimulator
-  TournamentSimulator ..> ObjectMapper
-  TournamentSimulator ..> CNTR.TeamController
-  TournamentSimulator ..> SVC.TournamentController
-  TournamentSimulator ..> MODEL.Team
-
+package "br.ufpb.poo.brasileirao.controller" {
+  class ChampionshipController
+  class MatchesController
+  class StatsController
+  ChampionshipController ..> TournamentManager
+  MatchesController ..> TournamentManager
+  StatsController ..> TournamentManager
 }
 
 @enduml
