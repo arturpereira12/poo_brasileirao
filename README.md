@@ -210,6 +210,9 @@ Player (classe abstrata)
 ![Home Page](/src/main/resources/static/images/crests/ADR01.png)
 ![Home Page](/src/main/resources/static/images/crests/ADR02.png)
 ![Home Page](/src/main/resources/static/images/crests/ADR03.png)
+![Home Page](/src/main/resources/static/images/crests/ADR1.png)
+
+
 
 ### Games
 ![Games](/src/main/resources/static/images/crests/ADR04.png)
@@ -217,7 +220,7 @@ Player (classe abstrata)
 ### Stats
 ![Stats](/src/main/resources/static/images/crests/ADR05.png)
 ![Stats](/src/main/resources/static/images/crests/ADR06.png)
-
+![Stats](/src/main/resources/static/images/crests/ADR2.png)
 
 ### Teams
 ![Teams](/src/main/resources/static/images/crests/ADR07.png)
