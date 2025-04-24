@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.ufpb.poo.brasileirao.match.Match;
-import br.ufpb.poo.brasileirao.model.Standing;
 import br.ufpb.poo.brasileirao.model.Team;
 import br.ufpb.poo.brasileirao.service.TournamentManager;
 import br.ufpb.poo.brasileirao.tournament.LeagueStandings;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.HashMap;
@@ -30,14 +28,6 @@ public class ChampionshipController {
     
     @Autowired
     private TournamentManager tournamentManager;
-
-    /**
-     * Lista de classificações no formato antigo (Standing).
-     * @deprecated Mantida para compatibilidade com código legado.
-     * Use os dados de LeagueStandings diretamente em novas implementações.
-     */
-    @Deprecated
-    private List<Standing> legacyStandings;
 
     @GetMapping
     public String showChampionship(Model model) {
@@ -93,37 +83,6 @@ public class ChampionshipController {
         
         tournamentManager.addTeams(teams);
         tournamentManager.startTournament();
-        
-        // Manter a compatibilidade com o código legado que usa Standing
-        updateLegacyStandings();
-    }
-    
-    private void updateLegacyStandings() {
-        if (legacyStandings == null) {
-            legacyStandings = new ArrayList<>();
-            for (Team team : tournamentManager.getTeams()) {
-                legacyStandings.add(new Standing(team));
-            }
-        }
-        
-        // Atualizar os standings com os dados atuais (mantido para compatibilidade)
-        LeagueStandings standings = tournamentManager.getLeagueStandings();
-        for (LeagueStandings.TeamStats ts : standings.getStandings()) {
-            Standing standing = legacyStandings.stream()
-                    .filter(s -> s.getTeam().getName().equals(ts.getTeamName()))
-                    .findFirst()
-                    .orElse(null);
-                    
-            if (standing != null) {
-                standing.setPlayed(ts.getPlayed());
-                standing.setWins(ts.getWins());
-                standing.setDraws(ts.getDraws());
-                standing.setLosses(ts.getLosses());
-                standing.setGoalsFor(ts.getGoalsFor());
-                standing.setGoalsAgainst(ts.getGoalsAgainst());
-                standing.setPoints(ts.getPoints());
-            }
-        }
     }
     
     /**
