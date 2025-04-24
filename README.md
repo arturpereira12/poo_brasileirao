@@ -205,3 +205,19 @@ Player (classe abstrata)
 ### Feedback e Sugestões para a Disciplina
 
 * Nosso grupo apreciou particularmente a oportunidade de ganhar mais experiência prática com desenvolvimento web utilizando Spring Boot e de aprimorar as habilidades de colaboração e trabalho em equipe.
+
+### Home Page
+![Home Page](/src/main/resources/static/images/crests/ADR01.png)
+![Home Page](/src/main/resources/static/images/crests/ADR02.png)
+![Home Page](/src/main/resources/static/images/crests/ADR03.png)
+
+### Games
+![Games](/src/main/resources/static/images/crests/ADR04.png)
+
+### Stats
+![Stats](/src/main/resources/static/images/crests/ADR05.png)
+![Stats](/src/main/resources/static/images/crests/ADR06.png)
+
+
+### Teams
+![Teams](/src/main/resources/static/images/crests/ADR07.png)
