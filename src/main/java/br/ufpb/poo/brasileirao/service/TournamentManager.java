@@ -16,17 +16,38 @@ import java.util.Map;
 import java.util.Random;
 import org.springframework.stereotype.Service;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Service
 public class TournamentManager {
+    @Getter @Setter
     private String tournamentName;
+    
+    @Getter
     private List<Team> teams;
+    
+    @Getter
     private List<Match> scheduledMatches;
+    
+    @Getter
     private List<Match> simulatedMatches;
+    
+    @Getter
     private LeagueStandings leagueStandings;
+    
+    @Getter
     private TopScorersTable topScorers;
+    
+    @Getter
     private int currentRound;
+    
+    @Getter
     private int totalRounds;
+    
     private Random random;
+    
+    @Getter
     private boolean isActive;
 
     public TournamentManager() {
@@ -426,11 +447,15 @@ public class TournamentManager {
                 .mapToInt(m -> m.getHomeScore() + m.getAwayScore())
                 .sum();
         
+        double averageGoals = totalMatches > 0 ? 
+                              (double) totalGoals / totalMatches : 0;
+        
+        // Formatar média de gols com 2 casas decimais
+        averageGoals = Math.round(averageGoals * 100.0) / 100.0;
+        
         stats.put("totalMatches", totalMatches);
         stats.put("totalGoals", totalGoals);
-        
-        double averageGoals = totalMatches > 0 ? (double) totalGoals / totalMatches : 0;
-        stats.put("averageGoals", Math.round(averageGoals * 10) / 10.0);
+        stats.put("averageGoals", averageGoals);
         
         return stats;
     }

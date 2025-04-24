@@ -3,6 +3,7 @@ package br.ufpb.poo.brasileirao.service;
 import br.ufpb.poo.brasileirao.match.Match;
 import br.ufpb.poo.brasileirao.model.Team;
 import org.springframework.stereotype.Service;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +11,9 @@ import java.util.Random;
 
 @Service
 public class TournamentService {
-    private List<Team> teams;
-    private List<Match> matches;
-    private List<LeagueStanding> standings;
+    @Getter private List<Team> teams;
+    @Getter private List<Match> matches;
+    @Getter private List<LeagueStanding> standings;
     private Random random = new Random();
     
     // Construtor padrão para uso pelo Spring
@@ -318,4 +319,4 @@ public class TournamentService {
             }
         }
     }
-} 
+}

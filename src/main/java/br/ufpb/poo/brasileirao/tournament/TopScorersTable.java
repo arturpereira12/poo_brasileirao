@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.Getter;
+
 /**
  * Classe que representa a tabela de artilheiros de um campeonato.
  */
@@ -47,6 +49,7 @@ public class TopScorersTable {
         return playerStatsMap.size();
     }
 
+    @Getter
     public static class PlayerStats {
         private String playerName;
         private String teamName;
@@ -61,19 +64,6 @@ public class TopScorersTable {
         public void addGoal() {
             this.goals++;
         }
-        //Getters e Setters
-
-        public String getPlayerName() {
-            return playerName;
-        }
-
-        public String getTeamName() {
-            return teamName;
-        }
-
-        public int getGoals() {
-            return goals;
-        }
 
         @Override
         public String toString() {
@@ -81,4 +71,4 @@ public class TopScorersTable {
                     playerName, teamName, goals, (goals == 1 ? "" : "s"));
         }
     }
-} 
+}

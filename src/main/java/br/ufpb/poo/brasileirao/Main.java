@@ -15,6 +15,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import lombok.RequiredArgsConstructor;
+
 import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
@@ -35,12 +37,9 @@ public class Main {
         return mapper;
     }
 
+    @RequiredArgsConstructor
     public static class TournamentSimulator {
         private final ObjectMapper mapper;
-
-        public TournamentSimulator(ObjectMapper mapper) {
-            this.mapper = mapper;
-        }
 
         public String simulateTournament() throws Exception {
             System.out.println("=== SIMULADOR DO CAMPEONATO BRASILEIRO ===");

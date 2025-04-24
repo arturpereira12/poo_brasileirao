@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.web.bind.annotation.RequestBody;
+import lombok.Getter;
 
 @Controller
 @RequestMapping("/championship")
@@ -97,6 +98,7 @@ public class ChampionshipController {
     /**
      * Classe adaptadora para compatibilidade com o template.
      */
+    @Getter
     public static class StandingAdapter {
         private String teamName;
         private int played;
@@ -118,15 +120,6 @@ public class ChampionshipController {
             this.points = ts.getPoints();
         }
         
-        // Getters necessários para o template
-        public String getTeamName() { return teamName; }
-        public int getPlayed() { return played; }
-        public int getWins() { return wins; }
-        public int getDraws() { return draws; }
-        public int getLosses() { return losses; }
-        public int getGoalsFor() { return goalsFor; }
-        public int getGoalsAgainst() { return goalsAgainst; }
-        public int getPoints() { return points; }
         public int getGoalDifference() { return goalsFor - goalsAgainst; }
         public Team getTeam() { return new Team(teamName); } // Para compatibilidade com o template
     }

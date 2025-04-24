@@ -10,15 +10,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class Match {
-    private Team homeTeam;
-    private Team awayTeam;
-    private int homeScore;
-    private int awayScore;
-    private LocalDate date;
-    private LocalDateTime dateTime;
-    private int round;
-    private boolean played;
+    @Getter @Setter private Team homeTeam;
+    @Getter @Setter private Team awayTeam;
+    @Getter @Setter private int homeScore;
+    @Getter @Setter private int awayScore;
+    @Getter private LocalDate date;
+    @Getter private LocalDateTime dateTime;
+    @Getter @Setter private int round;
+    @Getter @Setter private boolean played;
     private Map<String, List<String>> goalScorers; // time -> lista de jogadores que marcaram gols
 
     public Match(Team homeTeam, Team awayTeam, LocalDate date, int round) {
@@ -61,49 +64,9 @@ public class Match {
         }
     }
 
-    public Team getHomeTeam() {
-        return homeTeam;
-    }
-
-    public void setHomeTeam(Team homeTeam) {
-        this.homeTeam = homeTeam;
-    }
-
-    public Team getAwayTeam() {
-        return awayTeam;
-    }
-
-    public void setAwayTeam(Team awayTeam) {
-        this.awayTeam = awayTeam;
-    }
-
-    public int getHomeScore() {
-        return homeScore;
-    }
-
-    public void setHomeScore(int homeScore) {
-        this.homeScore = homeScore;
-    }
-
-    public int getAwayScore() {
-        return awayScore;
-    }
-
-    public void setAwayScore(int awayScore) {
-        this.awayScore = awayScore;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
     public void setDate(LocalDate date) {
         this.date = date;
         this.dateTime = date != null ? date.atStartOfDay() : null;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
     }
 
     public void setDateTime(LocalDateTime dateTime) {
@@ -121,22 +84,6 @@ public class Match {
 
     public String getFormattedDate() {
         return date != null ? date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
-    }
-
-    public int getRound() {
-        return round;
-    }
-
-    public void setRound(int round) {
-        this.round = round;
-    }
-
-    public boolean isPlayed() {
-        return played;
-    }
-
-    public void setPlayed(boolean played) {
-        this.played = played;
     }
 
     public List<String> getGoalScorers(String teamName) {
@@ -159,4 +106,4 @@ public class Match {
         }
         return result;
     }
-} 
+}
