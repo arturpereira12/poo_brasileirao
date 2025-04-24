@@ -56,6 +56,7 @@ O desenvolvimento do sistema foi fundamentado nos princípios da Programação O
 | **Bootstrap 5**      | Framework de componentes responsivos      |
 | **Thymeleaf**        | Template engine para integração Java-HTML |
 | **Chart.js**         | Biblioteca para visualização de dados     |
+| **Lombok**           | Redução de boilerplate em classes Java (getters, setters, construtores, etc.) |
 
 ---
 
@@ -224,3 +225,17 @@ Player (classe abstrata)
 
 ### Teams
 ![Teams](/src/main/resources/static/images/crests/ADR07.png)
+
+---
+
+## 🔮 Melhorias Futuras
+
+- Permitir salvar e carregar simulações anteriores, possibilitando o acompanhamento de diferentes campeonatos.
+- Adicionar estatísticas avançadas: assistências, cartões amarelos/vermelhos, lesões, faltas, passes, etc.
+- Implementar modos de jogo adicionais, como um modo "Football Manager" (gestão de elenco, transferências, escalação, táticas e finanças).
+- Suporte a múltiplos campeonatos, temporadas e histórico de desempenho dos times.
+- Exportação de dados e relatórios em formatos como PDF ou CSV.
+- Interface para personalização de times, jogadores e regras do campeonato.
+- Integração com APIs externas de futebol para importar dados reais de jogadores, times e partidas.
+- Modo multiplayer/local para simulação entre diferentes usuários.
+- Sistema de conquistas, rankings e desafios para aumentar o engajamento.
