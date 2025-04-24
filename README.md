@@ -68,6 +68,19 @@ O código fonte do projeto (`src/main/java`) está organizado na seguinte estrut
 br.ufpb.poo.brasileirao/
 ├── Main.java                    # Ponto de entrada Spring Boot + simulador console
 │
+├── controller/                  # Controladores Web
+│   ├── HomeController.java       # Página inicial
+│   ├── ChampionshipController.java # Classificação/simulação
+│   ├── MatchesController.java    # Gerenciamento de partidas
+│   ├── StatsController.java      # Estatísticas/artilharia
+│   └── TeamController.java       # Visualização e dados dos times
+│
+├── exception/                   # Exceções personalizadas
+│   └── InvalidStrengthException.java # Exceção para força inválida de jogador/time
+│
+├── match/                       # Lógica de partidas
+│   └── Match.java               # Modelo de partida (resultado + data)
+│
 ├── model/                       # Entidades do domínio
 │   ├── Team.java                # Modelo de equipe
 │   ├── Player.java              # Modelo de jogador abstrato
@@ -80,35 +93,24 @@ br.ufpb.poo.brasileirao/
 │   ├── GoalProbabilityCalculatorFactory.java # Fábrica de calculadores de probabilidade
 │   └── Standing.java            # Estatísticas de time (legado)
 │
-├── exception/                   # Exceções personalizadas
-│   └── InvalidStrengthException.java # Exceção para força inválida de jogador/time
-│
-├── match/                       # Lógica de partidas
-│   └── Match.java               # Modelo de partida (resultado + data)
+├── service/                     # Lógica de negócio
+│   ├── TournamentManager.java   # Orquestração principal
+│   ├── TeamService.java         # Operações com equipes
+│   ├── TournamentService.java   # Gerenciamento alternativo (legado)
+│   └── strategy/                # Implementação do padrão Strategy
+│       ├── StrengthCalculationStrategy.java # Interface de estratégia
+│       └── AverageStrengthStrategy.java     # Implementação de cálculo de força média
 │
 ├── tournament/                  # Gerenciamento do torneio
 │   ├── LeagueStandings.java     # Tabela de classificação
 │   │   └── TeamStats            # Estatísticas por time (classe interna)
 │   └── TopScorersTable.java     # Lista de artilheiros
-│
-├── service/                     # Lógica de negócio
-│   ├── TournamentManager.java   # Orquestração principal
-│   ├── TeamService.java         # Operações com equipes
-│   ├── TournamentService.java   # Gerenciamento alternativo
-│   └── strategy/                # Implementação do padrão Strategy
-│       ├── StrengthCalculationStrategy.java # Interface de estratégia
-│       └── AverageStrengthStrategy.java     # Implementação de cálculo de força média
-│
-├── controller/                  # Controladores Web
-│   ├── HomeController.java       # Página inicial
-│   ├── ChampionshipController.java # Classificação/simulação
-│   ├── MatchesController.java    # Gerenciamento de partidas
-│   └── StatsController.java      # Estatísticas/artilharia
-│
-└── controladores/               # Controladores legados
-    ├── TeamController.java       # Carregamento de dados (legado)
-    └── TournamentController.java # Gerenciamento (legado)
 ```
+
+Os arquivos de recursos estão em `src/main/resources/`, incluindo:
+- `data/teams_and_players.json` — Dados dos times e jogadores
+- `templates/` — Templates Thymeleaf para as páginas web
+- `static/images/crests/` — Imagens dos escudos dos times
 
 ## 🧩 Padrões de Projeto e Design Arquitetural
 
