@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import org.springframework.stereotype.Service;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,13 +23,8 @@ public class TournamentManager {
     @Getter @Setter
     private String tournamentName;
     
-    @Getter
     private List<Team> teams;
-    
-    @Getter
     private List<Match> scheduledMatches;
-    
-    @Getter
     private List<Match> simulatedMatches;
     
     @Getter
@@ -362,79 +356,29 @@ public class TournamentManager {
     }
 
     /**
-     * Obtém a tabela de classificação do torneio.
-     */
-
-    public LeagueStandings getLeagueStandings() {
-        return leagueStandings;
-    }
-
-    /**
-     * Obtém a tabela de artilheiros do torneio.
-     */
-
-    public TopScorersTable getTopScorers() {
-        return topScorers;
-    }
-
-    /**
      * Obtém todas as partidas simuladas até o momento.
      */
-
     public List<Match> getAllSimulatedMatches() {
         return new ArrayList<>(simulatedMatches);
     }
 
     /**
      * Obtém todas as partidas agendadas.
-     * 
      */
-
     public List<Match> getAllScheduledMatches() {
         return new ArrayList<>(scheduledMatches);
     }
 
     /**
-     * Obtém a rodada atual do torneio.
-     */
-
-    public int getCurrentRound() {
-        return currentRound;
-    }
-
-    /**
-     * Obtém o número total de rodadas do torneio.
-     */
-
-    public int getTotalRounds() {
-        return totalRounds;
-    }
-
-    /**
      * Verifica se o torneio já foi concluído.
      */
-
     public boolean isTournamentCompleted() {
         return currentRound >= totalRounds;
     }
-
-    /**
-     * Verifica se o torneio está ativo.
-     * 
-    */
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public String getTournamentName() {
-        return tournamentName;
-    }
-
-    public void setTournamentName(String tournamentName) {
-        this.tournamentName = tournamentName;
-    }
     
+    /**
+     * Retorna uma cópia da lista de times para evitar modificações externas.
+     */
     public List<Team> getTeams() {
         return new ArrayList<>(teams);
     }
