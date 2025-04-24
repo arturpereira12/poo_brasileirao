@@ -418,73 +418,32 @@
                     <div class="team-header">
                         <div class="d-flex align-items-center">
                             <div class="team-crest">
-                                <img th:if="${team.name == 'Flamengo'}" 
-                                     th:src="@{/images/crests/Flamengo1.png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'Grêmio'}" 
-                                     th:src="@{/images/crests/Gremio (1).png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'Corinthians'}" 
-                                     th:src="@{/images/crests/Corinthians (1).png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'São Paulo'}" 
-                                     th:src="@{/images/crests/Sao Paulo.png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'Fluminense'}" 
-                                     th:src="@{/images/crests/Fluminense (1).png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'Palmeiras'}" 
-                                     th:src="@{/images/crests/Palmeiras (1).png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'Internacional'}" 
-                                     th:src="@{/images/crests/Internacional (1).png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'Atlético-MG'}" 
-                                     th:src="@{/images/crests/Atletico MG.png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'Cruzeiro'}" 
-                                     th:src="@{/images/crests/Cruzeiro.png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'Athletico-PR'}" 
-                                     th:src="@{/images/crests/Athletico PR.png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'Juventude'}" 
-                                     th:src="@{/images/crests/Juventude.png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'Goiás'}" 
-                                     th:src="@{/images/crests/Goias.png}"
-                                     th:alt="${team.name}"
-                                     class="large">
-                                <img th:if="${team.name == 'Santa Cruz'}" 
-                                     th:src="@{/images/crests/SantaCruz.png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'Bahia'}" 
-                                     th:src="@{/images/crests/Bahia.png}"
-                                     th:alt="${team.name}"
-                                     class="large">
-                                <img th:if="${team.name == 'Ceará'}" 
-                                     th:src="@{/images/crests/Ceara.png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'América-MG'}" 
-                                     th:src="@{/images/crests/AmericaMG.png}"
-                                     th:alt="${team.name}"
-                                     class="large">
-                                <img th:if="${team.name == 'Fortaleza'}" 
-                                     th:src="@{/images/crests/Fortaleza.png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'Vasco da Gama'}" 
-                                     th:src="@{/images/crests/Vasco.png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'Santos'}" 
-                                     th:src="@{/images/crests/Santos.png}"
-                                     th:alt="${team.name}"
-                                     class="large">
-                                <img th:if="${team.name == 'Botafogo'}" 
-                                     th:src="@{/images/crests/Botafogo.png}"
-                                     th:alt="${team.name}">
-                                <img th:if="${team.name == 'Atlético-GO'}" 
-                                     th:src="@{/images/crests/AtleticoGO.png}"
-                                     th:alt="${team.name}">
+                                <img th:if="${team.name == 'Flamengo'}" th:src="@{/images/crests/Flamengo.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Grêmio'}" th:src="@{/images/crests/Gremio.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Corinthians'}" th:src="@{/images/crests/Corinthians.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'São Paulo'}" th:src="@{/images/crests/Sao_Paulo.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Fluminense'}" th:src="@{/images/crests/Fluminense.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Palmeiras'}" th:src="@{/images/crests/Palmeiras.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Internacional'}" th:src="@{/images/crests/Internacional.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Atlético-MG'}" th:src="@{/images/crests/Atletico_Mineiro.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Cruzeiro'}" th:src="@{/images/crests/Cruzeiro.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Athletico-PR'}" th:src="@{/images/crests/Athletico_PR.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Juventude'}" th:src="@{/images/crests/Juventude.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Bahia'}" th:src="@{/images/crests/Bahia.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Ceará'}" th:src="@{/images/crests/Ceara.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Fortaleza'}" th:src="@{/images/crests/Fortaleza.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Vasco da Gama'}" th:src="@{/images/crests/Vasco.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Santos'}" th:src="@{/images/crests/Santos.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Botafogo'}" th:src="@{/images/crests/Botafogo.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Bragantino'}" th:src="@{/images/crests/Bragantino.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Goias'}" th:src="@{/images/crests/Goias.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Mirassol'}" th:src="@{/images/crests/Mirassol.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Santa Cruz'}" th:src="@{/images/crests/Santa_Cruz.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Sport Recife'}" th:src="@{/images/crests/Sport_Recife.png}" th:alt="${team.name}">
+                                <img th:if="${team.name == 'Vitoria' || team.name == 'Vitória' || team.name == 'EC Vitoria' || team.name == 'EC Vitória'}" th:src="@{/images/crests/Vitoria.png}" th:alt="${team.name}">
+                                <img th:unless="${team.name == 'Flamengo' || team.name == 'Grêmio' || team.name == 'Corinthians' || team.name == 'São Paulo' || team.name == 'Fluminense' || team.name == 'Palmeiras' || team.name == 'Internacional' || team.name == 'Atlético-MG' || team.name == 'Cruzeiro' || team.name == 'Athletico-PR' || team.name == 'Juventude' || team.name == 'Bahia' || team.name == 'Ceará' || team.name == 'Fortaleza' || team.name == 'Vasco da Gama' || team.name == 'Santos' || team.name == 'Botafogo' || team.name == 'Bragantino' || team.name == 'Goias' || team.name == 'Mirassol' || team.name == 'Santa Cruz' || team.name == 'Sport Recife' || team.name == 'Vitoria' || team.name == 'Vitória' || team.name == 'EC Vitoria' || team.name == 'EC Vitória'}"
+                                 th:src="@{/images/crests/{teamName}.png(teamName=${#strings.replace(team.name, ' ', '_')})}"
+                                 th:alt="${team.name}">
                             </div>
                             <span class="team-name" th:text="${team.name}">Nome do Time</span>
                         </div>
