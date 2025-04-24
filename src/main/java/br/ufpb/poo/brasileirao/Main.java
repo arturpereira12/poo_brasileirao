@@ -2,8 +2,8 @@ package br.ufpb.poo.brasileirao;
 
 import br.ufpb.poo.brasileirao.match.Match;
 import br.ufpb.poo.brasileirao.model.Team;
-import br.ufpb.poo.brasileirao.controladores.TeamController;
-import br.ufpb.poo.brasileirao.controladores.TournamentController;
+import br.ufpb.poo.brasileirao.controller.TeamController;
+import br.ufpb.poo.brasileirao.controller.TournamentController;
 import br.ufpb.poo.brasileirao.tournament.LeagueStandings;
 import br.ufpb.poo.brasileirao.tournament.TopScorersTable;
 

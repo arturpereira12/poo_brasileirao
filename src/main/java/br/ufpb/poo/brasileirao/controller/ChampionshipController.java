@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import br.ufpb.poo.brasileirao.controladores.TeamController;
 import br.ufpb.poo.brasileirao.match.Match;
 import br.ufpb.poo.brasileirao.model.Standing;
 import br.ufpb.poo.brasileirao.model.Team;

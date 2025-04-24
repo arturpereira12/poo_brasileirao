@@ -5,9 +5,6 @@ import java.util.List;
 import br.ufpb.poo.brasileirao.model.Player;
 import br.ufpb.poo.brasileirao.model.Position;
 
-/**
- * Calculates strength based on the simple average of players in each position.
- */
 public class AverageStrengthStrategy implements StrengthCalculationStrategy {
 
     @Override
@@ -48,9 +45,6 @@ public class AverageStrengthStrategy implements StrengthCalculationStrategy {
         return (int) Math.round(calculateDoubleAverageByPosition(players, position));
     }
 
-    /**
-     * Helper method to calculate the average strength of players in a specific position.
-     */
     private double calculateDoubleAverageByPosition(List<Player> players, Position position) {
         if (players == null || players.isEmpty()) {
             return 0.0;

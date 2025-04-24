@@ -1,4 +1,4 @@
-package br.ufpb.poo.brasileirao.controladores;
+package br.ufpb.poo.brasileirao.controller;
 
 import br.ufpb.poo.brasileirao.match.Match;
 import br.ufpb.poo.brasileirao.model.Team;

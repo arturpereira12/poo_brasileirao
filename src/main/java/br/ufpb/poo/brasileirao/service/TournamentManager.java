@@ -16,10 +16,6 @@ import java.util.Map;
 import java.util.Random;
 import org.springframework.stereotype.Service;
 
-/**
- * Classe principal para gerenciamento de torneios.
- * Unifica a lógica existente em diferentes implementações.
- */
 @Service
 public class TournamentManager {
     private String tournamentName;
@@ -33,18 +29,10 @@ public class TournamentManager {
     private Random random;
     private boolean isActive;
 
-    /**
-     * Cria um novo gerenciador de torneio.
-     */
     public TournamentManager() {
         this("Campeonato Brasileiro");
     }
 
-    /**
-     * Cria um novo gerenciador de torneio com o nome especificado.
-     * 
-     * @param tournamentName o nome do torneio
-     */
     public TournamentManager(String tournamentName) {
         this.tournamentName = tournamentName;
         this.teams = new ArrayList<>();
@@ -58,11 +46,6 @@ public class TournamentManager {
         this.isActive = false;
     }
 
-    /**
-     * Adiciona times ao torneio.
-     * 
-     * @param teams a lista de times a serem adicionados
-     */
     public void addTeams(List<Team> teams) {
         this.teams.clear();
         this.teams.addAll(teams);
@@ -74,9 +57,6 @@ public class TournamentManager {
         }
     }
 
-    /**
-     * Inicia um novo torneio, gerando o calendário de jogos.
-     */
     public void startTournament() {
         reset();
         generateSchedule();
@@ -84,9 +64,6 @@ public class TournamentManager {
         this.isActive = true;
     }
 
-    /**
-     * Reseta o estado do torneio.
-     */
     public void reset() {
         this.scheduledMatches.clear();
         this.simulatedMatches.clear();
@@ -101,9 +78,6 @@ public class TournamentManager {
         }
     }
 
-    /**
-     * Gera o calendário de jogos para o torneio em formato de pontos corridos.
-     */
     private void generateSchedule() {
         int numberOfTeams = teams.size();
         
@@ -179,10 +153,6 @@ public class TournamentManager {
         
         return true;
     }
-
-    /**
-     * Simula todas as rodadas restantes do torneio.
-     */
     public void simulateAllRemainingRounds() {
         while (simulateNextRound()) {
             // Continua simulando até o fim do torneio
@@ -215,7 +185,7 @@ public class TournamentManager {
         Team awayTeam = match.getAwayTeam();
         
         // Calcular força relativa dos times
-        int homeStrength = homeTeam.getStrength() + 10; // Vantagem de jogar em casa
+        int homeStrength = homeTeam.getStrength() + 10; // Vantagem do time da casa
         int awayStrength = awayTeam.getStrength();
         
         // Fator de aleatoriedade
@@ -258,14 +228,6 @@ public class TournamentManager {
         updateStandings(match);
     }
 
-    /**
-     * Simula os jogadores que marcaram gols na partida.
-     * 
-     * @param match a partida
-     * @param team o time que marcou os gols
-     * @param goals o número de gols marcados
-     * @param isHome true se é o time da casa, false se é o visitante
-     */
     private void simulateGoalScorers(Match match, Team team, int goals, boolean isHome) {
         
         // Mapear jogadores por posição
@@ -327,10 +289,8 @@ public class TournamentManager {
     /**
      * Seleciona um jogador com base na ponderação por força.
      * Jogadores com mais força têm maior probabilidade de serem selecionados.
-     * 
-     * @param players Lista de jogadores elegíveis
-     * @return Nome do jogador selecionado
      */
+     
     private String selectPlayerWeightedByStrength(List<Player> players) {
         // Calcular a soma total da força
         int totalStrength = players.stream().mapToInt(Player::getStrength).sum();
@@ -358,9 +318,7 @@ public class TournamentManager {
 
     /**
      * Atualiza a tabela de classificação com o resultado de uma partida.
-     * 
-     * @param match a partida a ser considerada
-     */
+    */
     private void updateStandings(Match match) {
         String homeTeam = match.getHomeTeam().getName();
         String awayTeam = match.getAwayTeam().getName();
@@ -384,27 +342,24 @@ public class TournamentManager {
 
     /**
      * Obtém a tabela de classificação do torneio.
-     * 
-     * @return a tabela de classificação
      */
+
     public LeagueStandings getLeagueStandings() {
         return leagueStandings;
     }
 
     /**
      * Obtém a tabela de artilheiros do torneio.
-     * 
-     * @return a tabela de artilheiros
      */
+
     public TopScorersTable getTopScorers() {
         return topScorers;
     }
 
     /**
      * Obtém todas as partidas simuladas até o momento.
-     * 
-     * @return lista de partidas simuladas
      */
+
     public List<Match> getAllSimulatedMatches() {
         return new ArrayList<>(simulatedMatches);
     }
@@ -412,35 +367,32 @@ public class TournamentManager {
     /**
      * Obtém todas as partidas agendadas.
      * 
-     * @return lista de partidas agendadas
      */
+
     public List<Match> getAllScheduledMatches() {
         return new ArrayList<>(scheduledMatches);
     }
 
     /**
      * Obtém a rodada atual do torneio.
-     * 
-     * @return a rodada atual
      */
+
     public int getCurrentRound() {
         return currentRound;
     }
 
     /**
      * Obtém o número total de rodadas do torneio.
-     * 
-     * @return o número total de rodadas
      */
+
     public int getTotalRounds() {
         return totalRounds;
     }
 
     /**
      * Verifica se o torneio já foi concluído.
-     * 
-     * @return true se o torneio foi concluído, false caso contrário
      */
+
     public boolean isTournamentCompleted() {
         return currentRound >= totalRounds;
     }
@@ -448,44 +400,24 @@ public class TournamentManager {
     /**
      * Verifica se o torneio está ativo.
      * 
-     * @return true se o torneio está ativo, false caso contrário
-     */
+    */
+
     public boolean isActive() {
         return isActive;
     }
 
-    /**
-     * Obtém o nome do torneio.
-     * 
-     * @return o nome do torneio
-     */
     public String getTournamentName() {
         return tournamentName;
     }
 
-    /**
-     * Define o nome do torneio.
-     * 
-     * @param tournamentName o nome do torneio
-     */
     public void setTournamentName(String tournamentName) {
         this.tournamentName = tournamentName;
     }
     
-    /**
-     * Obtém os times participantes do torneio.
-     * 
-     * @return lista de times
-     */
     public List<Team> getTeams() {
         return new ArrayList<>(teams);
     }
     
-    /**
-     * Calcula estatísticas do torneio.
-     * 
-     * @return mapa com estatísticas
-     */
     public java.util.Map<String, Object> getTournamentStats() {
         java.util.Map<String, Object> stats = new java.util.HashMap<>();
         

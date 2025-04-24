@@ -1,4 +1,4 @@
-package br.ufpb.poo.brasileirao.controladores;
+package br.ufpb.poo.brasileirao.controller;
 
 import java.io.IOException;
 import java.util.List;

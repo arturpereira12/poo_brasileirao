@@ -7,10 +7,6 @@ import java.util.Objects;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-/**
- Represents a football team
- */
 @Data
 @NoArgsConstructor
 public class Team {
@@ -41,19 +37,6 @@ public class Team {
         this.players.remove(player);
         // Strengths need recalculation if players are removed
     }
-
-
-    /**
-     * Calculates and updates team strengths using the provided strategy.
-     * Must be called before using strengths in simulations.
-     * @param strategy The algorithm to use for calculation.
-     *
-    public void calculateStrengths(StrengthCalculationStrategy strategy) {
-        Objects.requireNonNull(strategy, "Calculation strategy cannot be null");
-        this.attackStrength = strategy.calculateAttackStrength(this.players);
-        this.defenseStrength = strategy.calculateDefenseStrength(this.players);
-        this.midfieldStrength = strategy.calculateMidfieldStrength(this.players);
-    }*/
 
     @Override
     public String toString() {

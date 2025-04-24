@@ -1,6 +1,5 @@
 package br.ufpb.poo.brasileirao.controller;
 
-import br.ufpb.poo.brasileirao.controladores.TeamController;
 import br.ufpb.poo.brasileirao.model.Team;
 import br.ufpb.poo.brasileirao.service.TournamentManager;
 

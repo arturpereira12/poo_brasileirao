@@ -16,10 +16,6 @@ public class TeamService {
         return leiaDoArquivo();
     }
 
-    /**
-     * Método que lê os times de um arquivo CSV
-     * @return Lista de times carregados do arquivo
-     */
     private List<Team> leiaDoArquivo() {
         List<Team> times = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader("times.csv"))) {

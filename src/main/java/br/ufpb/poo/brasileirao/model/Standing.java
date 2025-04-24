@@ -1,9 +1,5 @@
 package br.ufpb.poo.brasileirao.model;
 
-/**
- * Classe que representa a posição de um time na tabela de classificação.
- * @deprecated Use br.ufpb.poo.brasileirao.tournament.LeagueStandings.TeamStats em vez desta classe.
- */
 @Deprecated
 public class Standing {
     private Team team;
