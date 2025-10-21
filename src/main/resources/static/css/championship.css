@@ -1,0 +1,432 @@
+.table {
+    color: #333333;
+    margin-bottom: 0;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th {
+    background-color: #111111;
+    border-bottom: 1px solid rgba(255, 225, 0, 0.3);
+    font-weight: 500;
+    color: #CCCCCC;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.75rem 1rem;
+    text-align: center;
+}
+
+.table td {
+    padding: 0.75rem 1rem;
+    text-align: center;
+    border-bottom: none;
+    font-size: 0.9rem;
+    color: #333333;
+    background-color: #f5f5f5;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease;
+    position: relative;
+}
+
+.table tbody tr:hover td {
+    background-color: #e0e0e0;
+    color: #111111;
+}
+
+.table tbody tr:nth-child(odd) td {
+    background-color: #f5f5f5;
+}
+
+.table tbody tr:nth-child(even) td {
+    background-color: #ebebeb;
+}
+
+.table td:first-child {
+    color: #333333;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.table td:nth-child(2) {
+    text-align: left;
+    color: #111111;
+    font-weight: 500;
+}
+
+.table td:not(:first-child):not(:nth-child(2)) {
+    color: #333333;
+    font-size: 0.9rem;
+}
+
+.table-responsive {
+    background-color: transparent;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.stats-card {
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(145deg, #1A1A1A, #222222);
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--primary-color);
+    opacity: 0.5;
+}
+
+.stats-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    letter-spacing: -1px;
+    text-shadow: 0 0 20px rgba(255, 225, 0, 0.3);
+}
+
+.stats-label {
+    color: #CCCCCC;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.progress {
+    height: 8px;
+    margin: 0.75rem 0 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.progress-bar {
+    background-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(255, 225, 0, 0.5);
+    background-image: linear-gradient(45deg, 
+                      rgba(255, 255, 255, 0.15) 25%, 
+                      transparent 25%, 
+                      transparent 50%, 
+                      rgba(255, 255, 255, 0.15) 50%, 
+                      rgba(255, 255, 255, 0.15) 75%, 
+                      transparent 75%, 
+                      transparent);
+    background-size: 20px 20px;
+    transition: width 0.5s ease;
+    position: relative;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+    color: #CCCCCC;
+}
+
+.progress-percentage {
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.progress-rounds {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.progress-label {
+    display: none;
+}
+
+.progress-container {
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.team-name {
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-weight: 500;
+}
+
+.team-name:hover {
+    color: var(--primary-color);
+}
+
+.team-crest {
+    width: 30px;
+    height: 30px;
+    overflow: visible;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    margin-right: 10px;
+    position: relative;
+}
+
+.team-crest.large {
+    width: 35px;
+    height: 35px;
+}
+
+.team-crest img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    position: relative;
+}
+
+.team-column {
+    min-width: 200px;
+}
+
+.score {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-shadow: 0 0 20px rgba(255, 225, 0, 0.3);
+}
+
+.vs-badge {
+    background-color: var(--primary-color);
+    color: #111111;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+}
+
+.match-date {
+    color: #AAAAAA;
+    font-size: 0.8rem;
+}
+
+.alert {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+}
+
+.alert-success {
+    background-color: rgba(40, 167, 69, 0.2);
+    border-color: rgba(40, 167, 69, 0.3);
+    color: #98ff98;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(255, 225, 0, 0.05);
+}
+
+.table thead th {
+    position: relative;
+}
+
+.table thead th::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--primary-color);
+    opacity: 0.3;
+}
+
+.position-1 td:first-child::before,
+.position-2 td:first-child::before,
+.position-3 td:first-child::before,
+.position-4 td:first-child::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background-color: #00aa55;
+}
+
+.position-17 td:first-child::before,
+.position-18 td:first-child::before,
+.position-19 td:first-child::before,
+.position-20 td:first-child::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background-color: #cc0000;
+}
+
+.match-card .team-name {
+    color: #FFFFFF;
+    font-weight: 500;
+}
+
+.card-body:not(.table-responsive) {
+    color: #FFFFFF;
+}
+
+.match-card {
+    background-color: #1A1A1A;
+}
+
+.match-card .card-body {
+    background-color: #1A1A1A;
+    padding: 1rem;
+}
+
+.match-card .match-content {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1rem;
+}
+
+.match-team {
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+}
+
+.match-team.home {
+    justify-self: end;
+}
+
+.match-team.away {
+    justify-self: start;
+}
+
+.vs-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.vs-badge {
+    background-color: var(--primary-color);
+    color: #111111;
+    font-weight: 600;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    min-width: 40px;
+    text-align: center;
+}
+
+.match-date {
+    color: #AAAAAA;
+    font-size: 0.75rem;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.score {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-shadow: 0 0 20px rgba(255, 225, 0, 0.3);
+    margin-top: 0.25rem;
+}
+
+.team-name {
+    color: #FFFFFF;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    margin-bottom: 0.25rem;
+}
+
+.table .team-name {
+    color: #111111;
+}
+
+#simulateButton {
+    margin: 1rem 0;
+    min-width: 200px;
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    background-color: var(--primary-color);
+    border: none;
+    color: #111111;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#simulateButton:hover {
+    background-color: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 225, 0, 0.3);
+}
+
+#simulateButton:active {
+    transform: translateY(0);
+}
+
+#resultMessage {
+    display: none;
+    margin: 1rem 0;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.simulation-control {
+    width: 160px;
+}
+
+.simulation-control .form-select {
+    background-color: #222;
+    color: #fff;
+    border: 1px solid rgba(255, 225, 0, 0.3);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.simulation-control .form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 225, 0, 0.25);
+    border-color: var(--primary-color);
+}
+
+.simulation-control .form-label {
+    font-size: 0.85rem;
+    color: #ccc;
+}
+
+@media (max-width: 768px) {
+    .stats-card {
+        margin-bottom: 1rem;
+    }
+    
+    .match-card {
+        margin-bottom: 1rem;
+    }
+}

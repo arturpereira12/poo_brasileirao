@@ -1,0 +1,137 @@
+.match-card {
+    background-color: #1A1A1A;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.match-card:hover {
+    background-color: #222222;
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.match-team {
+    flex: 1;
+    text-align: center;
+    font-weight: 500;
+    color: #FFFFFF;
+}
+
+.match-home {
+    text-align: right;
+    padding-right: 1rem;
+}
+
+.match-away {
+    text-align: left;
+    padding-left: 1rem;
+}
+
+.match-score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    margin: 0 1rem;
+    border-radius: 8px;
+    background-color: #111111;
+    font-weight: 700;
+    color: var(--primary-color);
+    min-width: 80px;
+}
+
+.match-date {
+    color: #999999;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+.match-round-title {
+    color: var(--primary-color);
+    position: relative;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+.match-round-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 3px;
+}
+
+.badge-played {
+    background-color: #28a745;
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+}
+
+.badge-upcoming {
+    background-color: #ffc107;
+    color: #212529;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+}
+
+.round-filter {
+    margin-bottom: 2rem;
+}
+
+.round-filter .form-select {
+    background-color: #1A1A1A;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+}
+
+.round-filter .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(255, 225, 0, 0.25);
+}
+
+.round-filter .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #111111;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 0.5rem 1.5rem;
+}
+
+.round-filter .btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.current-round-indicator {
+    background-color: rgba(255, 225, 0, 0.1);
+    border-radius: 8px;
+    padding: 0.25rem 0.75rem;
+    color: var(--primary-color);
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.current-round-indicator i {
+    margin-right: 0.5rem;
+}
