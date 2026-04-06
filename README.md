@@ -1,4 +1,4 @@
-# 🏆 Simulação do Campeonato Brasileiro
+# Simulação do Campeonato Brasileiro
 
 Este projeto consiste no desenvolvimento de um sistema computacional destinado à simulação do Campeonato Brasileiro de Futebol. O objetivo central reside na criação de um modelo que represente a dinâmica de um torneio de pontos corridos, contemplando turno e returno, em conformidade com o formato oficial da competição.
 
@@ -11,7 +11,7 @@ As funcionalidades implementadas no sistema incluem:
 
 O desenvolvimento do sistema foi fundamentado nos princípios da Programação Orientada a Objetos (POO). Por exemplo, **encapsulamento** foi aplicado na criação de classes como `Team` e `Player`, que agrupam atributos (como nome, nível) e comportamentos (como calcular força). A **abstração** permitiu modelar entidades complexas do mundo real (campeonato, partida) em classes que expõem funcionalidades essenciais, ocultando detalhes internos de implementação. O sistema utiliza a linguagem Java e o framework Spring Boot para a implementação da aplicação web, o que possibilita a visualização e interação do usuário com a simulação do campeonato.
 
-## 👥 Integrantes da Equipe
+## Integrantes da Equipe
 
 - **Artur Coelho Batista Guedes Pereira**
 - **Davi de Oliveira Gurgel**
@@ -19,25 +19,25 @@ O desenvolvimento do sistema foi fundamentado nos princípios da Programação O
 
 ---
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
-✔️ **Carregamento de dados**  
+**Carregamento de dados**  
    - Equipes, jogadores e níveis de habilidade  
    - Leitura de arquivos JSON com estrutura de times e jogadores
    
-🎮 **Simulação realista**  
+**Simulação realista**  
    - Geração automática de calendário (turno e returno)  
    - Resultados baseados em força das equipes + aleatoriedade
    - Vantagem do fator "casa" incorporada no algoritmo
    - Distribuição de gols por posição seguindo estatísticas reais
 
-📊 **Estatísticas em tempo real**  
+**Estatísticas em tempo real**  
    - Tabela de classificação dinâmica  
    - Lista de artilheiros atualizada
    - Análise de desempenho por rodadas
    - Estatísticas avançadas (média de gols, vitórias em casa/fora)
 
-🌐 **Interface Web Interativa**  
+**Interface Web Interativa**  
    - Desenvolvida com HTML5, CSS3, Bootstrap e Thymeleaf  
    - Visualização responsiva de resultados e estatísticas
    - Gráficos interativos para análise visual de dados
@@ -45,7 +45,7 @@ O desenvolvimento do sistema foi fundamentado nos princípios da Programação O
 
 ---
 
-## 🛠️ Tecnologias
+## Tecnologias
 
 | Ferramenta           | Descrição                                  |
 |----------------------|--------------------------------------------|
@@ -60,7 +60,7 @@ O desenvolvimento do sistema foi fundamentado nos princípios da Programação O
 
 ---
 
-## 🗃️ Estrutura de Pacotes
+## Estrutura de Pacotes
 
 O código fonte do projeto (`src/main/java`) está organizado na seguinte estrutura:
 
@@ -112,7 +112,7 @@ Os arquivos de recursos estão em `src/main/resources/`, incluindo:
 - `templates/` — Templates Thymeleaf para as páginas web
 - `static/images/crests/` — Imagens dos escudos dos times
 
-## 🧩 Padrões de Projeto e Design Arquitetural
+## Padrões de Projeto e Design Arquitetural
 
 ### Padrão MVC
 O sistema implementa o padrão Model-View-Controller, separando claramente:
@@ -164,9 +164,9 @@ Player (classe abstrata)
 ### UML
 ![UML](/src/main/resources/static/images/crests/UML.png)
 
-## 📊 Resultados e Considerações
+## Resultados e Considerações
 
-### ✅ Conquistas
+### Conquistas
 - **Sistema completo** de simulação do Brasileirão  
 - **Carregamento dinâmico** de dados (JSON)  
 - **Algoritmo eficiente** para geração de calendário  
@@ -174,7 +174,7 @@ Player (classe abstrata)
 - **Interface web integrada** (Spring Boot + Thymeleaf)  
 - **Persistência de resultados** em arquivos JSON
 
-### 🛠️ Desafios Superados
+### Desafios Superados
 | Desafio                      | Solução Implementada               |
 |------------------------------|-------------------------------------|
 | Modelagem de classes         | Diagramas UML + revisões iterativas|
@@ -184,7 +184,7 @@ Player (classe abstrata)
 | Simulação probabilística     | Algoritmo ponderado por força de jogadores |
 | Visualização de dados        | Integração com Chart.js para gráficos |
 
-### 🎓 Aprendizados
+### Aprendizados
 
 #### Java & Spring Boot
 - Domínio avançado de Collections Framework  
@@ -201,7 +201,7 @@ Player (classe abstrata)
 - **Baixo acoplamento**: Comunicação via interfaces  
 - **Polimorfismo**: Tratamento uniforme de diferentes implementações
 
-### 💡 Sugestões para a Disciplina
+### Sugestões para a Disciplina
 - Maior ênfase em testes unitários  
 - Workshops de integração frontend/backend  
 - Casos de estudo com sistemas legados  
@@ -232,7 +232,7 @@ Player (classe abstrata)
 
 ---
 
-## 🔮 Melhorias Futuras
+## Melhorias Futuras
 
 - Permitir salvar e carregar simulações anteriores, possibilitando o acompanhamento de diferentes campeonatos.
 - Adicionar estatísticas avançadas: assistências, cartões amarelos/vermelhos, lesões, faltas, passes, etc.
