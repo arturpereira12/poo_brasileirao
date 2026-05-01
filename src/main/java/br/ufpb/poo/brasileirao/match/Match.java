@@ -22,7 +22,19 @@ public class Match {
     @Getter private LocalDateTime dateTime;
     @Getter @Setter private int round;
     @Getter @Setter private boolean played;
-    private Map<String, List<String>> goalScorers; // time -> lista de jogadores que marcaram gols
+
+    // WC fields
+    @Getter @Setter private String groupName;
+    @Getter @Setter private boolean knockout;
+    @Getter @Setter private KnockoutRound knockoutRound;
+    @Getter @Setter private boolean wentToExtraTime;
+    @Getter @Setter private boolean wentToPenalties;
+    @Getter @Setter private int homePenalties;
+    @Getter @Setter private int awayPenalties;
+    @Getter @Setter private String venue;
+    @Getter @Setter private int matchNumber;
+
+    private Map<String, List<String>> goalScorers;
 
     public Match(Team homeTeam, Team awayTeam, LocalDate date, int round) {
         this.homeTeam = homeTeam;
@@ -39,17 +51,8 @@ public class Match {
     }
 
     public Match(Team homeTeam, Team awayTeam, LocalDateTime dateTime) {
-        this.homeTeam = homeTeam;
-        this.awayTeam = awayTeam;
+        this(homeTeam, awayTeam, dateTime != null ? dateTime.toLocalDate() : null, 0);
         this.dateTime = dateTime;
-        this.date = dateTime != null ? dateTime.toLocalDate() : null;
-        this.round = 0; // Rodada não especificada
-        this.homeScore = 0;
-        this.awayScore = 0;
-        this.played = false;
-        this.goalScorers = new HashMap<>();
-        this.goalScorers.put(homeTeam.getName(), new ArrayList<>());
-        this.goalScorers.put(awayTeam.getName(), new ArrayList<>());
     }
 
     public void setResult(int homeScore, int awayScore) {
@@ -59,9 +62,7 @@ public class Match {
     }
 
     public void addGoal(String teamName, String playerName) {
-        if (goalScorers.containsKey(teamName)) {
-            goalScorers.get(teamName).add(playerName);
-        }
+        goalScorers.computeIfAbsent(teamName, k -> new ArrayList<>()).add(playerName);
     }
 
     public void setDate(LocalDate date) {
@@ -74,14 +75,6 @@ public class Match {
         this.date = dateTime != null ? dateTime.toLocalDate() : null;
     }
 
-    public LocalDateTime getDate(boolean asDateTime) {
-        return this.dateTime;
-    }
-
-    public void setDate(LocalDateTime dateTime) {
-        setDateTime(dateTime);
-    }
-
     public String getFormattedDate() {
         return date != null ? date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
     }
@@ -90,20 +83,41 @@ public class Match {
         return goalScorers.getOrDefault(teamName, new ArrayList<>());
     }
 
-    public String getHomeTeamName() {
-        return homeTeam.getName();
+    public String getHomeTeamName() { return homeTeam.getName(); }
+    public String getAwayTeamName() { return awayTeam.getName(); }
+
+    public Team getWinner() {
+        if (!played) return null;
+        if (wentToPenalties) {
+            return homePenalties > awayPenalties ? homeTeam : awayTeam;
+        }
+        if (homeScore > awayScore) return homeTeam;
+        if (awayScore > homeScore) return awayTeam;
+        return null;
     }
 
-    public String getAwayTeamName() {
-        return awayTeam.getName();
+    public Team getLoser() {
+        if (!played) return null;
+        Team winner = getWinner();
+        if (winner == null) return null;
+        return winner == homeTeam ? awayTeam : homeTeam;
+    }
+
+    public String getScoreDisplay() {
+        if (!played) return "vs";
+        String score = homeScore + " - " + awayScore;
+        if (wentToPenalties) {
+            score += " (pen: " + homePenalties + "-" + awayPenalties + ")";
+        } else if (wentToExtraTime) {
+            score += " (prorr.)";
+        }
+        return score;
     }
 
     @Override
     public String toString() {
-        String result = homeTeam.getName() + " vs " + awayTeam.getName() + " - " + getFormattedDate();
-        if (played) {
-            result += " - " + homeScore + "x" + awayScore;
-        }
+        String result = homeTeam.getName() + " vs " + awayTeam.getName();
+        if (played) result += " " + getScoreDisplay();
         return result;
     }
 }
