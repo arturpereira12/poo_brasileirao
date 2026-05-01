@@ -1,46 +1,500 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brasileirão</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/common.css}">
-    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <title>Copa do Mundo 2026 — Simulador</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --navy: #1a2744;
+            --gold: #c9a227;
+            --gold-light: #e8c45a;
+            --success-green: #2d8a4e;
+        }
+
+        body {
+            background-color: var(--navy);
+            color: #f0f0f0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        /* NAVBAR */
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--gold) !important;
+            letter-spacing: 0.5px;
+        }
+        .navbar-nav .nav-link {
+            color: #ccc !important;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: var(--gold) !important;
+        }
+        .navbar {
+            border-bottom: 2px solid var(--gold);
+        }
+
+        /* HERO */
+        .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0d1b35 0%, #1a2744 40%, #2a1f00 80%, #3d2e00 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(201,162,39,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(201,162,39,0.06) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(201,162,39,0.15);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 0.35rem 1.2rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 900;
+            letter-spacing: -1px;
+            line-height: 1.05;
+            color: #fff;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+
+        .hero-title span {
+            color: var(--gold);
+            display: block;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.7);
+            margin: 1.2rem 0 2rem;
+            font-weight: 400;
+        }
+
+        .flags-row {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: center;
+            margin: 1.5rem 0 2.5rem;
+        }
+
+        .flag-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .flag-emoji {
+            font-size: 3.5rem;
+            line-height: 1;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+            transition: transform 0.3s;
+        }
+
+        .flag-emoji:hover {
+            transform: scale(1.15);
+        }
+
+        .flag-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+        }
+
+        .flag-divider {
+            color: rgba(201,162,39,0.4);
+            font-size: 1.5rem;
+            align-self: center;
+        }
+
+        /* INFO CARDS */
+        .info-cards {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0 2.5rem;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(201,162,39,0.3);
+            border-radius: 16px;
+            padding: 1.5rem 2.5rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            background: rgba(201,162,39,0.1);
+            border-color: var(--gold);
+            transform: translateY(-4px);
+        }
+
+        .info-card .number {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .info-card .label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            margin-top: 0.4rem;
+        }
+
+        /* BUTTONS */
+        .btn-start {
+            background: linear-gradient(135deg, var(--success-green), #3daf66);
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            box-shadow: 0 8px 30px rgba(45,138,78,0.4);
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-start:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(45,138,78,0.6);
+            color: #fff;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            border: none;
+            color: var(--navy);
+            font-weight: 700;
+            border-radius: 50px;
+            padding: 0.7rem 2rem;
+            transition: all 0.3s;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(201,162,39,0.4);
+            color: var(--navy);
+        }
+
+        .active-banner {
+            background: rgba(45,138,78,0.15);
+            border: 1px solid var(--success-green);
+            border-radius: 16px;
+            padding: 1.5rem 2.5rem;
+            text-align: center;
+        }
+
+        .active-banner .active-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #4ade80;
+            margin-bottom: 0.5rem;
+        }
+
+        .pulse-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #4ade80;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        .hero-divider {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 1.5rem auto;
+        }
+
+        .trophy-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 4px 16px rgba(201,162,39,0.5));
+        }
+
+        /* CURIOSITY TICKER */
+        .curiosity-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 162, 39, 0.2);
+            border-radius: 12px;
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
+        }
+
+        .curiosity-icon {
+            background: var(--gold);
+            color: var(--navy);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 15px rgba(201, 162, 39, 0.3);
+        }
+
+        .curiosity-content {
+            text-align: left;
+            overflow: hidden;
+        }
+
+        .curiosity-label {
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin-bottom: 2px;
+        }
+
+        .curiosity-text {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            white-space: nowrap;
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .fade-out {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
-    <div class="main-content">
-        <div class="home-container">
-            <div class="card">
-                <div class="card-body text-center">
-                    <div class="title-container">
-                        <h1 class="main-title">Brasileirão</h1>
-                        <div class="subtitle">ADR</div>
-                    </div>
-                    
-                    
-                    <button id="btnIniciar" class="btn btn-primary">
-                        <i class="bi bi-play-fill me-2"></i>Iniciar Campeonato
-                    </button>
 
-                    <div id="loading" class="loading">
-                        <div class="spinner-border" role="status">
-                            <span class="visually-hidden">Carregando...</span>
-                        </div>
-                        <p class="mt-2 text-light">Simulando campeonato...</p>
-                    </div>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">&#9917; Copa do Mundo 2026</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav ms-auto gap-1">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/"><i class="fas fa-home me-1"></i>Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/groups"><i class="fas fa-trophy me-1"></i>Grupos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/bracket"><i class="fas fa-chart-bar me-1"></i>Chaveamento</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/matches"><i class="fas fa-futbol me-1"></i>Partidas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/stats"><i class="fas fa-chart-line me-1"></i>Estatísticas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/teams"><i class="fas fa-globe me-1"></i>Seleções</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-                    <div id="resultMessage" class="result-message"></div>
-                </div>
-            </div>
+<!-- HERO -->
+<section class="hero-section">
+    <div class="trophy-icon">&#127942;</div>
+    <div class="hero-badge">Simulador Oficial</div>
+
+    <h1 class="hero-title">
+        FIFA COPA DO MUNDO
+        <span>2026</span>
+    </h1>
+
+    <div class="hero-divider"></div>
+
+    <!-- CURIOSITY TICKER -->
+    <div class="curiosity-container">
+        <div class="curiosity-icon">
+            <i class="fas fa-lightbulb"></i>
+        </div>
+        <div class="curiosity-content">
+            <div class="curiosity-label">VOCÊ SABIA?</div>
+            <div id="curiosityText" class="curiosity-text">A Final será em 19 de Julho de 2026 no MetLife Stadium, NJ.</div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script th:src="@{/js/home.js}"></script>
+    <p class="hero-subtitle">
+        <i class="fas fa-map-marker-alt me-2" style="color:var(--gold)"></i>
+        EUA &bull; Canadá &bull; México — 3 Países, 1 Taça
+    </p>
+
+    <!-- FLAGS -->
+    <div class="flags-row">
+        <div class="flag-item">
+            <span class="flag-emoji">&#127482;&#127480;</span>
+            <span class="flag-label">EUA</span>
+        </div>
+        <div class="flag-divider">&#9889;</div>
+        <div class="flag-item">
+            <span class="flag-emoji">&#127464;&#127462;</span>
+            <span class="flag-label">Canadá</span>
+        </div>
+        <div class="flag-divider">&#9889;</div>
+        <div class="flag-item">
+            <span class="flag-emoji">&#127474;&#127485;</span>
+            <span class="flag-label">México</span>
+        </div>
+    </div>
+
+    <!-- INFO CARDS -->
+    <div class="info-cards">
+        <div class="info-card">
+            <div class="number">48</div>
+            <div class="label">&#127937; Seleções</div>
+        </div>
+        <div class="info-card">
+            <div class="number">12</div>
+            <div class="label">&#127942; Grupos</div>
+        </div>
+        <div class="info-card">
+            <div class="number">104</div>
+            <div class="label">&#9917; Partidas</div>
+        </div>
+    </div>
+
+    <!-- NOT ACTIVE: START BUTTON -->
+    <div th:if="${!active}">
+        <form method="post" th:action="@{/iniciar-copa}">
+            <button type="submit" class="btn btn-start">
+                <i class="fas fa-play me-2"></i>INICIAR TORNEIO
+            </button>
+        </form>
+        <p class="mt-3" style="color:rgba(255,255,255,0.4); font-size:0.85rem;">
+            <i class="fas fa-info-circle me-1"></i>
+            Clique para gerar todos os grupos e partidas automaticamente
+        </p>
+    </div>
+
+    <!-- ACTIVE: STATUS BANNER -->
+    <div th:if="${active}" class="active-banner">
+        <div class="active-title">
+            <span class="pulse-dot"></span>
+            Torneio em andamento
+        </div>
+        <p class="mb-3" style="color:rgba(255,255,255,0.6); font-size:0.9rem;">
+            A Copa do Mundo 2026 está sendo simulada. Acompanhe os grupos e o chaveamento.
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="/groups" class="btn btn-gold">
+                <i class="fas fa-trophy me-2"></i>Ver Grupos
+            </a>
+            <a href="/bracket" class="btn btn-outline-light" style="border-radius:50px; padding:0.7rem 2rem;">
+                <i class="fas fa-chart-bar me-2"></i>Ver Chaveamento
+            </a>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+    const facts = [
+        "A Final será em 19 de Julho de 2026 no MetLife Stadium, NJ.",
+        "Pela primeira vez, a Copa terá 48 seleções e 104 partidas.",
+        "Sede tripla: EUA, México e Canadá receberão os jogos em 16 cidades.",
+        "Estreantes: Curaçao, Cabo Verde, Jordânia e Uzbequistão estão na Copa!",
+        "Curaçao é a menor nação da história a se classificar para uma Copa.",
+        "A África dobrou suas vagas: agora o continente conta com 10 seleções.",
+        "O confronto direto voltou a ser o primeiro critério de desempate em 2026.",
+        "Itália fora: a Azzurra perdeu a vaga na repescagem para a Bósnia.",
+        "O México é o primeiro país a sediar a Copa pela terceira vez (1970, 1986, 2026).",
+        "O sorteio dos grupos acontecerá em 5 de Dezembro de 2025 em Washington, D.C.",
+        "A Oceania terá, pela primeira vez, uma vaga direta garantida no torneio.",
+        "Dallas, Atlanta e Miami receberão o maior número de jogos eliminatórios.",
+        "A Argentina defende o título como atual campeã mundial (Qatar 2022).",
+        "Serão 16 estádios no total: 11 nos EUA, 3 no México e 2 no Canadá.",
+        "O recorde de público deve ser quebrado em 2026 devido à capacidade dos estádios americanos.",
+        "Cristiano Ronaldo pode se tornar o único jogador a disputar 6 Copas do Mundo.",
+        "O sistema de 12 grupos garante que quase todos os dias tenhamos 4 jogos seguidos.",
+        "A distância entre Vancouver (Canadá) e Cidade do México é de mais de 3.900km!"
+    ];
+
+    let currentFact = 0;
+    const textElement = document.getElementById('curiosityText');
+
+    function rotateFact() {
+        if (!textElement) return;
+        textElement.classList.add('fade-out');
+        
+        setTimeout(() => {
+            currentFact = (currentFact + 1) % facts.length;
+            textElement.textContent = facts[currentFact];
+            textElement.classList.remove('fade-out');
+            textElement.classList.add('fade-in');
+            
+            setTimeout(() => {
+                textElement.classList.remove('fade-in');
+            }, 500);
+        }, 500);
+    }
+
+    setInterval(rotateFact, 6000);
+/*]]>*/
+</script>
 </body>
-</html> 
+</html>

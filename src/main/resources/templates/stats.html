@@ -1,270 +1,207 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estatísticas - Brasileirão</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" th:href="@{/css/common.css}">
-    <link rel="stylesheet" th:href="@{/css/stats.css}">
+    <title>Estatísticas — Copa do Mundo 2026</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --navy: #0f1b33;
+            --navy-light: #1a2744;
+            --gold: #c9a227;
+            --gold-light: #e8c45a;
+            --success-green: #2d8a4e;
+            --card-bg: rgba(30, 45, 80, 0.6);
+            --border-glass: rgba(255, 255, 255, 0.1);
+        }
+        body {
+            background-color: var(--navy);
+            color: #e8e8e8;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        .navbar-brand { font-weight:800; font-size:1.3rem; color:var(--gold) !important; }
+        .navbar { border-bottom:1px solid var(--border-glass); background: rgba(15, 27, 51, 0.95) !important; backdrop-filter: blur(10px); }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--navy) 0%, #0d1b35 100%);
+            border-bottom: 2px solid var(--gold);
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+        .page-title { font-size: 2.5rem; font-weight: 900; color: #fff; text-transform: uppercase; }
+        .page-title span { color: var(--gold); }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glass);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            height: 100%;
+            transition: all 0.3s;
+        }
+        .stat-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .stat-card i { font-size: 2rem; color: var(--gold); margin-bottom: 1rem; }
+        .stat-num { font-size: 3rem; font-weight: 900; color: #fff; line-height: 1; }
+        .stat-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.4); margin-top: 0.5rem; }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border-glass); }
+
+        .glass-table {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--border-glass);
+        }
+        .table { margin-bottom: 0; color: #ddd; }
+        .table thead th { background: rgba(0,0,0,0.3); color: var(--gold); border: none; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+        .table td { border-color: rgba(255,255,255,0.05); vertical-align: middle; }
+
+        .scorer-rank { width: 40px; font-weight: 900; color: var(--gold); font-size: 1.1rem; }
+        .scorer-goals { font-weight: 900; color: #fff; font-size: 1.2rem; }
+
+        .champion-banner {
+            background: linear-gradient(90deg, transparent, rgba(201,162,39,0.1), transparent);
+            border-top: 1px solid var(--gold);
+            border-bottom: 1px solid var(--gold);
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <i class="bi bi-trophy-fill me-2"></i>Brasileirão ADR
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/championship"><i class="bi bi-table me-1"></i>Classificação</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/matches"><i class="bi bi-calendar-event me-1"></i>Jogos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/stats"><i class="bi bi-graph-up me-1"></i>Estatísticas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/teams/att"><i class="bi bi-people me-1"></i>Times</a>
-                    </li>
-                </ul>
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">&#9917; Copa do Mundo 2026</a>
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav ms-auto gap-1">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/groups">Grupos</a></li>
+                <li class="nav-item"><a class="nav-link" href="/bracket">Chaveamento</a></li>
+                <li class="nav-item"><a class="nav-link" href="/matches">Partidas</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/stats">Estatísticas</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="page-header">
+    <div class="container text-center">
+        <h1 class="page-title">Estatísticas do <span>Torneio</span></h1>
+        <p class="text-muted mb-0" th:text="${phase != null ? phase.displayName : ''}">Fase de Grupos</p>
+    </div>
+</div>
+
+<div class="container pb-5">
+
+    <div th:if="${champion != null}" class="champion-banner">
+        <h4 class="mb-0">🏆 CAMPEÃO: <strong th:text="${champion.name}" style="color:var(--gold)">BRASIL</strong> <span th:text="${champion.flagEmoji}">🇧🇷</span></h4>
+    </div>
+
+    <!-- MAIN STATS -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <i class="fas fa-futbol"></i>
+                <div class="stat-num" th:text="${totalMatches}">0</div>
+                <div class="stat-label">Partidas Disputadas</div>
             </div>
         </div>
-    </nav>
-
-    <div class="container">
-        <div class="card mb-4">
-            <div class="card-header">
-                <span><i class="bi bi-graph-up"></i>Estatísticas do Campeonato</span>
-                <span class="badge bg-primary">Rodada <span th:text="${currentRound}">0</span>/<span th:text="${totalRounds}">0</span></span>
-            </div>
-            <div class="card-body">
-                <div class="alert alert-primary" role="alert">
-                    <i class="bi bi-info-circle me-2"></i>
-                    Informações atualizadas até a rodada <strong th:text="${currentRound}">0</strong> do campeonato.
-                </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <i class="fas fa-bullseye"></i>
+                <div class="stat-num" th:text="${totalGoals}">0</div>
+                <div class="stat-label">Gols Marcados</div>
             </div>
         </div>
-
-        <!-- Estatísticas Gerais -->
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <div class="card stats-card">
-                    <div class="stats-number" th:text="${basicStats.totalMatches}">0</div>
-                    <div class="stats-label">Jogos Realizados</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card stats-card">
-                    <div class="stats-number" th:text="${totalGoals != null ? totalGoals : basicStats.totalGoals}">0</div>
-                    <div class="stats-label">Gols Marcados</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card stats-card">
-                    <div class="stats-number" th:text="${basicStats.averageGoals}">0</div>
-                    <div class="stats-label">Média de Gols/Jogo</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card stats-card">
-                    <div class="stats-number" th:text="${homeWins != null ? homeWins + awayWins + draws : '0'}">0</div>
-                    <div class="stats-label">Total de Partidas</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Gráfico de Resultados -->
-        <div class="row mb-4" th:if="${homeWins != null && awayWins != null && draws != null}">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <span><i class="bi bi-bar-chart"></i>Distribuição de Resultados</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-container">
-                            <canvas id="resultsChart"></canvas>
-                        </div>
-                        <div class="text-center mt-3">
-                            <div class="d-flex justify-content-around">
-                                <div>
-                                    <div class="stats-highlight-value" th:text="${homeWinPercentage + '%'}">0%</div>
-                                    <div class="stats-label">Vitórias em Casa</div>
-                                </div>
-                                <div>
-                                    <div class="stats-highlight-value" th:text="${awayWinPercentage + '%'}">0%</div>
-                                    <div class="stats-label">Vitórias Fora</div>
-                                </div>
-                                <div>
-                                    <div class="stats-highlight-value" th:text="${drawPercentage + '%'}">0%</div>
-                                    <div class="stats-label">Empates</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <span><i class="bi bi-pie-chart"></i>Gols por Posição</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-container">
-                            <canvas id="positionChart"></canvas>
-                        </div>
-                        <div class="text-center mt-3">
-                            <p>Distribuição dos gols por posição dos jogadores</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Artilharia e Destaques -->
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <span><i class="bi bi-trophy"></i>Artilharia</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="player-rank" th:each="scorer, stat : ${topScorers}">
-                            <div class="player-position" th:text="${stat.count}">1</div>
-                            <div class="player-name">
-                                <span th:text="${scorer.playerName}">Jogador</span>
-                                <span class="player-team" th:text="${scorer.teamName}">Time</span>
-                            </div>
-                            <div class="player-goals" th:text="${scorer.goals}">0</div>
-                        </div>
-                        <div class="text-center mt-3" th:if="${topScorers == null || topScorers.isEmpty()}">
-                            Nenhum artilheiro registrado ainda.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <span><i class="bi bi-star"></i>Destaques do Campeonato</span>
-                    </div>
-                    <div class="card-body">
-                        <!-- Time com mais vitórias -->
-                        <div class="team-record" th:if="${mostWinsTeam != null}">
-                            <div class="team-name">Time com mais vitórias</div>
-                            <div class="team-value">
-                                <span th:text="${mostWinsTeam.teamName}">Time</span>
-                                <small class="ms-1" th:text="'(' + ${mostWinsTeam.wins} + ')'">0</small>
-                            </div>
-                        </div>
-                        
-                        <!-- Time com melhor ataque -->
-                        <div class="team-record" th:if="${bestAttackTeam != null}">
-                            <div class="team-name">Melhor ataque</div>
-                            <div class="team-value">
-                                <span th:text="${bestAttackTeam.teamName}">Time</span>
-                                <small class="ms-1" th:text="'(' + ${bestAttackTeam.goalsFor} + ' gols)'">0</small>
-                            </div>
-                        </div>
-                        
-                        <!-- Time com melhor defesa -->
-                        <div class="team-record" th:if="${bestDefenseTeam != null}">
-                            <div class="team-name">Melhor defesa</div>
-                            <div class="team-value">
-                                <span th:text="${bestDefenseTeam.teamName}">Time</span>
-                                <small class="ms-1" th:text="'(' + ${bestDefenseTeam.goalsAgainst} + ' gols)'">0</small>
-                            </div>
-                        </div>
-                        
-                        <!-- Placar mais comum -->
-                        <div class="team-record" th:if="${mostCommonScore != null}">
-                            <div class="team-name">Placar mais comum</div>
-                            <div class="team-value">
-                                <span th:text="${mostCommonScore}">0x0</span>
-                                <small class="ms-1" th:text="'(' + ${mostCommonScoreCount} + ' vezes)'">0</small>
-                            </div>
-                        </div>
-                        
-                        <!-- Maior goleada -->
-                        <div class="team-record" th:if="${biggestWin != null}">
-                            <div class="team-name">Maior goleada</div>
-                            <div class="match-result">
-                                <div class="match-team" th:text="${biggestWin.homeTeamName}">Time Casa</div>
-                                <div class="match-score">
-                                    <span th:text="${biggestWin.homeScore}">0</span>
-                                    <span>x</span>
-                                    <span th:text="${biggestWin.awayScore}">0</span>
-                                </div>
-                                <div class="match-team" th:text="${biggestWin.awayTeamName}">Time Fora</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Placares Mais Comuns -->
-        <div class="row" th:if="${topScores != null && !topScores.isEmpty()}">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <span><i class="bi bi-bar-chart-steps"></i>Placares Mais Frequentes</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="score-card" th:each="score : ${topScores}">
-                            <div class="score-value" th:text="${score.key}">0x0</div>
-                            <div class="score-count" th:text="${score.value + ' ocorrências'}">0</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <span><i class="bi bi-graph-up"></i>Tipos de Partidas</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-container">
-                            <canvas id="gameTypesChart"></canvas>
-                        </div>
-                        <div class="text-center mt-3">
-                            <div class="d-flex justify-content-around">
-                                <div>
-                                    <div class="stats-highlight-value" th:text="${highScoringGames}">0</div>
-                                    <div class="stats-label">Partidas com 3+ gols</div>
-                                </div>
-                                <div>
-                                    <div class="stats-highlight-value" th:text="${lowScoringGames}">0</div>
-                                    <div class="stats-label">Partidas com 0-1 gols</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <i class="fas fa-chart-line"></i>
+                <div class="stat-num" th:text="${avgGoals}">0.0</div>
+                <div class="stat-label">Média de Gols</div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script th:inline="javascript">
-        window.statsData = {
-            homeWins: [[${homeWins}]],
-            awayWins: [[${awayWins}]],
-            draws: [[${draws}]],
-            goalsByPosition: [[${goalsByPosition}]],
-            highScoringGames: [[${highScoringGames}]],
-            lowScoringGames: [[${lowScoringGames}]]
-        };
-    </script>
-    <script th:src="@{/js/stats.js}"></script>
+    <div class="row g-5">
+        <!-- TOP SCORERS -->
+        <div class="col-lg-6">
+            <h2 class="section-title"><i class="fas fa-medal me-2 text-warning"></i>Artilharia</h2>
+            <div class="glass-table">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Jogador</th>
+                            <th>Seleção</th>
+                            <th class="text-center">Gols</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="scorer, iter : ${topScorers}">
+                            <td class="text-center scorer-rank" th:text="${iter.count}">1</td>
+                            <td class="fw-bold" th:text="${scorer.playerName}">Pele</td>
+                            <td th:text="${scorer.teamName}">Brasil</td>
+                            <td class="text-center scorer-goals" th:text="${scorer.goals}">10</td>
+                        </tr>
+                        <tr th:if="${topScorers == null || topScorers.isEmpty()}">
+                            <td colspan="4" class="text-center py-4 text-muted">Nenhum gol marcado ainda.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- RECENT RESULTS -->
+        <div class="col-lg-6">
+            <h2 class="section-title"><i class="fas fa-history me-2 text-warning"></i>Últimas Partidas</h2>
+            
+            <div th:if="${allKnockoutMatches != null && !allKnockoutMatches.isEmpty()}">
+                <h6 class="text-gold mb-3 small fw-bold text-uppercase">Mata-Mata</h6>
+                <div class="glass-table mb-4">
+                    <table class="table">
+                        <tbody th:each="m, iter : ${allKnockoutMatches}" th:if="${iter.index < 5}">
+                            <tr>
+                                <td class="text-end" th:text="${m.homeTeam.name}">Brasil</td>
+                                <td class="text-center fw-bold text-warning" th:text="${m.homeScore + ' - ' + m.awayScore}">2 - 1</td>
+                                <td th:text="${m.awayTeam.name}">França</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <h6 class="text-gold mb-3 small fw-bold text-uppercase">Fase de Grupos</h6>
+            <div class="glass-table">
+                <table class="table">
+                    <tbody th:each="m, iter : ${allGroupMatches}" th:if="${iter.index < 10}">
+                        <tr>
+                            <td class="text-end" th:text="${m.homeTeam.name}">Brasil</td>
+                            <td class="text-center fw-bold" th:text="${m.homeScore + ' - ' + m.awayScore}">2 - 1</td>
+                            <td th:text="${m.awayTeam.name}">França</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html> 
+</html>

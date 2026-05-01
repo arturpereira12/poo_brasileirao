@@ -1,94 +1,81 @@
 package br.ufpb.poo.brasileirao.controller;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
+import br.ufpb.poo.brasileirao.match.Match;
 import br.ufpb.poo.brasileirao.model.Team;
+import br.ufpb.poo.brasileirao.service.TeamService;
+import br.ufpb.poo.brasileirao.service.WorldCupManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/teams")
 public class TeamController {
 
+    @Autowired
+    private WorldCupManager worldCupManager;
+
+    @Autowired
+    private TeamService teamService;
+
     @GetMapping
-    public ModelAndView leiaTeams(ModelAndView modelAndView) {
-        List<Team> teams = leiaDoArquivo();
-        // Calcula a maior força dos jogadores de cada time
-        for (Team team : teams) {
-            int maxStrength = team.getPlayers().stream()
-                .mapToInt(player -> player.getStrength())
-                .max()
-                .orElse(0);
-            team.setMaxPlayerStrength(maxStrength);
+    public String showTeams(Model model) {
+        List<Team> teams = worldCupManager.isActive()
+                ? worldCupManager.getAllTeams()
+                : teamService.getAllTeams();
+
+        // Sort by group then FIFA ranking
+        List<Team> sorted = teams.stream()
+                .sorted(Comparator.comparing((Team t) -> t.getGroup() == null ? "" : t.getGroup())
+                        .thenComparingInt(Team::getFifaRanking))
+                .collect(Collectors.toList());
+
+        // Group by group letter
+        Map<String, List<Team>> groupedByGroup = new LinkedHashMap<>();
+        for (Team t : sorted) {
+            String g = t.getGroup() == null ? "?" : t.getGroup();
+            groupedByGroup.computeIfAbsent(g, k -> new ArrayList<>()).add(t);
         }
-        System.out.println("Teams: "+teams);
-        System.out.println("Teams size: "+teams.size());
-        if (teams.get(0).getPlayers() == null) {
-            System.out.println("No players found in the file.");
-        } else {
-            System.out.println("Teams found: " + teams.get(0).getPlayers());
-        }
-        modelAndView.setViewName("teams");
-        modelAndView.addObject("teams", teams);
-        return modelAndView;
-    }
-    @GetMapping("/att")
-    public ModelAndView leiaTeamsAtt(ModelAndView modelAndView) {
-        List<Team> teams = leiaDoArquivo();
-        // Calcula a maior força dos jogadores de cada time
-        for (Team team : teams) {
-            int maxStrength = team.getPlayers().stream()
-                .mapToInt(player -> player.getStrength())
-                .max()
-                .orElse(0);
-            team.setMaxPlayerStrength(maxStrength);
-        }
-        System.out.println("Carregando visualização atualizada");
-        modelAndView.setViewName("teams_att");
-        modelAndView.addObject("teams", teams);
-        return modelAndView;
+
+        model.addAttribute("teams", sorted);
+        model.addAttribute("groupedByGroup", groupedByGroup);
+        return "teams";
     }
 
-    @GetMapping("/att/{name}")
-    public ModelAndView leiaTeamAtt(@PathVariable String name, ModelAndView modelAndView) {
-        List<Team> teams = leiaDoArquivo();
-        Team team = teams.stream()
-                .filter(t -> t.getName().equals(name))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Time não encontrado"));
-        
-        modelAndView.setViewName("team_att");
-        modelAndView.addObject("team", team);
-        return modelAndView;
-    }
+    @GetMapping("/{code}")
+    public String showTeamDetail(@PathVariable String code, Model model) {
+        List<Team> allTeams = worldCupManager.isActive()
+                ? worldCupManager.getAllTeams()
+                : teamService.getAllTeams();
 
-    public List<Team> leiaDoArquivo() {
-        List<Team> teams = null;
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new JavaTimeModule());
-            mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        Optional<Team> teamOpt = allTeams.stream()
+                .filter(t -> code.equalsIgnoreCase(t.getCountryCode())
+                        || code.equalsIgnoreCase(t.getName()))
+                .findFirst();
 
-            // Usando ClassPathResource para acessar o arquivo na pasta resources
-            org.springframework.core.io.Resource resource = 
-                new org.springframework.core.io.ClassPathResource("data/teams_and_players.json");
-            teams = mapper.readValue(resource.getInputStream(), new TypeReference<List<Team>>() {});
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (teamOpt.isEmpty()) {
+            return "redirect:/teams";
         }
-        return teams;
-    }
 
+        Team team = teamOpt.get();
+
+        // Collect all matches where this team participated
+        List<Match> matches = Stream.concat(
+                        worldCupManager.getAllGroupMatches().stream(),
+                        worldCupManager.getAllKnockoutMatches().stream())
+                .filter(m -> m.getHomeTeam().getName().equals(team.getName())
+                        || m.getAwayTeam().getName().equals(team.getName()))
+                .collect(Collectors.toList());
+
+        model.addAttribute("team", team);
+        model.addAttribute("matches", matches);
+        return "team_detail";
+    }
 }

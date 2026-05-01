@@ -20,9 +20,10 @@ public class TopScorersTable {
     }
 
     public void addGoal(String playerName, String teamName) {
-        PlayerStats stats = playerStatsMap.getOrDefault(playerName, new PlayerStats(playerName, teamName));
+        String key = playerName + "|" + teamName;
+        PlayerStats stats = playerStatsMap.getOrDefault(key, new PlayerStats(playerName, teamName));
         stats.addGoal();
-        playerStatsMap.put(playerName, stats);
+        playerStatsMap.put(key, stats);
     }
 
     public List<PlayerStats> getTopScorers() {
