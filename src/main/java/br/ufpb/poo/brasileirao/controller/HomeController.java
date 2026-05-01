@@ -1,30 +1,32 @@
 package br.ufpb.poo.brasileirao.controller;
 
 import br.ufpb.poo.brasileirao.model.Team;
-import br.ufpb.poo.brasileirao.service.TournamentManager;
-
+import br.ufpb.poo.brasileirao.service.TeamService;
+import br.ufpb.poo.brasileirao.service.WorldCupManager;
+import br.ufpb.poo.brasileirao.tournament.TournamentPhase;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 @Controller
 public class HomeController {
 
     @Autowired
-    private TeamController teamController;
-    
+    private WorldCupManager worldCupManager;
+
     @Autowired
-    private TournamentManager tournamentManager;
+    private TeamService teamService;
 
     @GetMapping("/")
-    public String index() {
+    public String index(org.springframework.ui.Model model) {
+        model.addAttribute("active", worldCupManager.isActive());
+        model.addAttribute("phase", worldCupManager.getPhase());
         return "home";
     }
 
@@ -33,41 +35,26 @@ public class HomeController {
         return "home";
     }
 
-    @PostMapping("/iniciar-campeonato")
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> iniciarCampeonato() {
-        Map<String, Object> response = new HashMap<>();
-        
+    @PostMapping("/iniciar-copa")
+    public String iniciarCopa(org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes) {
         try {
-            List<Team> allTeams = teamController.leiaDoArquivo();
-            if (allTeams == null || allTeams.isEmpty()) {
-                response.put("status", "error");
-                response.put("message", "Não foi possível carregar os times para o campeonato!");
-                return ResponseEntity.ok(response);
-            }
-            
-            // Limitar a 20 times
-            List<Team> selectedTeams = allTeams.subList(0, Math.min(20, allTeams.size()));
-            
-            // Inicializar o campeonato no TournamentManager
-            tournamentManager.addTeams(selectedTeams);
-            tournamentManager.startTournament();
-            
-            response.put("status", "success");
-            response.put("message", "Campeonato inicializado com sucesso! Redirecionando...");
-            
+            List<Team> teams = teamService.getAllTeams();
+            worldCupManager.initialize(teams);
+            return "redirect:/groups";
         } catch (Exception e) {
-            response.put("status", "error");
-            response.put("message", "Erro ao iniciar o campeonato: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Falha ao iniciar o torneio: " + e.getMessage());
+            return "redirect:/";
         }
-        
-        return ResponseEntity.ok(response);
     }
-    
-    @GetMapping("/teams-page")
-    public String teamsPage(Model model) {
-        List<Team> teams = teamController.leiaDoArquivo();
-        model.addAttribute("teams", teams);
-        return "teams_att";
+
+    @GetMapping("/status")
+    @ResponseBody
+    public Map<String, Object> status() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("active", worldCupManager.isActive());
+        map.put("phase", worldCupManager.getPhase().name());
+        map.put("currentGroupMatchDay", worldCupManager.getCurrentGroupMatchDay());
+        map.put("isTournamentCompleted", worldCupManager.isTournamentCompleted());
+        return map;
     }
-} 
+}
