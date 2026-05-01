@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fase de Grupos — Copa do Mundo 2026</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --navy: #1a2744;
+            --navy-light: #223060;
+            --gold: #c9a227;
+            --gold-light: #e8c45a;
+            --success-green: #2d8a4e;
+            --card-bg: #1e2d50;
+        }
+        body {
+            background-color: #0f1b33;
+            color: #e8e8e8;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        .navbar-brand { font-weight:800; font-size:1.3rem; color:var(--gold) !important; }
+        .navbar-nav .nav-link { color:#ccc !important; font-weight:500; transition:color 0.2s; }
+        .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active { color:var(--gold) !important; }
+        .navbar { border-bottom:2px solid var(--gold); }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--navy) 0%, #0d1b35 100%);
+            border-bottom: 2px solid var(--gold);
+            padding: 2rem 0;
+        }
+        .page-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+        }
+        .page-title span { color: var(--gold); }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(201,162,39,0.2);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .stat-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+        .stat-card .stat-num {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--gold);
+        }
+        .stat-card .stat-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-top: 0.2rem;
+        }
+
+        .sim-toolbar {
+            background: var(--card-bg);
+            border: 1px solid rgba(201,162,39,0.2);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            border: none;
+            color: var(--navy);
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s;
+        }
+        .btn-gold:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(201,162,39,0.4);
+            color: var(--navy);
+        }
+
+        .btn-sim {
+            background: rgba(201,162,39,0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s;
+        }
+        .btn-sim:hover {
+            background: var(--gold);
+            color: var(--navy);
+        }
+
+        .group-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: all 0.3s;
+            height: 100%;
+        }
+        .group-card:hover {
+            border-color: rgba(201,162,39,0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .group-header {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--navy);
+            font-weight: 900;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.7rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .standings-table {
+            width: 100%;
+            font-size: 0.78rem;
+            margin: 0;
+        }
+        .standings-table thead th {
+            background: rgba(0,0,0,0.3);
+            color: rgba(255,255,255,0.5);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 0.4rem 0.5rem;
+            font-size: 0.68rem;
+            white-space: nowrap;
+        }
+        .standings-table tbody tr {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.2s;
+        }
+        .standings-table tbody tr:hover {
+            background: rgba(255,255,255,0.04);
+        }
+        .standings-table tbody td {
+            padding: 0.45rem 0.5rem;
+            color: #ddd;
+            vertical-align: middle;
+        }
+
+        .row-qualified {
+            background: rgba(45,138,78,0.15) !important;
+            border-left: 3px solid var(--success-green);
+        }
+        .row-third {
+            background: rgba(201,162,39,0.08) !important;
+            border-left: 3px solid var(--gold);
+        }
+        .row-eliminated {
+            opacity: 0.7;
+        }
+
+        .pos-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        .pos-1 { background: var(--gold); color: var(--navy); }
+        .pos-2 { background: #c0c0c0; color: #111; }
+        .pos-3 { background: #cd7f32; color: #fff; }
+        .pos-4 { background: rgba(255,255,255,0.1); color: #888; }
+
+        .team-name { font-weight: 600; max-width: 90px; }
+        .pts-col { font-weight: 900; color: #fff; font-size: 0.88rem; }
+
+        .day-badge {
+            background: rgba(201,162,39,0.2);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 0.2rem 0.7rem;
+            border-radius: 50px;
+        }
+
+        .group-matches-header {
+            background: rgba(0,0,0,0.3);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .match-mini {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.35rem 1rem;
+            font-size: 0.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .match-score {
+            font-weight: 900;
+            color: var(--gold);
+            min-width: 30px;
+            text-align: center;
+        }
+        .match-team {
+            color: #bbb;
+            flex: 1;
+        }
+        .match-team.home { text-align: right; margin-right: 8px; }
+        .match-team.away { text-align: left; margin-left: 8px; }
+
+        .spinner-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .spinner-overlay.show { display: flex; }
+        .spinner-text { color: var(--gold); font-size: 1.1rem; font-weight: 700; margin-top: 1rem; }
+
+        .not-started-box {
+            background: var(--card-bg);
+            border: 1px solid rgba(201,162,39,0.3);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .phase-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 0.25rem 0.8rem;
+            border-radius: 50px;
+        }
+        .phase-group { background: rgba(45,138,78,0.2); color: #4ade80; border: 1px solid var(--success-green); }
+        .phase-knockout { background: rgba(201,162,39,0.2); color: var(--gold); border: 1px solid var(--gold); }
+        .phase-done { background: rgba(255,255,255,0.1); color: #aaa; border: 1px solid #555; }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">&#9917; Copa do Mundo 2026</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav ms-auto gap-1">
+                <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Home</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/groups"><i class="fas fa-trophy me-1"></i>Grupos</a></li>
+                <li class="nav-item"><a class="nav-link" href="/bracket"><i class="fas fa-chart-bar me-1"></i>Chaveamento</a></li>
+                <li class="nav-item"><a class="nav-link" href="/matches"><i class="fas fa-futbol me-1"></i>Partidas</a></li>
+                <li class="nav-item"><a class="nav-link" href="/stats"><i class="fas fa-chart-line me-1"></i>Estatísticas</a></li>
+                <li class="nav-item"><a class="nav-link" href="/teams"><i class="fas fa-globe me-1"></i>Seleções</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- SPINNER OVERLAY -->
+<div class="spinner-overlay" id="spinnerOverlay">
+    <div class="spinner-border text-warning" style="width:3.5rem;height:3.5rem;" role="status"></div>
+    <div class="spinner-text">Simulando partidas...</div>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+                <h1 class="page-title mb-1"><i class="fas fa-trophy me-2" style="color:var(--gold)"></i>Fase de <span>Grupos</span></h1>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="phase-tag phase-group" th:if="${phase?.name() == 'GROUP_STAGE'}">Em andamento</span>
+                    <span class="phase-tag phase-done" th:if="${phase != null && phase?.name() != 'GROUP_STAGE' && phase?.name() != 'NOT_STARTED'}">Concluída</span>
+                    <span class="day-badge" th:if="${currentDay != null}">
+                        <i class="fas fa-calendar me-1"></i>Rodada <span th:text="${currentDay}">1</span>
+                    </span>
+                </div>
+            </div>
+            <div th:if="${phase != 'GROUP' && phase != null}">
+                <a href="/bracket" class="btn btn-gold">
+                    <i class="fas fa-arrow-right me-1"></i>Ver Chaveamento
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-4">
+
+    <!-- NOT STARTED -->
+    <div th:if="${notStarted}" class="not-started-box">
+        <i class="fas fa-lock fa-3x mb-3" style="color:var(--gold)"></i>
+        <h4 class="mb-2" style="color:#fff;">Torneio não iniciado</h4>
+        <p style="color:rgba(255,255,255,0.6);">Inicie o torneio primeiro para visualizar os grupos.</p>
+        <a href="/" class="btn btn-gold mt-2"><i class="fas fa-play me-2"></i>Ir para o Início</a>
+    </div>
+
+    <div th:if="${!notStarted}">
+        <!-- STATS ROW -->
+        <div class="row g-3 mb-4" th:if="${stats != null}">
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-num" th:text="${stats['totalGroupMatches'] != null ? stats['totalGroupMatches'] : 0}">0</div>
+                    <div class="stat-label"><i class="fas fa-futbol me-1"></i>Partidas Simuladas</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-num" th:text="${stats['totalGoals'] != null ? stats['totalGoals'] : 0}">0</div>
+                    <div class="stat-label"><i class="fas fa-crosshairs me-1"></i>Gols Marcados</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-num" th:text="${stats['avgGoals'] != null ? #numbers.formatDecimal(stats['avgGoals'],1,1) : '0.0'}">0.0</div>
+                    <div class="stat-label"><i class="fas fa-chart-line me-1"></i>Média Gols/Jogo</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-num" th:text="${groups != null ? groups.size() : 0}">12</div>
+                    <div class="stat-label"><i class="fas fa-layer-group me-1"></i>Grupos</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIM TOOLBAR -->
+        <div class="sim-toolbar mb-4" th:if="${phase?.name() == 'GROUP_STAGE'}">
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+                <div class="flex-grow-1">
+                    <p class="mb-0" style="color:rgba(255,255,255,0.6); font-size:0.85rem;">
+                        <i class="fas fa-info-circle me-1" style="color:var(--gold)"></i>
+                        Simule rodada por rodada ou todas de uma vez para avançar na fase de grupos.
+                    </p>
+                </div>
+                <div class="d-flex gap-2 flex-wrap">
+                    <button class="btn btn-sim" onclick="simulateAction('/groups/simulate-day')">
+                        <i class="fas fa-step-forward me-2"></i>Simular Rodada <span th:text="${currentDay != null ? currentDay : 1}">1</span>
+                    </button>
+                    <button class="btn btn-gold" onclick="simulateAction('/groups/simulate-all')">
+                        <i class="fas fa-forward-fast me-2"></i>Simular Todas as Rodadas
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- BRACKET LINK IF DONE -->
+        <div th:if="${phase != null && phase?.name() != 'GROUP_STAGE' && phase?.name() != 'NOT_STARTED'}" class="alert mb-4" style="background:rgba(45,138,78,0.15);border:1px solid var(--success-green);border-radius:12px;color:#4ade80;">
+            <i class="fas fa-check-circle me-2"></i>
+            <strong>Fase de grupos concluída!</strong> 32 seleções avançaram para a fase eliminatória.
+            <a href="/bracket" class="btn btn-gold btn-sm ms-3"><i class="fas fa-arrow-right me-1"></i>Ver Chaveamento</a>
+        </div>
+
+        <!-- GROUPS GRID -->
+        <div class="row g-3" th:if="${groups != null}">
+            <div class="col-12 col-md-6 col-xl-3" th:each="group : ${groups}">
+                <div class="group-card">
+                    <!-- Group Header -->
+                    <div class="group-header">
+                        <span><i class="fas fa-layer-group me-2"></i>GRUPO <span th:text="${group.letter}">A</span></span>
+                        <small style="font-size:0.65rem; opacity:0.7;">4 SELEÇÕES</small>
+                    </div>
+
+                    <!-- Standings Table -->
+                    <div class="p-0">
+                        <table class="standings-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th></th>
+                                    <th>Seleção</th>
+                                    <th>J</th>
+                                    <th>V</th>
+                                    <th>E</th>
+                                    <th>D</th>
+                                    <th>GP</th>
+                                    <th>GC</th>
+                                    <th>SG</th>
+                                    <th>PTS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="stat, iterStat : ${group.sortedStandings}"
+                                    th:classappend="${iterStat.index == 0 ? 'row-qualified' : (iterStat.index == 1 ? 'row-qualified' : (iterStat.index == 2 ? 'row-third' : 'row-eliminated'))}">
+                                    <td>
+                                        <span class="pos-badge" th:classappend="${iterStat.index == 0 ? 'pos-1' : (iterStat.index == 1 ? 'pos-2' : (iterStat.index == 2 ? 'pos-3' : 'pos-4'))}" th:text="${iterStat.count}">1</span>
+                                    </td>
+                                    <td th:text="${stat.flagEmoji}">&#127937;</td>
+                                    <td class="team-name" th:text="${stat.teamName}">Brasil</td>
+                                    <td th:text="${stat.played}">0</td>
+                                    <td th:text="${stat.wins}">0</td>
+                                    <td th:text="${stat.draws}">0</td>
+                                    <td th:text="${stat.losses}">0</td>
+                                    <td th:text="${stat.goalsFor}">0</td>
+                                    <td th:text="${stat.goalsAgainst}">0</td>
+                                    <td th:text="${stat.goalDifference}">0</td>
+                                    <td class="pts-col" th:text="${stat.points}">0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Group Matches Collapsible -->
+                    <div th:if="${group.matches != null && !group.matches.isEmpty()}">
+                        <div class="group-matches-header" data-bs-toggle="collapse"
+                             th:data-bs-target="|#matches-${group.letter}|">
+                            <span><i class="fas fa-futbol me-1"></i>Resultados</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="collapse" th:id="'matches-' + ${group.letter}">
+                            <div th:each="match : ${group.matches}">
+                                <div class="match-mini" th:if="${match.played}">
+                                    <span class="match-team home" th:text="${match.homeTeam != null ? match.homeTeam.name : ''}">Time A</span>
+                                    <span class="match-score" th:text="${match.homeScore + '-' + match.awayScore}">0-0</span>
+                                    <span class="match-team away" th:text="${match.awayTeam != null ? match.awayTeam.name : ''}">Time B</span>
+                                </div>
+                                <div class="match-mini" th:if="${!match.played}" style="opacity:0.4;">
+                                    <span class="match-team home" th:text="${match.homeTeam != null ? match.homeTeam.name : ''}">Time A</span>
+                                    <span class="match-score" style="color:#666;">vs</span>
+                                    <span class="match-team away" th:text="${match.awayTeam != null ? match.awayTeam.name : ''}">Time B</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEGEND -->
+        <div class="mt-4 d-flex gap-3 flex-wrap" style="font-size:0.78rem; color:rgba(255,255,255,0.5);">
+            <span><span style="display:inline-block;width:10px;height:10px;background:var(--success-green);border-radius:2px;margin-right:5px;"></span>Classificado (Top 2)</span>
+            <span><span style="display:inline-block;width:10px;height:10px;background:var(--gold);border-radius:2px;margin-right:5px;"></span>3º Lugar (possível vaga)</span>
+            <span><span style="display:inline-block;width:10px;height:10px;background:#333;border-radius:2px;margin-right:5px;"></span>Eliminado</span>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function simulateAction(url) {
+        const overlay = document.getElementById('spinnerOverlay');
+        overlay.classList.add('show');
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(r => {
+            if (r.ok || r.status === 302) {
+                window.location.reload();
+            } else {
+                overlay.classList.remove('show');
+                alert('Erro ao simular. Tente novamente.');
+            }
+        })
+        .catch(() => { window.location.reload(); });
+    }
+</script>
+</body>
+</html>
