@@ -1,0 +1,306 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #0f1b33;
+  --color-navy-light: #1a2744;
+  --color-navy-panel: #1e2d50;
+  --color-gold: #c9a227;
+  --color-gold-light: #e8c45a;
+  --color-success-green: #2d8a4e;
+  --color-danger-red: #b84d4d;
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #0f1b33;
+  color: #e8e8e8;
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: 0;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+select {
+  font: inherit;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.3);
+  }
+}
+
+:root {
+  --navy: #0f1b33;
+  --navy-light: #1a2744;
+  --navy-header: #0d1b35;
+  --card-bg: rgba(30, 45, 80, 0.6);
+  --card-solid: #1e2d50;
+  --border-glass: rgba(255, 255, 255, 0.1);
+  --gold: #c9a227;
+  --gold-light: #e8c45a;
+  --success-green: #2d8a4e;
+}
+
+.app-container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+@media (min-width: 576px) {
+  .app-container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .app-container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .app-container {
+    max-width: 1140px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .app-container {
+    max-width: 1320px;
+  }
+}
+
+.home-hero {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(201, 162, 39, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(201, 162, 39, 0.06) 0%, transparent 50%),
+    linear-gradient(135deg, #0d1b35 0%, #1a2744 40%, #2a1f00 80%, #3d2e00 100%);
+}
+
+.java-page-header {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-header) 100%);
+  border-bottom: 2px solid var(--gold);
+  padding-block: 3rem;
+  margin-bottom: 2rem;
+}
+
+.java-page-header.compact {
+  padding-block: 2rem;
+  margin-bottom: 0;
+}
+
+.java-page-title {
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.java-page-title.upper {
+  text-transform: uppercase;
+}
+
+.java-page-title span,
+.gold-text {
+  color: var(--gold);
+}
+
+.muted-text {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.glass-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-glass);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+}
+
+.java-stat-card {
+  height: 100%;
+  padding: 1.2rem 1.5rem;
+  text-align: center;
+  background: var(--card-solid);
+  border: 1px solid rgba(201, 162, 39, 0.2);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.java-stat-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.java-stat-card.loose {
+  padding: 2rem;
+  background: var(--card-bg);
+  border-color: var(--border-glass);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+}
+
+.java-stat-icon {
+  margin-bottom: 1rem;
+  color: var(--gold);
+  font-size: 2rem;
+}
+
+.java-stat-num {
+  color: var(--gold);
+  font-size: 2.2rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.java-stat-card.loose .java-stat-num {
+  color: #fff;
+  font-size: 3rem;
+}
+
+.java-stat-label {
+  margin-top: 0.25rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.phase-tag {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.25rem 0.8rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.phase-green {
+  border: 1px solid var(--success-green);
+  background: rgba(45, 138, 78, 0.2);
+  color: #4ade80;
+}
+
+.phase-gold {
+  border: 1px solid var(--gold);
+  background: rgba(201, 162, 39, 0.2);
+  color: var(--gold);
+}
+
+.phase-muted {
+  border: 1px solid #555;
+  background: rgba(255, 255, 255, 0.1);
+  color: #aaa;
+}
+
+.btn-gold-java,
+.btn-sim-java {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.btn-gold-java {
+  border: 0;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy);
+}
+
+.btn-gold-java:hover,
+.btn-sim-java:hover {
+  transform: translateY(-1px);
+}
+
+.btn-sim-java {
+  border: 1px solid var(--gold);
+  background: rgba(201, 162, 39, 0.1);
+  color: var(--gold);
+}
+
+.btn-sim-java:hover {
+  background: var(--gold);
+  color: var(--navy);
+}
+
+.section-title-java {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.section-title-java::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-glass);
+}
+
+.java-table {
+  width: 100%;
+  margin-bottom: 0;
+  color: #ddd;
+  border-collapse: collapse;
+}
+
+.java-table thead th {
+  border: 0;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--gold);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.java-table th,
+.java-table td {
+  padding: 0.65rem 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: middle;
+}
+
+.not-started-java {
+  padding: 3rem;
+  text-align: center;
+  background: var(--card-solid);
+  border: 1px solid rgba(201, 162, 39, 0.3);
+  border-radius: 16px;
+}
