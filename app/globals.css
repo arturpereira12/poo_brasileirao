@@ -1,0 +1,319 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #040810;
+  --color-navy-light: #091223;
+  --color-navy-panel: #0d1a33;
+  --color-gold: #c9931b;
+  --color-gold-light: #e6b23e;
+  --color-success-green: #236c3c;
+  --color-danger-red: #9e3f3f;
+  --color-glass-border: rgba(255, 255, 255, 0.05);
+  --color-wc-blue: #174f8b;
+  --color-wc-red: #e11a38;
+  --color-wc-green: #147648;
+  --color-success-bright: #4ade80;
+  --color-danger-bright: #f87171;
+
+  --font-geist: var(--font-geist-sans);
+  --font-outfit: var(--font-outfit-display);
+}
+
+@layer base {
+  body {
+    background-color: var(--color-navy);
+    color: #e2e8f0;
+    font-family: var(--font-geist), sans-serif;
+    letter-spacing: -0.01em;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+select {
+  font: inherit;
+}
+
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 600px;
+}
+
+@utility label-micro {
+  font-family: var(--font-geist), monospace;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+@utility label-tiny {
+  font-family: var(--font-geist), monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.3);
+  }
+}
+
+.app-container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+@media (min-width: 576px) {
+  .app-container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .app-container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .app-container {
+    max-width: 1140px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .app-container {
+    max-width: 1320px;
+  }
+}
+
+.home-hero {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(201, 162, 39, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(201, 162, 39, 0.06) 0%, transparent 50%),
+    linear-gradient(135deg, #0d1b35 0%, #1a2744 40%, #2a1f00 80%, #3d2e00 100%);
+}
+
+.simulator-page-header {
+  background: linear-gradient(135deg, var(--color-navy) 0%, #050a14 100%);
+  border-bottom: 2px solid var(--color-gold);
+  padding-block: 3rem;
+  margin-bottom: 2rem;
+}
+
+.simulator-page-header.compact {
+  padding-block: 2rem;
+  margin-bottom: 0;
+}
+
+.simulator-page-title {
+  color: #fff;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.simulator-page-title.upper {
+  text-transform: uppercase;
+}
+
+.simulator-page-title span,
+.gold-text {
+  color: var(--color-gold);
+}
+
+.muted-text {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.glass-card {
+  background: rgba(22, 34, 59, 0.4);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+}
+
+.simulator-stat-card {
+  height: 100%;
+  padding: 1.2rem 1.5rem;
+  text-align: center;
+  background: var(--color-navy-panel);
+  border: 1px solid rgba(201, 162, 39, 0.2);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.simulator-stat-card:hover {
+  border-color: var(--color-gold);
+  transform: translateY(-2px);
+}
+
+.simulator-stat-card.loose {
+  padding: 2rem;
+  background: rgba(22, 34, 59, 0.4);
+  border-color: var(--color-glass-border);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+}
+
+.simulator-stat-icon {
+  margin-bottom: 1rem;
+  color: var(--color-gold);
+  font-size: 2rem;
+}
+
+.simulator-stat-num {
+  color: var(--color-gold);
+  font-size: 2.2rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.simulator-stat-card.loose .simulator-stat-num {
+  color: #fff;
+  font-size: 3rem;
+}
+
+.simulator-stat-label {
+  margin-top: 0.25rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.phase-tag {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.25rem 0.8rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.phase-green {
+  border: 1px solid var(--color-success-green);
+  background: rgba(45, 138, 78, 0.2);
+  color: var(--color-success-bright);
+}
+
+.phase-gold {
+  border: 1px solid var(--color-gold);
+  background: rgba(201, 162, 39, 0.2);
+  color: var(--color-gold);
+}
+
+.phase-muted {
+  border: 1px solid #555;
+  background: rgba(255, 255, 255, 0.1);
+  color: #aaa;
+}
+
+.btn-gold-simulator,
+.btn-sim-simulator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  padding: 0.6rem 1.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-gold-simulator {
+  border: 0;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light));
+  color: var(--color-navy);
+}
+
+.btn-gold-simulator:hover,
+.btn-sim-simulator:hover {
+  transform: translateY(-1px);
+}
+
+.btn-sim-simulator {
+  border: 1px solid var(--color-gold);
+  background: rgba(201, 162, 39, 0.1);
+  color: var(--color-gold);
+}
+
+.btn-sim-simulator:hover {
+  background: var(--color-gold);
+  color: var(--color-navy);
+}
+
+.section-title-simulator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.section-title-simulator::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-glass-border);
+}
+
+.simulator-table {
+  width: 100%;
+  margin-bottom: 0;
+  color: #ddd;
+  border-collapse: collapse;
+}
+
+.simulator-table thead th {
+  border: 0;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--color-gold);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.simulator-table th,
+.simulator-table td {
+  padding: 0.65rem 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: middle;
+}
