@@ -18,11 +18,11 @@ export function PageHeader({
   uppercase?: boolean;
 }) {
   return (
-    <header className={`java-page-header ${compact ? "compact" : ""}`}>
+    <header className={`simulator-page-header ${compact ? "compact" : ""}`}>
       <div className={`app-container flex flex-wrap items-center gap-4 ${centered ? "justify-center text-center" : "justify-between"}`}>
         <div>
           {eyebrow && <div className="mb-2 text-xs font-black uppercase tracking-[0.18em] text-gold">{eyebrow}</div>}
-          <h1 className={`java-page-title ${uppercase ? "upper" : ""}`}>
+          <h1 className={`simulator-page-title ${uppercase ? "upper" : ""}`}>
             {title}
             {accent && <span className="text-gold"> {accent}</span>}
           </h1>

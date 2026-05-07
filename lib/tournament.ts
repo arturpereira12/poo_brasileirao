@@ -302,6 +302,7 @@ function computeStandings(teams: Team[], matches: Match[]): TeamGroupStats[] {
   for (const team of teams) {
     stats.set(team.name, {
       teamName: team.name,
+      countryCode: team.countryCode,
       flagEmoji: team.flagEmoji,
       played: 0,
       wins: 0,

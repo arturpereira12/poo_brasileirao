@@ -2,21 +2,27 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Button, LinkButton } from "@/components/ui/Button";
 import { useTournament } from "@/components/TournamentProvider";
+import { Play, Activity, LayoutGrid, Network, RotateCcw, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const facts = [
-  "A Final será em 19 de Julho de 2026 no MetLife Stadium, NJ.",
-  "Pela primeira vez, a Copa terá 48 seleções e 104 partidas.",
-  "Sede tripla: EUA, México e Canadá receberão os jogos em 16 cidades.",
-  "Estreantes: Curaçao, Cabo Verde, Jordânia e Uzbequistão estão na Copa!",
-  "Curaçao é a menor nação da história a se classificar para uma Copa.",
-  "O México é o primeiro país a sediar a Copa pela terceira vez."
+  "Final match set for July 19, 2026 at MetLife Stadium, NJ.",
+  "Historic expansion: 48 nations competing across 104 matches.",
+  "Tri-host alignment: USA, Mexico, and Canada over 16 cities.",
+  "Debutants: Curaçao, Cape Verde, Jordan, and Uzbekistan.",
+  "Mexico becomes the first nation to host the tournament three times."
 ];
 
 export default function HomePage() {
-  const { state, hydrated, startTournament } = useTournament();
+  const { state, hydrated, startTournament, resetTournament } = useTournament();
   const [factIndex, setFactIndex] = useState(0);
+  const [showRestartConfirm, setShowRestartConfirm] = useState(false);
+
+  const confirmRestartTournament = () => {
+    resetTournament();
+    setShowRestartConfirm(false);
+  };
 
   useEffect(() => {
     const timer = window.setInterval(() => setFactIndex((current) => (current + 1) % facts.length), 6000);
@@ -24,88 +30,152 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className="home-hero relative grid place-items-center overflow-hidden px-4 py-8 text-center">
-      <section className="relative z-10 mx-auto mt-8 flex max-w-5xl flex-col items-center">
-        <div className="mb-8 text-6xl drop-shadow-[0_4px_16px_rgba(201,162,39,0.5)]">🏆</div>
-        <div className="mb-6 rounded-full border border-gold bg-gold/15 px-5 py-2 text-xs font-bold uppercase tracking-[0.28em] text-gold">
-          Simulador Oficial
-        </div>
+    <main className="relative flex-1 grid place-items-center overflow-hidden px-6 py-20 text-center min-h-[calc(100vh-58px)] bg-navy">
+      {/* Vibrant Ambient Background Colors */}
+      <div className="fixed -top-[20%] -left-[10%] w-[70vw] h-[70vh] rounded-full bg-wc-blue/25 blur-[140px] pointer-events-none mix-blend-screen" />
+      <div className="fixed top-[10%] -right-[10%] w-[60vw] h-[60vh] rounded-full bg-wc-red/20 blur-[140px] pointer-events-none mix-blend-screen" />
+      <div className="fixed -bottom-[20%] left-[10%] w-[80vw] h-[60vh] rounded-full bg-wc-green/20 blur-[140px] pointer-events-none mix-blend-screen" />
 
-        <h1 className="text-[clamp(2.5rem,7vw,5rem)] font-black leading-[1.05] text-white drop-shadow-2xl">
-          FIFA COPA DO MUNDO
-          <span className="block text-gold">2026</span>
+      <section className="relative z-10 mx-auto flex max-w-4xl flex-col items-center">
+        <h1 className="font-outfit text-[clamp(3rem,8vw,6.5rem)] font-black leading-[0.9] tracking-tighter text-white">
+          WORLD CUP
+          <span className="block mt-2 text-white">
+            2026
+          </span>
         </h1>
-        <div className="mx-auto my-6 h-[3px] w-20 bg-gradient-to-r from-transparent via-gold to-transparent" />
 
-        <div className="mb-8 flex w-full max-w-[600px] items-center gap-4 rounded-xl border border-gold/20 bg-white/[0.03] px-6 py-3 text-left backdrop-blur">
-          <div className="grid size-8 shrink-0 place-items-center rounded-full bg-gold text-sm font-black text-navy shadow-[0_0_15px_rgba(201,162,39,0.3)]">
-            !
+        <div className="mt-8 flex max-w-lg items-start gap-3 text-left">
+          <span className="font-mono text-gold-light mt-[2px] opacity-70">[</span>
+          <p className="text-sm text-white/70 leading-relaxed font-mono">
+            {facts[factIndex]}
+          </p>
+          <span className="font-mono text-gold-light mt-[2px] opacity-70">]</span>
+        </div>
+
+        <div className="mt-12 flex items-center gap-8 text-white/30 font-mono text-xs tracking-widest">
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-2xl text-white/80 font-outfit">48</span>
+            <span>NATIONS</span>
           </div>
-          <div className="min-w-0">
-            <div className="text-[0.65rem] font-black uppercase tracking-[0.18em] text-gold">VOCÊ SABIA?</div>
-            <div className="truncate text-sm font-medium text-white/90 sm:text-base">{facts[factIndex]}</div>
+          <div className="h-8 w-px bg-glass-border" />
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-2xl text-white/80 font-outfit">12</span>
+            <span>GROUPS</span>
+          </div>
+          <div className="h-8 w-px bg-glass-border" />
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-2xl text-white/80 font-outfit">104</span>
+            <span>MATCHES</span>
           </div>
         </div>
 
-        <p className="mb-10 text-[1.2rem] font-normal text-white/70">📍 EUA • Canadá • México — 3 Países, 1 Taça</p>
-
-        <div className="mb-8 flex items-center justify-center gap-5">
-          <HostFlag flag="🇺🇸" label="EUA" />
-          <span className="text-2xl text-gold/40">⚡</span>
-          <HostFlag flag="🇨🇦" label="Canadá" />
-          <span className="text-2xl text-gold/40">⚡</span>
-          <HostFlag flag="🇲🇽" label="México" />
-        </div>
-
-        <div className="mb-12 mt-8 flex flex-wrap justify-center gap-6">
-          <InfoCard value="48" label="🏁 Seleções" />
-          <InfoCard value="12" label="🏆 Grupos" />
-          <InfoCard value="104" label="⚽ Partidas" />
-        </div>
-
-        {!state.active ? (
-          <div className="grid justify-items-center gap-3">
-            <Button variant="green" className="rounded-full px-12 py-4 text-base uppercase tracking-wide" onClick={startTournament} disabled={!hydrated}>
-              ▶ INICIAR TORNEIO
-            </Button>
-            <p className="text-sm text-white/40">ⓘ Clique para gerar todos os grupos e partidas automaticamente</p>
-          </div>
-        ) : (
-          <div className="rounded-2xl border border-success-green bg-success-green/15 px-8 py-6">
-            <div className="mb-2 font-bold text-green-300">
-              <span className="mr-2 inline-block size-2.5 rounded-full bg-green-300 align-middle [animation:pulse-dot_1.5s_infinite]" />
-              Torneio em andamento
+        <div className="mt-20 w-full max-w-xl">
+          {!state.active ? (
+            <div className="flex flex-col items-center gap-4">
+              <button 
+                onClick={startTournament} 
+                disabled={!hydrated}
+                className={cn(
+                  "group relative flex items-center gap-4 overflow-hidden rounded-full bg-gradient-to-r from-wc-blue via-wc-red to-wc-green p-[1px] transition-transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:hover:scale-100"
+                )}
+              >
+                <div className="flex h-full w-full items-center gap-4 rounded-full bg-navy px-8 py-4 transition-colors group-hover:bg-transparent">
+                  <Play className="relative z-10 size-4 fill-white text-white group-hover:fill-white" />
+                  <span className="relative z-10 font-outfit text-sm font-bold uppercase tracking-widest text-white">
+                    Start Tournament
+                  </span>
+                </div>
+              </button>
+              <p className="label-micro tracking-widest text-white/40">
+                Click to generate groups & matches
+              </p>
             </div>
-            <p className="mb-4 text-sm text-white/60">A Copa do Mundo 2026 está sendo simulada. Acompanhe os grupos e o chaveamento.</p>
-            <div className="flex flex-wrap justify-center gap-3">
-              <LinkButton href="/groups" variant="gold" className="rounded-full px-8">
-                🏆 Ver Grupos
-              </LinkButton>
-              <Link href="/bracket" className="inline-flex min-h-10 items-center rounded-full border border-white/60 px-8 py-2 text-sm font-bold text-white transition hover:bg-white hover:text-navy">
-                📊 Ver Chaveamento
-              </Link>
+          ) : (
+            <div className="flex flex-col items-center gap-8">
+              <div className="flex items-center gap-3 border border-wc-green/30 bg-wc-green/10 px-6 py-2.5 rounded-full text-success-bright text-sm font-mono backdrop-blur-sm">
+                <Activity className="size-4 animate-pulse" />
+                <span>Tournament in Progress</span>
+              </div>
+              <div className="flex w-full flex-col sm:flex-row gap-4 justify-center">
+                <Link 
+                  href="/groups" 
+                  className="flex items-center justify-center gap-3 rounded-xl border border-glass-border bg-navy-panel/50 px-8 py-4 text-sm font-medium text-white transition-all hover:bg-navy-panel hover:border-gold/30"
+                >
+                  <LayoutGrid className="size-4 text-white/50" />
+                  View Groups
+                </Link>
+                <Link 
+                  href="/bracket" 
+                  className="flex items-center justify-center gap-3 rounded-xl border border-glass-border bg-navy-panel/50 px-8 py-4 text-sm font-medium text-white transition-all hover:bg-navy-panel hover:border-gold/30"
+                >
+                  <Network className="size-4 text-white/50" />
+                  View Bracket
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setShowRestartConfirm(true)}
+                  disabled={!hydrated}
+                  className="flex items-center justify-center gap-3 rounded-xl border border-wc-red/30 bg-wc-red/10 px-8 py-4 text-sm font-medium text-white transition-all hover:border-wc-red/60 hover:bg-wc-red/20 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <RotateCcw className="size-4 text-danger-bright" />
+                  Restart
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </section>
+
+      {showRestartConfirm && (
+        <div
+          className="fixed inset-0 z-50 grid place-items-center bg-black/70 px-6 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="restart-title"
+        >
+          <div className="w-full max-w-md border border-wc-red/40 bg-black p-6 text-left shadow-2xl shadow-black/40">
+            <div className="mb-5 flex items-start justify-between gap-4">
+              <div>
+                <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-danger-bright">Destructive action</p>
+                <h2 id="restart-title" className="font-outfit text-2xl font-black uppercase tracking-tight text-white">
+                  Restart tournament?
+                </h2>
+              </div>
+              <button
+                type="button"
+                aria-label="Cancel restart"
+                onClick={() => setShowRestartConfirm(false)}
+                className="text-white/40 transition-colors hover:text-white"
+              >
+                <X className="size-5" />
+              </button>
+            </div>
+
+            <p className="font-mono text-xs leading-relaxed text-white/55">
+              This will erase the current simulation progress and generate a fresh set of groups and matches.
+            </p>
+
+            <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+              <button
+                type="button"
+                onClick={() => setShowRestartConfirm(false)}
+                className="border border-glass-border bg-white/5 px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-navy"
+              >
+                Keep Current
+              </button>
+              <button
+                type="button"
+                onClick={confirmRestartTournament}
+                disabled={!hydrated}
+                className="flex items-center justify-center gap-2 border border-wc-red bg-wc-red/15 px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest text-danger-bright transition-colors hover:bg-wc-red hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <RotateCcw className="size-3" />
+                Restart Now
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
-  );
-}
-
-function HostFlag({ flag, label }: { flag: string; label: string }) {
-  return (
-    <div className="grid justify-items-center gap-1">
-      <div className="text-[3.5rem] leading-none drop-shadow-lg transition hover:scale-110">{flag}</div>
-      <div className="text-xs font-bold uppercase tracking-[0.18em] text-white/50">{label}</div>
-    </div>
-  );
-}
-
-function InfoCard({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="rounded-2xl border border-gold/30 bg-white/[0.05] px-10 py-6 text-center backdrop-blur transition hover:-translate-y-1 hover:border-gold hover:bg-gold/10">
-      <div className="text-[2.8rem] font-black leading-none text-gold">{value}</div>
-      <div className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/60">{label}</div>
-    </div>
   );
 }

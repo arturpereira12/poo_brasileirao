@@ -1,20 +1,25 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { Flag } from "@/components/Flag";
 import { useTournament } from "@/components/TournamentProvider";
-import { EmptyState } from "@/components/ui/EmptyState";
 import { getAllGroupMatches, scoreDisplay } from "@/lib/tournament";
 import type { Match } from "@/lib/types/tournament";
 
+import { Activity, Clock } from "lucide-react";
+import { cn } from "@/lib/utils";
+
 type MatchFilter = "GROUP" | "R32" | "R16" | "QF" | "SF" | "FINAL";
 
+const MATCH_DAYS = [1, 2, 3] as const;
+
 const filters: Array<[MatchFilter, string]> = [
-  ["GROUP", "Grupo"],
-  ["R32", "16 avos"],
-  ["R16", "Oitavas"],
-  ["QF", "Quartas"],
-  ["SF", "Semifinais"],
-  ["FINAL", "Finais"]
+  ["GROUP", "Group Stage"],
+  ["R32", "Round of 32"],
+  ["R16", "Round of 16"],
+  ["QF", "Quarter Finals"],
+  ["SF", "Semi Finals"],
+  ["FINAL", "Finals"]
 ];
 
 export default function MatchesPage() {
@@ -35,93 +40,106 @@ export default function MatchesPage() {
   }, [day, phase, state]);
 
   return (
-    <main>
-      <header className="java-page-header text-center">
-        <div className="app-container">
-          <h1 className="mb-0 text-5xl font-black uppercase text-white">Partidas</h1>
-          <p className="font-bold uppercase text-gold">FIFA World Cup 2026</p>
+    <main className="flex-1 pb-20">
+      <header className="border-b border-glass-border bg-navy-panel/30 px-6 py-8 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <div className="mb-2 flex items-center gap-2 label-micro text-white/50">
+              <Activity className="size-3" />
+              <span>System Log</span>
+            </div>
+            <h1 className="font-outfit text-4xl font-black uppercase tracking-tight text-white">Match History</h1>
+          </div>
         </div>
       </header>
 
-      <div className="app-container pb-12">
-        <section className="glass-card mb-8 p-6">
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="flex flex-wrap gap-2">
-              {filters.map(([value, label]) => (
+      <div className="mx-auto max-w-7xl px-6 py-8">
+        <div className="mb-8 flex flex-col gap-4 border border-glass-border bg-white/5 p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-wrap gap-2">
+            {filters.map(([f, label]) => (
+              <button
+                key={f}
+                className={cn(
+                  "px-4 py-2 label-micro tracking-widest transition-colors",
+                  phase === f 
+                    ? "border border-wc-blue bg-wc-blue/20 text-wc-blue" 
+                    : "border border-glass-border text-white/50 hover:bg-white/10 hover:text-white"
+                )}
+                onClick={() => setPhase(f)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {phase === "GROUP" && (
+            <div className="flex items-center gap-2 border-l border-glass-border pl-4">
+              <span className="font-mono text-[10px] text-white/30 uppercase tracking-widest">Matchday</span>
+              {MATCH_DAYS.map((d) => (
                 <button
-                  key={value}
-                  type="button"
-                  className={`rounded-full px-6 py-2 font-semibold transition ${phase === value ? "bg-gold text-navy" : "text-white/80 hover:text-gold"}`}
-                  onClick={() => setPhase(value)}
+                  key={d}
+                  onClick={() => setDay(d)}
+                  className={cn(
+                    "flex size-8 items-center justify-center font-mono text-xs font-bold transition-colors",
+                    day === d 
+                      ? "bg-white text-navy" 
+                      : "border border-glass-border text-white/50 hover:border-white/50 hover:text-white"
+                  )}
                 >
-                  {value === "GROUP" ? "Fase de Grupos" : label}
+                  {d}
                 </button>
               ))}
             </div>
-            {phase === "GROUP" && (
-              <div className="ml-auto flex overflow-hidden rounded border border-gold">
-                {[1, 2, 3].map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    className={`px-3 py-1.5 text-sm ${day === item ? "bg-gold text-navy" : "text-gold"}`}
-                    onClick={() => setDay(item)}
-                  >
-                    Rodada {item}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
+          )}
+        </div>
 
-        <section className="grid gap-4">
-          {matches.length ? matches.map((match) => <JavaMatchCard key={match.id} match={match} />) : <EmptyState title="Nenhuma partida encontrada para este filtro." />}
-        </section>
+        {matches.length === 0 ? (
+          <div className="flex flex-col items-center justify-center border border-dashed border-glass-border py-20 text-center">
+            <Clock className="mb-4 size-6 text-white/20" />
+            <div className="font-mono text-xs uppercase tracking-widest text-white/30">No matches generated for this query</div>
+          </div>
+        ) : (
+          <div className="grid gap-3">
+            {matches.map((match) => (
+              <div 
+                key={match.id} 
+                className={cn(
+                  "grid grid-cols-[1fr_auto_1fr] items-center border border-glass-border bg-navy-panel/40 px-6 py-4 transition-colors hover:border-white/20",
+                  !match.played && "opacity-50 grayscale"
+                )}
+              >
+                <div className="flex items-center justify-end gap-4 text-right">
+                  <span className="font-outfit text-sm sm:text-base font-bold text-white">{match.homeTeam.name}</span>
+                  <Flag countryCode={match.homeTeam.countryCode} label={match.homeTeam.name} className="text-xl sm:text-2xl" />
+                </div>
+                
+                <div className="mx-6 flex min-w-[100px] flex-col items-center justify-center gap-1">
+                  <div className="font-mono text-xs uppercase tracking-widest text-white/30">
+                    {match.knockoutRound ? match.knockoutRound.replace("ROUND_OF_", "R") : `GROUP ${match.homeTeam.group}`}
+                  </div>
+                  <div className={cn(
+                    "w-full text-center font-mono text-xl sm:text-2xl font-black",
+                    match.played ? "text-wc-red" : "text-white/20"
+                  )}>
+                    {match.played ? scoreDisplay(match) : "VS"}
+                  </div>
+                  {match.wentToPenalties && (
+                    <div className="label-tiny tracking-widest text-wc-red/70">
+                      PEN: {match.homePenalties}-{match.awayPenalties}
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex items-center justify-start gap-4">
+                  <Flag countryCode={match.awayTeam.countryCode} label={match.awayTeam.name} className="text-xl sm:text-2xl" />
+                  <span className="font-outfit text-sm sm:text-base font-bold text-white">{match.awayTeam.name}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </main>
   );
 }
 
-function JavaMatchCard({ match }: { match: Match }) {
-  return (
-    <article className="glass-card overflow-hidden transition hover:scale-[1.01] hover:border-gold">
-      <div className="flex justify-between bg-black/20 px-6 py-2 text-xs font-bold uppercase tracking-[1.5px] text-gold">
-        <span>{match.knockoutRound ? roundLabel(match.knockoutRound) : `Grupo ${match.groupName}`}</span>
-        <span>{match.matchNumber ? `Match #${match.matchNumber}` : `Rodada ${match.round}`}</span>
-      </div>
-      <div className="flex items-center justify-center gap-8 px-6 py-6">
-        <div className="flex flex-1 items-center justify-end gap-4">
-          <span className="text-xl font-bold text-white">{match.homeTeam.name}</span>
-          <span className="text-3xl">{match.homeTeam.flagEmoji}</span>
-        </div>
-        <div className="min-w-[120px] rounded-[10px] border border-gold bg-black/30 px-6 py-2 text-center text-2xl font-black text-white">
-          {match.played ? scoreDisplay(match).replace("x", "-") : <span className="text-base text-gold">VS</span>}
-        </div>
-        <div className="flex flex-1 items-center justify-start gap-4">
-          <span className="text-3xl">{match.awayTeam.flagEmoji}</span>
-          <span className="text-xl font-bold text-white">{match.awayTeam.name}</span>
-        </div>
-      </div>
-      {match.played && (
-        <div className="flex border-t border-white/10 bg-black/10 px-6 py-3 text-sm text-white/60">
-          <div className="flex-1 text-right">{match.goalScorers[match.homeTeam.name]?.join(", ")}</div>
-          <div className="mx-8 text-gold">⚽</div>
-          <div className="flex-1 text-left">{match.goalScorers[match.awayTeam.name]?.join(", ")}</div>
-        </div>
-      )}
-    </article>
-  );
-}
-
-function roundLabel(round: string) {
-  const labels: Record<string, string> = {
-    ROUND_OF_32: "R32",
-    ROUND_OF_16: "Oitavas",
-    QUARTERFINAL: "Quartas",
-    SEMIFINAL: "Semis",
-    THIRD_PLACE: "3º Lugar",
-    FINAL: "Final"
-  };
-  return labels[round] ?? round;
-}

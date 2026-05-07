@@ -36,10 +36,11 @@ export function getAllTeams(): Team[] {
   cachedTeams = parsedTeams
     .map((team) => ({
       ...team,
-      players: team.players ?? [],
+      players: [...(team.players ?? [])],
       maxPlayerStrength: Math.max(...(team.players ?? []).map((player) => player.strength), 0)
     }))
-    .sort((a, b) => a.group.localeCompare(b.group) || a.fifaRanking - b.fifaRanking);
+    .sort((a, b) => a.group.localeCompare(b.group) || a.fifaRanking - b.fifaRanking)
+    .map((team) => Object.freeze(team) as Team);
 
   return cachedTeams;
 }

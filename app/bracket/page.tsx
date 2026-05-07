@@ -1,64 +1,106 @@
 "use client";
 
+import Link from "next/link";
+import { useMemo } from "react";
+import { Flag } from "@/components/Flag";
 import { useTournament } from "@/components/TournamentProvider";
 import { isTournamentCompleted, phaseLabel, getWinner } from "@/lib/tournament";
 import type { Match } from "@/lib/types/tournament";
 
+import { Network, Lock, Trophy } from "lucide-react";
+
 export default function BracketPage() {
   const { state, simulateKnockoutRound } = useTournament();
-  const columns: Array<[string, Match[]]> = [
-    ["16 avos", state.r32Matches],
-    ["Oitavas", state.r16Matches],
-    ["Quartas", state.quarterFinals],
-    ["Semifinais", state.semiFinals],
-    ["Finais", [state.thirdPlaceMatch, state.finalMatch].filter(Boolean) as Match[]]
-  ];
+  const columns = useMemo<Array<[string, Match[]]>>(
+    () => [
+      ["Round of 32", state.r32Matches],
+      ["Round of 16", state.r16Matches],
+      ["Quarter-finals", state.quarterFinals],
+      ["Semi-finals", state.semiFinals],
+      ["Finals", [state.thirdPlaceMatch, state.finalMatch].filter(Boolean) as Match[]]
+    ],
+    [state.r32Matches, state.r16Matches, state.quarterFinals, state.semiFinals, state.thirdPlaceMatch, state.finalMatch]
+  );
   const groupStageComplete = state.phase !== "GROUP_STAGE" && state.phase !== "NOT_STARTED";
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_20%_30%,rgba(201,162,39,0.05)_0%,transparent_40%),radial-gradient(circle_at_80%_70%,rgba(45,138,78,0.05)_0%,transparent_40%)]">
-      <header className="py-12 text-center">
-        <div className="app-container">
-          <h1 className="java-page-title upper">Fase <span>Eliminatória</span></h1>
-          <p className="muted-text">{phaseLabel(state.phase)}</p>
+    <main className="flex-1 pb-20">
+      <header className="border-b border-glass-border bg-navy-panel/30 px-6 py-8 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <div className="mb-2 flex items-center gap-2 label-micro text-wc-red">
+              <Network className="size-3" />
+              <span>Phase 02</span>
+            </div>
+            <h1 className="font-outfit text-4xl font-black uppercase tracking-tight text-white">Knockout Stage</h1>
+          </div>
+          
+          <div className="flex font-mono text-xs">
+            <span className="border border-glass-border bg-white/5 px-4 py-2 uppercase tracking-widest text-[10px] text-white/50">
+              {phaseLabel(state.phase)}
+            </span>
+          </div>
         </div>
       </header>
 
-      <div className="px-4 pb-28">
+      <div className="mx-auto max-w-7xl px-6 py-12 relative">
         {!groupStageComplete ? (
-          <div className="mx-auto max-w-[600px] rounded border border-white/30 bg-[#212529] p-12 text-center">
-            <div className="mb-4 text-6xl text-gold">🔒</div>
-            <h3 className="mb-2 text-3xl font-bold text-white">Fase de Grupos em Andamento</h3>
-            <p className="muted-text">O chaveamento será gerado assim que todos os grupos forem concluídos.</p>
-            <a href="/groups" className="btn-gold-java mt-4">Ir para Grupos</a>
+          <div className="mx-auto flex max-w-md flex-col items-center border border-glass-border bg-white/5 p-12 text-center backdrop-blur-sm">
+            <Lock className="mb-6 size-8 text-white/20" />
+            <h3 className="mb-3 font-outfit text-xl font-bold uppercase tracking-widest text-white">Groups Active</h3>
+            <p className="mb-8 font-mono text-xs text-white/40">Bracket generation locked until Phase 01 concludes.</p>
+            <Link href="/groups" className="border border-white/20 bg-white/5 px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-navy">
+              Return to Groups
+            </Link>
           </div>
         ) : (
           <>
             {state.champion && (
-              <section className="mx-auto mb-6 max-w-xl rounded-[20px] bg-gradient-to-r from-gold to-gold-light p-8 text-center text-navy shadow-[0_0_50px_rgba(201,162,39,0.3)]">
-                <div className="text-xl font-black uppercase tracking-[3px]">🏆 Campeão 🏆</div>
-                <h2 className="my-2 text-4xl font-black">{state.champion.name}</h2>
-                <div className="text-5xl">{state.champion.flagEmoji}</div>
+              <section className="relative mx-auto mb-16 flex max-w-2xl flex-col items-center overflow-hidden border border-wc-red/40 bg-wc-red/5 px-12 py-16 text-center">
+                <div className="absolute top-0 w-full h-1 bg-gradient-to-r from-wc-blue via-wc-red to-wc-green" />
+                <Trophy className="mb-6 size-12 text-wc-red" />
+                <div className="mb-2 label-micro tracking-[0.3em] text-wc-red">
+                  World Champion 2026
+                </div>
+                <h2 className="font-outfit text-5xl font-black tracking-tighter text-white">{state.champion.name}</h2>
+                <Flag countryCode={state.champion.countryCode} label={state.champion.name} className="mt-8 text-7xl" />
               </section>
             )}
 
-            <section className="flex items-start gap-5 overflow-x-auto pb-24">
+            <section className="flex items-start gap-8 overflow-x-auto pb-24 snap-x">
               {columns.map(([title, matches]) => (
-                <div className="flex min-h-[800px] min-w-[220px] flex-col justify-around" key={title}>
-                  <div className="mb-5 border-b-2 border-gold p-2 text-center text-xs font-extrabold uppercase tracking-[2px] text-gold">{title}</div>
+                <div className="flex flex-col min-w-[240px] snap-center shrink-0 min-h-[600px] justify-between py-10 relative group" key={title}>
+                  {/* Subtle connection line for alignment visualization behind cards */}
+                  <div className="absolute top-10 bottom-10 left-1/2 w-px bg-glass-border/30 -z-10" />
+
+                  <div className="absolute -top-6 left-0 right-0 border-b border-wc-blue/50 pb-2 text-center font-mono text-[10px] font-extrabold uppercase tracking-[0.2em] text-wc-blue drop-shadow-sm">
+                    [{title}]
+                  </div>
+
                   {matches.length ? (
-                    matches.map((match) => <BracketMatch key={match.id} match={match} final={match.knockoutRound === "FINAL"} />)
+                    matches.map((match) => (
+                      <BracketMatch key={match.id} match={match} final={match.knockoutRound === "FINAL"} />
+                    ))
                   ) : (
-                    <div className="flex h-20 items-center justify-center rounded-[10px] border border-dashed border-white/10 bg-white/[0.02] text-xs font-semibold text-white/20">Aguardando...</div>
+                    <div className="flex h-20 items-center justify-center rounded-sm border border-dashed border-white/10 bg-white/[0.01] text-xs font-mono text-white/20">
+                      AWAITING DATA
+                    </div>
                   )}
                 </div>
               ))}
             </section>
 
             {!state.champion && (
-              <div className="fixed bottom-8 left-1/2 z-40 -translate-x-1/2">
-                <button className="rounded-full bg-gold px-12 py-4 font-black uppercase tracking-[2px] text-navy shadow-2xl transition hover:-translate-y-1 hover:bg-white" onClick={simulateKnockoutRound} disabled={isTournamentCompleted(state)}>
-                  ▶ Simular Próxima Rodada
+              <div className="fixed bottom-10 left-1/2 z-40 -translate-x-1/2">
+                <button 
+                  className="rounded-none bg-gradient-to-r from-wc-blue via-wc-red to-wc-green px-8 py-4 font-outfit text-sm font-black uppercase tracking-[0.2em] text-white shadow-2xl transition-transform hover:-translate-y-1 active:scale-95 disabled:opacity-50 disabled:pointer-events-none" 
+                  onClick={simulateKnockoutRound} 
+                  disabled={isTournamentCompleted(state)}
+                >
+                  <span className="flex items-center gap-3">
+                    <span className="inline-block h-2 w-2 rounded-full bg-white animate-pulse" />
+                    SIMULATE NEXT ROUND
+                  </span>
                 </button>
               </div>
             )}
@@ -73,13 +115,14 @@ function BracketMatch({ match, final = false }: { match: Match; final?: boolean 
   const winner = getWinner(match);
 
   return (
-    <article className={`my-2 overflow-hidden rounded-[10px] border ${final ? "border-2 border-gold" : "border-white/10"} bg-[rgba(30,45,80,0.6)] backdrop-blur transition hover:scale-[1.02] hover:border-gold`}>
-      <div className={`flex justify-between border-b border-white/10 px-3 py-1 text-[0.65rem] font-bold text-white/40 ${final ? "bg-gold text-navy" : "bg-black/20"}`}>
+    <article className={`my-3 overflow-hidden rounded-sm border ${final ? "border-wc-red" : "border-glass-border/40"} bg-navy-panel/80 backdrop-blur-sm transition-all hover:scale-[1.02] hover:border-white/20 hover:bg-navy-panel`}>
+      <div className={`flex justify-between border-b px-3 py-1.5 label-micro tracking-widest ${final ? "border-wc-red/30 bg-wc-red/10 text-wc-red" : "border-glass-border/30 bg-black/40 text-white/30"}`}>
         <span>{match.matchNumber ? `M#${match.matchNumber}` : "M#"}</span>
-        <span>{final ? "GRANDE FINAL" : match.knockoutRound ?? ""}</span>
+        <span>{final ? "FINAL MATCH" : match.knockoutRound ?? ""}</span>
       </div>
-      <BracketTeam team={match.homeTeam} score={match.homeScore} played={match.played} winner={winner?.name === match.homeTeam.name} loser={match.played && winner?.name !== match.homeTeam.name} />
-      <BracketTeam team={match.awayTeam} score={match.awayScore} played={match.played} winner={winner?.name === match.awayTeam.name} loser={match.played && winner?.name !== match.awayTeam.name} />
+      <BracketTeam team={match.homeTeam} score={match.homeScore} played={match.played} winner={winner?.name === match.homeTeam.name} loser={match.played && winner?.name !== match.homeTeam.name} final={final} />
+      <div className="h-px w-full bg-glass-border/10" />
+      <BracketTeam team={match.awayTeam} score={match.awayScore} played={match.played} winner={winner?.name === match.awayTeam.name} loser={match.played && winner?.name !== match.awayTeam.name} final={final} />
     </article>
   );
 }
@@ -89,19 +132,23 @@ function BracketTeam({
   score,
   played,
   winner,
-  loser
+  loser,
+  final
 }: {
   team: Match["homeTeam"];
   score: number;
   played: boolean;
   winner: boolean;
   loser: boolean;
+  final?: boolean;
 }) {
   return (
-    <div className={`flex items-center gap-2 border-b border-white/5 px-3 py-2 ${winner ? "winner" : ""} ${loser ? "opacity-50" : ""}`}>
-      <span className="text-lg">{team.flagEmoji}</span>
-      <span className={`flex-1 truncate text-sm font-semibold ${winner ? "text-white" : "text-white/75"}`}>{team.name}</span>
-      <span className={`min-w-5 text-center font-black ${winner ? "rounded bg-gold px-1 text-navy" : "text-gold"}`}>{played ? score : ""}</span>
+    <div className={`flex items-center gap-3 px-3 py-2.5 transition-opacity ${loser ? "opacity-30 grayscale" : "opacity-100"}`}>
+      <Flag countryCode={team.countryCode} label={team.name} className="text-xl" />
+      <span className={`flex-1 truncate font-outfit text-sm font-semibold tracking-wide ${winner ? "text-white" : "text-white/60"}`}>{team.name}</span>
+      <span className={`min-w-6 text-right font-mono text-sm font-bold ${winner ? (final ? "text-wc-red" : "text-white") : "text-white/40"}`}>
+        {played ? score : "-"}
+      </span>
     </div>
   );
 }

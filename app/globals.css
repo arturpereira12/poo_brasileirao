@@ -1,14 +1,33 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy: #0f1b33;
-  --color-navy-light: #1a2744;
-  --color-navy-panel: #1e2d50;
-  --color-gold: #c9a227;
-  --color-gold-light: #e8c45a;
-  --color-success-green: #2d8a4e;
-  --color-danger-red: #b84d4d;
-  --color-glass-border: rgba(255, 255, 255, 0.1);
+  --color-navy: #040810;
+  --color-navy-light: #091223;
+  --color-navy-panel: #0d1a33;
+  --color-gold: #c9931b;
+  --color-gold-light: #e6b23e;
+  --color-success-green: #236c3c;
+  --color-danger-red: #9e3f3f;
+  --color-glass-border: rgba(255, 255, 255, 0.05);
+  --color-wc-blue: #174f8b;
+  --color-wc-red: #e11a38;
+  --color-wc-green: #147648;
+  --color-success-bright: #4ade80;
+  --color-danger-bright: #f87171;
+
+  --font-geist: var(--font-geist);
+  --font-outfit: var(--font-outfit);
+}
+
+@layer base {
+  body {
+    background-color: var(--color-navy);
+    color: #e2e8f0;
+    font-family: var(--font-geist), sans-serif;
+    letter-spacing: -0.01em;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
 }
 
 * {
@@ -21,14 +40,6 @@ body {
   margin: 0;
 }
 
-body {
-  background: #0f1b33;
-  color: #e8e8e8;
-  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  letter-spacing: 0;
-  line-height: 1.6;
-}
-
 a {
   color: inherit;
   text-decoration: none;
@@ -37,6 +48,26 @@ a {
 button,
 select {
   font: inherit;
+}
+
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 600px;
+}
+
+@utility label-micro {
+  font-family: var(--font-geist), monospace;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+@utility label-tiny {
+  font-family: var(--font-geist), monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
 }
 
 @keyframes pulse-dot {
@@ -52,15 +83,15 @@ select {
 }
 
 :root {
-  --navy: #0f1b33;
-  --navy-light: #1a2744;
-  --navy-header: #0d1b35;
-  --card-bg: rgba(30, 45, 80, 0.6);
-  --card-solid: #1e2d50;
-  --border-glass: rgba(255, 255, 255, 0.1);
-  --gold: #c9a227;
-  --gold-light: #e8c45a;
-  --success-green: #2d8a4e;
+  --navy: #080f1e;
+  --navy-light: #111a2f;
+  --navy-header: #050a14;
+  --card-bg: rgba(22, 34, 59, 0.4);
+  --card-solid: #16223b;
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --gold: #b38b1d;
+  --gold-light: #d6b34a;
+  --success-green: #236c3c;
 }
 
 .app-container {
@@ -107,30 +138,31 @@ select {
     linear-gradient(135deg, #0d1b35 0%, #1a2744 40%, #2a1f00 80%, #3d2e00 100%);
 }
 
-.java-page-header {
+.simulator-page-header {
   background: linear-gradient(135deg, var(--navy) 0%, var(--navy-header) 100%);
   border-bottom: 2px solid var(--gold);
   padding-block: 3rem;
   margin-bottom: 2rem;
 }
 
-.java-page-header.compact {
+.simulator-page-header.compact {
   padding-block: 2rem;
   margin-bottom: 0;
 }
 
-.java-page-title {
+.simulator-page-title {
   color: #fff;
-  font-size: 2.5rem;
-  font-weight: 900;
-  line-height: 1.1;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
 }
 
-.java-page-title.upper {
+.simulator-page-title.upper {
   text-transform: uppercase;
 }
 
-.java-page-title span,
+.simulator-page-title span,
 .gold-text {
   color: var(--gold);
 }
@@ -146,7 +178,7 @@ select {
   backdrop-filter: blur(10px);
 }
 
-.java-stat-card {
+.simulator-stat-card {
   height: 100%;
   padding: 1.2rem 1.5rem;
   text-align: center;
@@ -156,12 +188,12 @@ select {
   transition: all 0.3s ease;
 }
 
-.java-stat-card:hover {
+.simulator-stat-card:hover {
   border-color: var(--gold);
   transform: translateY(-2px);
 }
 
-.java-stat-card.loose {
+.simulator-stat-card.loose {
   padding: 2rem;
   background: var(--card-bg);
   border-color: var(--border-glass);
@@ -169,25 +201,25 @@ select {
   backdrop-filter: blur(10px);
 }
 
-.java-stat-icon {
+.simulator-stat-icon {
   margin-bottom: 1rem;
   color: var(--gold);
   font-size: 2rem;
 }
 
-.java-stat-num {
+.simulator-stat-num {
   color: var(--gold);
   font-size: 2.2rem;
   font-weight: 900;
   line-height: 1;
 }
 
-.java-stat-card.loose .java-stat-num {
+.simulator-stat-card.loose .simulator-stat-num {
   color: #fff;
   font-size: 3rem;
 }
 
-.java-stat-label {
+.simulator-stat-label {
   margin-top: 0.25rem;
   color: rgba(255, 255, 255, 0.5);
   font-size: 0.75rem;
@@ -209,7 +241,7 @@ select {
 .phase-green {
   border: 1px solid var(--success-green);
   background: rgba(45, 138, 78, 0.2);
-  color: #4ade80;
+  color: var(--color-success-bright);
 }
 
 .phase-gold {
@@ -224,40 +256,41 @@ select {
   color: #aaa;
 }
 
-.btn-gold-java,
-.btn-sim-java {
+.btn-gold-simulator,
+.btn-sim-simulator {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  padding: 0.5rem 1.5rem;
-  font-weight: 700;
-  transition: all 0.3s ease;
+  border-radius: 6px;
+  padding: 0.6rem 1.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.btn-gold-java {
+.btn-gold-simulator {
   border: 0;
   background: linear-gradient(135deg, var(--gold), var(--gold-light));
   color: var(--navy);
 }
 
-.btn-gold-java:hover,
-.btn-sim-java:hover {
+.btn-gold-simulator:hover,
+.btn-sim-simulator:hover {
   transform: translateY(-1px);
 }
 
-.btn-sim-java {
+.btn-sim-simulator {
   border: 1px solid var(--gold);
   background: rgba(201, 162, 39, 0.1);
   color: var(--gold);
 }
 
-.btn-sim-java:hover {
+.btn-sim-simulator:hover {
   background: var(--gold);
   color: var(--navy);
 }
 
-.section-title-java {
+.section-title-simulator {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -267,21 +300,21 @@ select {
   font-weight: 800;
 }
 
-.section-title-java::after {
+.section-title-simulator::after {
   content: "";
   flex: 1;
   height: 1px;
   background: var(--border-glass);
 }
 
-.java-table {
+.simulator-table {
   width: 100%;
   margin-bottom: 0;
   color: #ddd;
   border-collapse: collapse;
 }
 
-.java-table thead th {
+.simulator-table thead th {
   border: 0;
   background: rgba(0, 0, 0, 0.3);
   color: var(--gold);
@@ -290,14 +323,14 @@ select {
   text-transform: uppercase;
 }
 
-.java-table th,
-.java-table td {
+.simulator-table th,
+.simulator-table td {
   padding: 0.65rem 0.75rem;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   vertical-align: middle;
 }
 
-.not-started-java {
+.not-started-simulator {
   padding: 3rem;
   text-align: center;
   background: var(--card-solid);

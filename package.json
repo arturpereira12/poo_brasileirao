@@ -11,9 +11,14 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
+    "flag-icons": "^7.5.0",
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^1.14.0",
     "next": "^16.2.4",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
+    "tailwind-merge": "^3.5.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -27,6 +32,8 @@
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.4",
     "jsdom": "^29.1.1",
+    "prettier": "^3.8.3",
+    "prettier-plugin-tailwindcss": "^0.8.0",
     "tailwindcss": "^4.2.4",
     "typescript": "5.8.3",
     "vitest": "^4.1.5"

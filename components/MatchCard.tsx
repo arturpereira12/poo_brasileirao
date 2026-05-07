@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Flag } from "@/components/Flag";
 import { getWinner, scoreDisplay } from "@/lib/tournament";
 import type { Match } from "@/lib/types/tournament";
 
@@ -22,7 +23,7 @@ export function MatchCard({ match, compact = false }: { match: Match; compact?: 
         <div className="grid gap-1 text-sm text-white/55">
           {[match.homeTeam, match.awayTeam].map((team) => (
             <span key={team.name}>
-              {team.flagEmoji} {match.goalScorers[team.name]?.join(", ") || "Sem gols"}
+              <Flag countryCode={team.countryCode} label={team.name} className="mr-2" /> {match.goalScorers[team.name]?.join(", ") || "Sem gols"}
             </span>
           ))}
         </div>
@@ -47,7 +48,7 @@ function TeamLine({
       href={`/teams/${team.countryCode}`}
       className={`flex min-w-0 items-center gap-2 text-white/75 transition hover:text-gold last:md:justify-end ${winner ? "font-black text-white" : ""}`}
     >
-      <span>{team.flagEmoji}</span>
+      <Flag countryCode={team.countryCode} label={team.name} />
       <span className="truncate">{team.name}</span>
       {played && <span className="font-black text-gold">{score}</span>}
     </Link>

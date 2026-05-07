@@ -61,6 +61,7 @@ export type Match = {
 
 export type TeamGroupStats = {
   teamName: string;
+  countryCode?: string;
   flagEmoji: string;
   played: number;
   wins: number;
