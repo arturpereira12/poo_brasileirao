@@ -34,11 +34,14 @@ export function getAllTeams(): Team[] {
   const parsedTeams = teamsSchema.parse(teams);
   
   cachedTeams = parsedTeams
-    .map((team) => ({
-      ...team,
-      players: [...(team.players ?? [])],
-      maxPlayerStrength: Math.max(...(team.players ?? []).map((player) => player.strength), 0)
-    }))
+    .map((team) => {
+      const players = Object.freeze(team.players.map((player) => Object.freeze({ ...player })));
+      return {
+        ...team,
+        players,
+        maxPlayerStrength: Math.max(...players.map((player) => player.strength), 0)
+      };
+    })
     .sort((a, b) => a.group.localeCompare(b.group) || a.fifaRanking - b.fifaRanking)
     .map((team) => Object.freeze(team) as Team);
 
@@ -46,9 +49,16 @@ export function getAllTeams(): Team[] {
 }
 
 export function getTeamByCodeOrName(code: string, source: Team[] = getAllTeams()): Team | undefined {
+  let decodedCode = code;
+  try {
+    decodedCode = decodeURIComponent(code);
+  } catch {
+    decodedCode = code;
+  }
+
   return source.find(
     (team) =>
       team.countryCode.toLowerCase() === code.toLowerCase() ||
-      team.name.toLowerCase() === decodeURIComponent(code).toLowerCase()
+      team.name.toLowerCase() === decodedCode.toLowerCase()
   );
 }

@@ -100,6 +100,6 @@ export type TournamentState = {
   currentGroupMatchDay: number;
   active: boolean;
   champion: Team | null;
-  runnerUp: string | null;
+  runnerUp: Team | null;
   qualified3rd: Team[];
 };

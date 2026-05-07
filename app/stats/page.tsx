@@ -14,9 +14,13 @@ export default function StatsPage() {
     const playedGroup = getAllGroupMatches(state).filter((match) => match.played);
     const playedKnockout = getAllKnockoutMatches(state).filter((match) => match.played);
 
+    const latestMatches = [...playedKnockout, ...playedGroup]
+      .sort((a, b) => getMatchActivityTime(b) - getMatchActivityTime(a))
+      .slice(0, 8);
+
     return {
       stats: getTournamentStats(state),
-      latestMatches: [...playedKnockout, ...playedGroup].slice(-8).reverse()
+      latestMatches
     };
   }, [state]);
 
@@ -128,6 +132,11 @@ export default function StatsPage() {
       </div>
     </main>
   );
+}
+
+function getMatchActivityTime(match: { date: string | null; matchNumber?: number; round: number }) {
+  if (match.date) return new Date(match.date).getTime();
+  return match.matchNumber ? Date.UTC(2026, 6, match.matchNumber) : match.round;
 }
 
 function StatsBox({ value, label }: { value: number | string; label: string }) {

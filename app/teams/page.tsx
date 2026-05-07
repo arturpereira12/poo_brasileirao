@@ -30,7 +30,7 @@ export default function TeamsPage() {
           
           <div className="flex font-mono text-xs">
             <span className="border border-glass-border bg-white/5 px-4 py-2 uppercase tracking-widest text-[10px] text-white/50">
-              Total Count: 48
+              Total Count: {teams.length}
             </span>
           </div>
         </div>
