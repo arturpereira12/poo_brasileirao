@@ -1,12 +1,14 @@
 import Link from "next/link";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
+import type { UrlObject } from "url";
+import { cn } from "@/lib/utils";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "gold" | "green" | "outline" | "danger";
 };
 
 type LinkButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
-  href: string;
+  href: string | UrlObject;
   variant?: ButtonProps["variant"];
 };
 
@@ -21,9 +23,9 @@ const buttonBase =
   "inline-flex min-h-10 items-center justify-center rounded-lg border px-4 py-2 text-sm font-bold transition disabled:pointer-events-none disabled:opacity-45";
 
 export function Button({ className = "", variant = "outline", ...props }: ButtonProps) {
-  return <button className={`${buttonBase} ${buttonVariants[variant]} ${className}`} {...props} />;
+  return <button className={cn(buttonBase, buttonVariants[variant], className)} {...props} />;
 }
 
 export function LinkButton({ className = "", variant = "outline", href, ...props }: LinkButtonProps) {
-  return <Link href={href} className={`${buttonBase} ${buttonVariants[variant]} ${className}`} {...props} />;
+  return <Link href={href} className={cn(buttonBase, buttonVariants[variant], className)} {...props} />;
 }

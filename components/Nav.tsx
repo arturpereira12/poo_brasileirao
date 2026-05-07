@@ -45,7 +45,7 @@ export function Nav() {
           open ? "flex" : "hidden"
         )}>
           {links.map((link) => {
-            const active = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+            const active = link.href === "/" ? pathname === "/" : pathname === link.href || pathname.startsWith(`${link.href}/`);
             return (
               <Link
                 key={link.href}

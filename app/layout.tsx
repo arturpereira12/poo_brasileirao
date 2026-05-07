@@ -7,12 +7,12 @@ import "./globals.css";
 
 const geist = Geist({
   subsets: ["latin"],
-  variable: "--font-geist",
+  variable: "--font-geist-sans",
 });
 
 const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  variable: "--font-outfit-display",
 });
 
 export const metadata: Metadata = {
