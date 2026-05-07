@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 const displayTeamName = (name: string) => (name === "Bosnia and Herzegovina" ? "Bosnia" : name);
 
 export default function GroupsPage() {
-  const { state, startTournament, simulateGroupDay, simulateAllGroups } = useTournament();
+  const { state, hydrated, startTournament, simulateGroupDay, simulateAllGroups } = useTournament();
   const stats = useMemo(() => getTournamentStats(state), [state]);
   const groupsWithTeamCodeMaps = useMemo(
     () =>
@@ -30,9 +30,13 @@ export default function GroupsPage() {
           <AlertCircle className="mb-4 size-8 text-wc-red" />
           <h2 className="mb-2 font-outfit text-xl font-bold uppercase tracking-widest text-white">System Offline</h2>
           <p className="mb-6 font-mono text-xs text-white/50">Simulation requires initialization sequence.</p>
-          <button 
-            onClick={startTournament}
-            className="flex items-center gap-2 border border-glass-border bg-white/5 px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-navy"
+          <button
+            type="button"
+            disabled={!hydrated}
+            onClick={() => {
+              if (hydrated) startTournament();
+            }}
+            className="flex items-center gap-2 border border-glass-border bg-white/5 px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-navy disabled:pointer-events-none disabled:opacity-45"
           >
             <Play className="size-3 fill-current" />
             Initialize Now
@@ -80,16 +84,24 @@ export default function GroupsPage() {
           <section className="mb-10 flex flex-wrap items-center justify-between gap-4 border border-wc-blue/30 bg-wc-blue/5 p-6">
             <p className="font-mono text-xs text-wc-blue">Awaiting command to process next match day.</p>
             <div className="flex flex-wrap gap-3">
-              <button 
-                className="flex items-center gap-2 border border-glass-border bg-white/5 px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-navy"
-                onClick={simulateGroupDay}
+              <button
+                type="button"
+                disabled={!hydrated}
+                className="flex items-center gap-2 border border-glass-border bg-white/5 px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-navy disabled:pointer-events-none disabled:opacity-45"
+                onClick={() => {
+                  if (hydrated) simulateGroupDay();
+                }}
               >
                 <FastForward className="size-3" />
                 Sim Round {state.currentGroupMatchDay}
               </button>
-              <button 
-                className="flex items-center gap-2 border border-wc-red bg-wc-red/10 px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-wc-red transition-colors hover:bg-wc-red hover:text-white"
-                onClick={simulateAllGroups}
+              <button
+                type="button"
+                disabled={!hydrated}
+                className="flex items-center gap-2 border border-wc-red bg-wc-red/10 px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-wc-red transition-colors hover:bg-wc-red hover:text-white disabled:pointer-events-none disabled:opacity-45"
+                onClick={() => {
+                  if (hydrated) simulateAllGroups();
+                }}
               >
                 <FastForward className="size-3 fill-current" />
                 Auto-Resolve Phase

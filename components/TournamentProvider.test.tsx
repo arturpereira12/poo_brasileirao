@@ -3,7 +3,9 @@
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { TournamentProvider, useTournament } from "@/components/TournamentProvider";
+import { STORAGE_KEY, TournamentProvider, useTournament } from "@/components/TournamentProvider";
+import { getAllTeams } from "@/lib/teams";
+import { initializeTournament } from "@/lib/tournament";
 
 describe("TournamentProvider flow", () => {
   beforeEach(() => {
@@ -14,9 +16,26 @@ describe("TournamentProvider flow", () => {
     cleanup();
   });
 
-  it("always starts a fresh tournament state instead of restoring browser storage", async () => {
+  it("restores a valid tournament state from browser storage", async () => {
+    const storedState = initializeTournament(getAllTeams());
     window.localStorage.setItem(
-      "wc26-nextjs-tournament",
+      STORAGE_KEY,
+      JSON.stringify({ version: 1, state: storedState })
+    );
+
+    render(
+      <TournamentProvider>
+        <Harness />
+      </TournamentProvider>
+    );
+
+    await waitFor(() => expect(screen.getByTestId("ready").textContent).toBe("ready"));
+    expect(screen.getByTestId("phase").textContent).toBe("GROUP_STAGE");
+  });
+
+  it("discards malformed tournament state from browser storage", async () => {
+    window.localStorage.setItem(
+      STORAGE_KEY,
       JSON.stringify({ version: 1, state: { phase: "GROUP_STAGE", active: true } })
     );
 
@@ -28,6 +47,7 @@ describe("TournamentProvider flow", () => {
 
     await waitFor(() => expect(screen.getByTestId("ready").textContent).toBe("ready"));
     expect(screen.getByTestId("phase").textContent).toBe("NOT_STARTED");
+    expect(window.localStorage.getItem(STORAGE_KEY)).toBeNull();
   });
 
   it("starts, simulates groups, opens knockout flow, and reaches a champion", async () => {
