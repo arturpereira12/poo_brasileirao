@@ -5,18 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brasileirão - Simulação</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/championship.css}">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <i class="bi bi-trophy-fill me-2"></i>Brasileirão ADR
+                Brasileirão <span class="brand-accent">ADR</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -24,16 +23,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="/championship"><i class="bi bi-table me-1"></i>Classificação</a>
+                        <a class="nav-link active" href="/championship">Classificação</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/matches"><i class="bi bi-calendar-event me-1"></i>Jogos</a>
+                        <a class="nav-link" href="/matches">Jogos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/stats"><i class="bi bi-graph-up me-1"></i>Estatísticas</a>
+                        <a class="nav-link" href="/stats">Estatísticas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/teams/att"><i class="bi bi-people me-1"></i>Times</a>
+                        <a class="nav-link" href="/teams/att">Times</a>
                     </li>
                 </ul>
             </div>
@@ -44,7 +43,7 @@
         <!-- Progresso do Campeonato -->
         <div class="card mb-4">
             <div class="card-header">
-                <i class="bi bi-graph-up"></i>Progresso do Campeonato
+                Progresso do Campeonato
             </div>
             <div class="card-body">
                 <div class="progress-container">
@@ -63,13 +62,13 @@
                     </div>
                 </div>
                 <div class="text-center" th:if="${canSimulateNextRound}">
-                    <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                    <div class="simulation-actions">
                         <button id="simulateButton" class="btn btn-primary">
-                            <i class="bi bi-play-fill me-2"></i>Simular Rodadas
+                            Simular Rodadas
                         </button>
                         <div class="simulation-control">
-                            <label for="roundsToSimulate" class="form-label text-light mb-1">Número de rodadas:</label>
-                            <select id="roundsToSimulate" class="form-select form-select-sm">
+                            <label for="roundsToSimulate" class="form-label">Número de rodadas</label>
+                            <select id="roundsToSimulate" class="form-select">
                                 <option value="1" selected>1 rodada</option>
                                 <option value="2">2 rodadas</option>
                                 <option value="3">3 rodadas</option>
@@ -83,7 +82,7 @@
                 </div>
                 <div class="text-center" th:unless="${canSimulateNextRound}">
                     <div class="alert alert-success">
-                        <i class="bi bi-check-circle-fill me-2"></i>Campeonato finalizado!
+                        Campeonato finalizado!
                     </div>
                 </div>
             </div>
@@ -120,7 +119,7 @@
         <!-- Tabela de Classificação -->
         <div class="card mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <span><i class="bi bi-table"></i>Tabela de Classificação</span>
+                <span>Tabela de Classificação</span>
                 <span class="badge bg-primary">Rodada <span th:text="${round}">1</span></span>
             </div>
             <div class="card-body p-0">
@@ -176,7 +175,7 @@
                                                  th:alt="${team.team.name}">
                                         </div>
                                         <a th:href="@{/teams/att/{name}(name=${team.team.name})}" 
-                                           class="text-decoration-none text-dark team-name ms-2">
+                                           class="team-name ms-2">
                                             <span th:text="${team.team.name}">Time</span>
                                         </a>
                                     </div>
@@ -199,7 +198,7 @@
         <!-- Próximos Jogos -->
         <div class="card mb-4">
             <div class="card-header">
-                <i class="bi bi-calendar-event"></i>Próxima Rodada
+                Próxima Rodada
             </div>
             <div class="card-body">
                 <div class="row">
@@ -284,7 +283,7 @@
         <!-- Últimos Resultados -->
         <div class="card">
             <div class="card-header">
-                <i class="bi bi-trophy"></i>Resultados da Rodada
+                Resultados da Rodada
             </div>
             <div class="card-body">
                 <div class="row">
