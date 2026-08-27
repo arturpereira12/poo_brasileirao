@@ -5,18 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brasileirão - Times</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/teams.css}">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <i class="bi bi-trophy-fill me-2"></i>Brasileirão ADR
+                Brasileirão <span class="brand-accent">ADR</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -24,16 +23,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/championship"><i class="bi bi-table me-1"></i>Classificação</a>
+                        <a class="nav-link" href="/championship">Classificação</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/matches"><i class="bi bi-calendar-event me-1"></i>Jogos</a>
+                        <a class="nav-link" href="/matches">Jogos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/stats"><i class="bi bi-graph-up me-1"></i>Estatísticas</a>
+                        <a class="nav-link" href="/stats">Estatísticas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/teams/att"><i class="bi bi-people me-1"></i>Times</a>
+                        <a class="nav-link active" href="/teams/att">Times</a>
                     </li>
                 </ul>
             </div>
@@ -107,16 +106,13 @@
                                 <div class="strength-value" th:text="${team.defenseStrength}">90</div>
                             </div>
                         </div>
-                        <div class="players-title">
-                            <i class="bi bi-people-fill"></i>Jogadores
-                        </div>
+                        <div class="players-title">Jogadores</div>
                         <ul class="players-list">
                             <li class="player-item" th:each="player,iterStat : ${team.players}"
                                 th:classappend="${player.strength} == ${team.maxPlayerStrength} ? 'best-player'">
                                 <span class="player-info">
                                     <span class="player-name">
                                         <span th:text="${player.name}">Nome do Jogador</span>
-                                        <span class="best-player-star" th:if="${player.strength} == ${team.maxPlayerStrength}">★</span>
                                     </span>
                                     <span class="player-position" th:text="${player.position}">Posição</span>
                                 </span>
